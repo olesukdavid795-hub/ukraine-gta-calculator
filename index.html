@@ -1,40 +1,201 @@
 <!DOCTYPE html>
-<html>
+<html lang="uk">
 <head>
-<link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Калькулятор GTA</title>
+
+<style>
+body {
+    background:#111;
+    color:white;
+    font-family:Arial;
+    text-align:center;
+}
+
+.container {
+    width:350px;
+    margin:30px auto;
+    background:#222;
+    padding:20px;
+    border-radius:15px;
+}
+
+.item {
+    background:#333;
+    padding:15px;
+    margin:10px 0;
+    border-radius:10px;
+}
+
+input {
+    width:90%;
+    padding:8px;
+    margin:5px;
+    border-radius:8px;
+    border:none;
+    font-size:16px;
+}
+
+button {
+    background:#00c853;
+    color:white;
+    border:none;
+    padding:12px 30px;
+    border-radius:10px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+button:hover {
+    background:#00e676;
+}
+
+#result {
+    margin-top:20px;
+    font-size:22px;
+    color:#00ff88;
+}
+</style>
+
 </head>
-<body> 
-<div class="item">
-<label>⭐⭐ 2 рівень</label>
-<input type="number" id="a2" value="0">
 
-<input type="number" id="a2price" value="900" readonly>
-<min="0">
-</div>
+<body>
+
+<div class="container">
+
+<h1>💰 Калькулятор GTA</h1>
 
 
 <div class="item">
-<label>⭐⭐⭐ 3 рівень</label>
-<input type="number" id="a3" value="0">
+<h3>🍺 Алкоголь ⭐⭐</h3>
 
-<input type="number" id="a3price" value="1200" max="1200">
-<min="0">
+<input type="number" id="a2" placeholder="Кількість">
+
+<input 
+type="number" 
+id="a2price" 
+value="900"
+max="900"
+min="0">
+
 </div>
+
+
+
 <div class="item">
-<label>⭐⭐ 2 рівень</label>
-<input type="number" id="p2" value="0">
+<h3>🍺 Алкоголь ⭐⭐⭐</h3>
 
-<input type="number" id="p2price" value="800" max="800">
-<min="0">
+<input type="number" id="a3" placeholder="Кількість">
+
+<input 
+type="number" 
+id="a3price" 
+value="1200"
+max="1200"
+min="0">
+
 </div>
+
 
 
 <div class="item">
-<label>⭐⭐⭐ 3 рівень</label>
-<input type="number" id="p3" value="0">
+<h3>🌿 Петрушка ⭐⭐</h3>
 
-<input type="number" id="p3price" value="1100" max="1100">
-<min="0">
+<input type="number" id="p2" placeholder="Кількість">
+
+<input 
+type="number" 
+id="p2price"
+value="800"
+max="800"
+min="0">
+
 </div>
+
+
+
+<div class="item">
+<h3>🌿 Петрушка ⭐⭐⭐</h3>
+
+<input type="number" id="p3" placeholder="Кількість">
+
+<input 
+type="number" 
+id="p3price"
+value="1100"
+max="1100"
+min="0">
+
+</div>
+
+
+<button onclick="calculate()">
+Порахувати
+</button>
+
+
+<div id="result">
+Сума: 0 грн
+</div>
+
+
+</div>
+
+
+
+<script>
+
+function calculate(){
+
+let a2 = Number(document.getElementById("a2").value);
+let a2price = Number(document.getElementById("a2price").value);
+
+let a3 = Number(document.getElementById("a3").value);
+let a3price = Number(document.getElementById("a3price").value);
+
+let p2 = Number(document.getElementById("p2").value);
+let p2price = Number(document.getElementById("p2price").value);
+
+let p3 = Number(document.getElementById("p3").value);
+let p3price = Number(document.getElementById("p3price").value);
+
+
+
+if(a2price > 900){
+a2price = 900;
+}
+
+if(a3price > 1200){
+a3price = 1200;
+}
+
+if(p2price > 800){
+p2price = 800;
+}
+
+if(p3price > 1100){
+p3price = 1100;
+}
+
+
+
+let total = 
+(a2*a2price)+
+(a3*a3price)+
+(p2*p2price)+
+(p3*p3price);
+
+
+
+document.getElementById("result").innerHTML =
+"Сума: " + total + " грн";
+
+}
+
+</script>
+
+
 </body>
 </html>
