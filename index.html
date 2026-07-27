@@ -1,109 +1,46 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>UKRAINE GTA | Калькулятор Клану</title>
-
-<link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-<div class="container">
-
-<header class="hero">
-
-<h1>🇺🇦 UKRAINE GTA</h1>
-<h2>🍾 Калькулятор Клану 🌿</h2>
-
-<p>Система підрахунку ресурсів клану</p>
-
-</header>
-
-
-<div class="card profile">
-
-<h2>👤 Працівник</h2>
-
-<input 
-type="text" 
-id="nickname"
-placeholder="Введіть нік працівника">
-
-</div>
-
-
-<div class="card">
-
-<h2>🍾 Алкоголь</h2>
-
-<div class="item">
-<label>⭐ 1 рівень</label>
-<input type="number" id="a1" value="0">
-</div>
-
 <div class="item">
 <label>⭐⭐ 2 рівень</label>
 <input type="number" id="a2" value="0">
+
+<input 
+type="number" 
+id="a2price" 
+value="900"
+min="0">
 </div>
+
 
 <div class="item">
 <label>⭐⭐⭐ 3 рівень</label>
 <input type="number" id="a3" value="0">
+
+<input 
+type="number" 
+id="a3price" 
+value="1200"
+max="1200"
+min="0">
 </div>
-
-</div>
-
-
-<div class="card">
-
-<h2>🌿 Петрушка</h2>
-
-<div class="item">
-<label>⭐ 1 рівень</label>
-<input type="number" id="p1" value="0">
-</div>
-
 <div class="item">
 <label>⭐⭐ 2 рівень</label>
 <input type="number" id="p2" value="0">
+
+<input 
+type="number" 
+id="p2price"
+value="800"
+min="0">
 </div>
+
 
 <div class="item">
 <label>⭐⭐⭐ 3 рівень</label>
 <input type="number" id="p3" value="0">
+
+<input 
+type="number" 
+id="p3price"
+value="1100"
+max="1100"
+min="0">
 </div>
-
-</div>
-
-
-<div class="card result">
-
-<h2>🔥 Результат</h2>
-
-<p id="result">
-Очікування даних...
-</p>
-
-</div>
-
-
-<button onclick="calculate()">
-🚀 Порахувати
-</button>
-
-
-<footer>
-© 2026 UKRAINE GTA Calculator
-</footer>
-
-
-</div>
-
-
-<script src="script.js"></script>
-
-</body>
-</html>
