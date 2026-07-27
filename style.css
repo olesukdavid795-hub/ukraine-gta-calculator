@@ -68,7 +68,11 @@ input {
     border-radius: 10px;
     font-size: 18px;
 }
-
+input:focus {
+    outline: none;
+    border-color: #00ff88;
+    box-shadow: 0 0 10px #00ff88;
+}
 
 .item {
     margin-top: 15px;
