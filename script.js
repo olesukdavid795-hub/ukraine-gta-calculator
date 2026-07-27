@@ -1,8 +1,13 @@
 function calculate(){
 let a2 = Number(document.getElementById("a2").value) *
 Number(document.getElementById("a2price").value);
-let a3 = Number(document.getElementById("a3").value) *
-Number(document.getElementById("a3price").value);
+let a3price = Number(document.getElementById("a3price").value);
+
+if(a3price > 1200){
+    a3price = 1200;
+}
+
+let a3 = Number(document.getElementById("a3").value) * a3price;
 
 
 let p2 = Number(document.getElementById("p2").value) *
