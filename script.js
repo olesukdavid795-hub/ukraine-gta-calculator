@@ -1,6 +1,6 @@
 function calculate(){
-
-let a2 = Number(a2.value) * Number(a2price.value);
+let a2 = Number(document.getElementById("a2").value) *
+Number(document.getElementById("a2price").value);
 let a3 = Number(document.getElementById("a3").value) *
 Number(document.getElementById("a3price").value);
 
