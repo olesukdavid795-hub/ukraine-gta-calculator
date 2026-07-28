@@ -194,7 +194,26 @@ function calculate(){
 ============================== */
 
 
-function saveSalary(){
+function saveSalary()// очищення калькулятора після збереження
+
+document.querySelector("#alcohol2").value = 0;
+
+document.querySelector("#alcohol3").value = 0;
+
+document.querySelector("#parsley2").value = 0;
+
+document.querySelector("#parsley3").value = 0;
+
+document.querySelector("#playerName").value = "";
+
+
+calculate();
+
+
+toast(
+"Калькулятор очищено",
+"success"
+);{
 
 
 const name =
