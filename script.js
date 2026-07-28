@@ -1164,48 +1164,53 @@ loadWorkers();
 
 });
 // ===============================
-// ОЧИЩЕННЯ ТОПУ
+// ПОВНЕ ОЧИЩЕННЯ ТОПУ
 // ===============================
 
-const clearTop = document.getElementById("clearTop");
+const clearTop =
+document.getElementById("clearTop");
+
 
 if(clearTop){
 
 clearTop.onclick = async ()=>{
 
-let confirmClear = confirm(
-"Очистити ТОП гравців?"
+
+let confirmClear =
+confirm(
+"Видалити весь ТОП працівників?"
 );
+
 
 if(!confirmClear) return;
 
 
-for(let w of workers){
 
-await update(
-ref(db,"workers/"+w.name),
-{
-salary:0,
-products:0,
-deliveries:0,
-alcohol2:0,
-alcohol3:0,
-parsley2:0,
-parsley3:0
-}
+await remove(
+ref(db,"workers")
 );
 
-}
 
 
-toast("ТОП гравців очищено 🏆");
+workers = [];
 
-loadWorkers();
+
+
+renderWorkers();
+
+renderStatistics();
+
+
+
+toast(
+"ТОП працівників повністю очищено 🏆"
+);
+
+
 
 };
 
 }
-
 
 
 // ===============================
