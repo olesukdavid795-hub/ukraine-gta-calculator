@@ -84,7 +84,83 @@ onclick="openSection('settings')">
 
 
 <main>
+<section class="card accountSystem">
 
+
+<h2>
+🎩 Player Account
+</h2>
+
+
+<div id="authPanel">
+
+
+<input 
+id="playerName"
+placeholder="Ваш нік">
+
+
+<input
+type="password"
+id="playerPassword"
+placeholder="Пароль">
+
+
+<button id="registerPlayer">
+Створити акаунт
+</button>
+
+
+<button id="loginPlayer">
+Увійти
+</button>
+
+
+</div>
+
+
+
+<div id="playerPanel" class="hidden">
+
+
+<h3>
+Профіль
+</h3>
+
+
+<p>
+Нік:
+<b id="profileName">
+-
+</b>
+</p>
+
+
+<p>
+Ранг:
+<b id="profileRank">
+-
+</b>
+</p>
+
+
+<p>
+Баланс:
+<b id="profileMoney">
+0 ₴
+</b>
+</p>
+
+
+<button id="logoutPlayer">
+Вийти
+</button>
+
+
+</div>
+
+
+</section>
 
 <section class="loginScreen" id="ownerLogin">
 
