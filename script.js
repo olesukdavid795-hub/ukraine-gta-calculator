@@ -583,56 +583,32 @@ selectedWorker = worker.name;
 
 
 box.innerHTML = `
-
-
 <div class="item">
-
 
 <h3>👤 ${worker.name}</h3>
 
+<p>📦 Всього продукції: <b>${Number(worker.products || 0)} шт</b></p>
 
-<p>📦 Всього продукції:
-${worker.products} шт</p>
+<p>💰 Зароблено: <b>${Number(worker.salary || 0).toLocaleString("uk-UA")} грн</b></p>
 
-
-<p>💰 Зароблено:
-${Number(worker.salary || 0).toLocaleString("uk-UA")} грн</p>
-
-
-<p>📈 Здач:
-${worker.deliveries}</p>
-
+<p>📈 Здач: <b>${Number(worker.deliveries || 0)}</b></p>
 
 <hr>
 
+<p>🍾 Алкоголь ⭐⭐: <b>${Number(worker.alcohol2 || 0)}</b></p>
 
-<p>🍾 Алкоголь ⭐⭐:
-${worker.alcohol2}</p>
+<p>🍾 Алкоголь ⭐⭐⭐: <b>${Number(worker.alcohol3 || 0)}</b></p>
 
+<p>🌿 Петрушка ⭐⭐: <b>${Number(worker.parsley2 || 0)}</b></p>
 
-<p>🍾 Алкоголь ⭐⭐⭐:
-${worker.alcohol3}</p>
-
-
-<p>🌿 Петрушка ⭐⭐:
-${worker.parsley2}</p>
-
-
-<p>🌿 Петрушка ⭐⭐⭐:
-${worker.parsley3}</p>
-
-
+<p>🌿 Петрушка ⭐⭐⭐: <b>${Number(worker.parsley3 || 0)}</b></p>
 
 <button onclick="deleteSelectedWorker()">
-
 🗑 Видалити
-
 </button>
 
-
-
 </div>
-
+`;
 
 `;
 
