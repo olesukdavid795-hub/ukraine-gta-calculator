@@ -807,6 +807,109 @@ name:"Unknown"
 
 );
 
+/* =================================
+   ACCOUNT SYNC SYSTEM
+================================= */
+
+
+function syncPlayerData(){
+
+
+if(!State.currentPlayer)
+return;
+
+
+
+State.currentPlayer.xp =
+State.player.xp;
+
+
+
+State.currentPlayer.rank =
+RankSystem.getRank(
+State.player.xp
+);
+
+
+
+State.currentPlayer.level =
+RankSystem.getLevel(
+State.player.xp
+);
+
+
+
+State.currentPlayer.money =
+State.mafia.money;
+
+
+
+State.currentPlayer.respect =
+State.mafia.respect;
+
+
+
+save(
+"revenant_current_player",
+State.currentPlayer
+);
+
+
+
+const index =
+State.accounts.findIndex(
+a=>a.id===State.currentPlayer.id
+);
+
+
+
+if(index !== -1){
+
+State.accounts[index] =
+State.currentPlayer;
+
+save(
+"revenant_accounts",
+State.accounts
+);
+
+}
+
+
+}
+
+
+
+
+
+function loadPlayerData(){
+
+
+if(!State.currentPlayer)
+return;
+
+
+
+State.player.xp =
+State.currentPlayer.xp || 0;
+
+
+
+State.mafia.money =
+State.currentPlayer.money || 5000;
+
+
+
+State.mafia.respect =
+State.currentPlayer.respect || 0;
+
+
+
+updateProfile();
+
+updateMafiaStats();
+
+
 
 
 function updateProfile(){
