@@ -131,29 +131,33 @@ function toast(message,type="success"){
 
 function calculate(){
 
-    let alcohol2 =
-    Number(document.getElementById("alcohol2").value) || 0;
+    let a2 = document.querySelector("#alcohol2");
+    let a3 = document.querySelector("#alcohol3");
+    let p2 = document.querySelector("#parsley2");
+    let p3 = document.querySelector("#parsley3");
 
-    let alcohol3 =
-    Number(document.getElementById("alcohol3").value) || 0;
 
-    let parsley2 =
-    Number(document.getElementById("parsley2").value) || 0;
-
-    let parsley3 =
-    Number(document.getElementById("parsley3").value) || 0;
+    console.log(
+        "Дані:",
+        a2?.value,
+        a3?.value,
+        p2?.value,
+        p3?.value
+    );
 
 
     let total =
-        alcohol2 * 900 +
-        alcohol3 * 1200 +
-        parsley2 * 800 +
-        parsley3 * 1100;
+        (Number(a2?.value) || 0) * 900 +
+        (Number(a3?.value) || 0) * 1200 +
+        (Number(p2?.value) || 0) * 800 +
+        (Number(p3?.value) || 0) * 1100;
 
 
-    document.getElementById("total").innerHTML =
-    total.toLocaleString("uk-UA") + " грн";
 
+    document.querySelector("#total").innerHTML =
+        total.toLocaleString("uk-UA") + " грн";
+
+}
 }
 
     const alcohol2 = Number(
