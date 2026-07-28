@@ -131,6 +131,55 @@ function toast(message,type="success"){
 
 function calculate(){
 
+    const alcohol2 = Number(
+        document.getElementById("alcohol2").value
+    ) || 0;
+
+
+    const alcohol3 = Number(
+        document.getElementById("alcohol3").value
+    ) || 0;
+
+
+    const parsley2 = Number(
+        document.getElementById("parsley2").value
+    ) || 0;
+
+
+    const parsley3 = Number(
+        document.getElementById("parsley3").value
+    ) || 0;
+
+
+
+    const total =
+
+        alcohol2 * prices.alcohol2 +
+
+        alcohol3 * prices.alcohol3 +
+
+        parsley2 * prices.parsley2 +
+
+        parsley3 * prices.parsley3;
+
+
+
+    const result =
+    document.getElementById("total");
+
+
+    if(result){
+
+        result.innerHTML =
+        total.toLocaleString("uk-UA") + " грн";
+
+    }
+
+
+    return total;
+
+}
+
 
     const alcohol2 =
     Number(
