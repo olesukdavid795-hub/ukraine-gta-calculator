@@ -707,3 +707,30 @@ border-left:
 3px solid red;
 
 }
+/* =================================
+   DATABASE UI
+================================= */
+
+
+.databaseBox button {
+
+margin:8px;
+
+}
+
+
+.securityStatus {
+
+margin-top:20px;
+
+padding:15px;
+
+background:
+
+rgba(255,0,0,.08);
+
+border-radius:12px;
+
+font-weight:700;
+
+}
