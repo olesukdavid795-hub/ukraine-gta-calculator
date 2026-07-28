@@ -499,7 +499,7 @@ document.getElementById("ownerPassword").value;
 
 
 
-if(password === "Revenant 0102105"){
+if(password === "DaniilChorni015327"){
 
 
 document
