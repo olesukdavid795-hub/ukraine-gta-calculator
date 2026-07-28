@@ -1,0 +1,19 @@
+{
+    "version": "2.0",
+    "project": "Revenant",
+    "ownerMode": true,
+    "maxUsers": 500,
+    "security": {
+        "logs": true,
+        "backup": true,
+        "encryption": false
+    },
+    "ranks": [
+        "Novice",
+        "Member",
+        "Veteran",
+        "Capo",
+        "Boss",
+        "Don"
+    ]
+}
