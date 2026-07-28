@@ -775,3 +775,4 @@ function addWorker() {
 
   alert("Працівник доданий!");
 }
+window.addWorker = addWorker;
