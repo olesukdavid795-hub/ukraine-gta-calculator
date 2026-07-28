@@ -1990,3 +1990,320 @@ window.addEventListener(
     systemBoot();
 
 });
+/* =================================
+   PLAYER ACCOUNT SYSTEM
+================================= */
+
+
+State.accounts =
+load(
+"revenant_accounts",
+[]
+);
+
+
+
+State.currentPlayer =
+load(
+"revenant_current_player",
+null
+);
+
+
+
+function registerPlayer(){
+
+
+const name =
+$("#playerName").value.trim();
+
+
+const password =
+$("#playerPassword").value;
+
+
+
+if(!name || !password){
+
+toast(
+"Заповніть всі поля",
+"error"
+);
+
+return;
+
+}
+
+
+
+const exists =
+State.accounts.find(
+acc=>acc.name===name
+);
+
+
+
+if(exists){
+
+toast(
+"Такий акаунт вже існує",
+"error"
+);
+
+return;
+
+}
+
+
+
+const account = {
+
+
+id:createID(),
+
+name,
+
+password,
+
+
+rank:"🔰 Novice",
+
+
+level:1,
+
+
+xp:0,
+
+
+money:5000,
+
+
+respect:0,
+
+
+created:
+formatTime()
+
+
+};
+
+
+
+State.accounts.push(
+account
+);
+
+
+
+save(
+"revenant_accounts",
+State.accounts
+);
+
+
+
+toast(
+"Акаунт створено",
+"success"
+);
+
+
+
+addLog(
+`Новий гравець ${name}`
+);
+
+
+
+}
+
+
+
+function loginPlayer(){
+
+
+const name =
+$("#playerName").value.trim();
+
+
+const password =
+$("#playerPassword").value;
+
+
+
+const account =
+State.accounts.find(
+acc=>
+acc.name===name
+&&
+acc.password===password
+);
+
+
+
+if(!account){
+
+toast(
+"Невірний логін або пароль",
+"error"
+);
+
+return;
+
+}
+
+
+
+State.currentPlayer =
+account;
+
+
+
+save(
+"revenant_current_player",
+account
+);
+
+
+
+openPlayerPanel();
+
+
+
+toast(
+"Вхід виконано",
+"success"
+);
+
+
+
+}
+
+
+
+function openPlayerPanel(){
+
+
+$("#authPanel")
+.classList
+.add("hidden");
+
+
+$("#playerPanel")
+.classList
+.remove("hidden");
+
+
+
+$("#profileName")
+.textContent =
+State.currentPlayer.name;
+
+
+
+$("#profileRank")
+.textContent =
+State.currentPlayer.rank;
+
+
+
+$("#profileMoney")
+.textContent =
+State.currentPlayer.money
+.toLocaleString("uk-UA")
++
+" ₴";
+
+
+}
+
+
+
+function logoutPlayer(){
+
+
+State.currentPlayer =
+null;
+
+
+localStorage.removeItem(
+"revenant_current_player"
+);
+
+
+
+$("#playerPanel")
+.classList
+.add("hidden");
+
+
+
+$("#authPanel")
+.classList
+.remove("hidden");
+
+
+
+toast(
+"Вихід виконано"
+);
+
+
+}
+
+
+
+
+document.addEventListener(
+"click",
+e=>{
+
+
+if(
+e.target.id==="registerPlayer"
+){
+
+registerPlayer();
+
+}
+
+
+
+if(
+e.target.id==="loginPlayer"
+){
+
+loginPlayer();
+
+}
+
+
+
+if(
+e.target.id==="logoutPlayer"
+){
+
+logoutPlayer();
+
+}
+
+
+
+});
+
+
+
+
+window.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+
+if(State.currentPlayer){
+
+openPlayerPanel();
+
+}
+
+
+});
