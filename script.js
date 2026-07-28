@@ -834,3 +834,128 @@ window.addEventListener(
 updateProfile();
 
 });
+/* =================================
+   MAFIA STATS SYSTEM
+================================= */
+
+
+State.mafia =
+load(
+"revenant_mafia",
+{
+
+money:5000,
+
+respect:0,
+
+crimes:0,
+
+faction:"Без фракції"
+
+}
+
+);
+
+
+
+function updateMafiaStats(){
+
+
+const data =
+State.mafia;
+
+
+
+$("#money").textContent =
+data.money.toLocaleString("uk-UA") + " ₴";
+
+
+$("#respect").textContent =
+data.respect;
+
+
+$("#crimes").textContent =
+data.crimes;
+
+
+$("#faction").textContent =
+data.faction;
+
+
+
+save(
+"revenant_mafia",
+data
+);
+
+
+}
+
+
+
+
+function commitCrime(){
+
+
+const reward =
+Math.floor(
+Math.random()*1500
+)+500;
+
+
+
+State.mafia.money += reward;
+
+
+State.mafia.respect += 10;
+
+
+State.mafia.crimes += 1;
+
+
+
+updateMafiaStats();
+
+
+
+addLog(
+`Злочин виконано +${reward} ₴`
+);
+
+
+
+toast(
+`Отримано ${reward} ₴`,
+"success"
+);
+
+
+}
+
+
+
+document.addEventListener(
+"click",
+e=>{
+
+
+if(
+e.target.id==="crimeBtn"
+){
+
+commitCrime();
+
+}
+
+
+});
+
+
+
+window.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+updateMafiaStats();
+
+});
