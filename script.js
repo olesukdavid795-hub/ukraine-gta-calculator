@@ -959,3 +959,207 @@ window.addEventListener(
 updateMafiaStats();
 
 });
+/* =================================
+   FACTION WAR SYSTEM
+================================= */
+
+
+State.faction =
+load(
+"revenant_faction",
+{
+
+name:"Без фракції",
+
+territories:{
+
+Downtown:"Нейтральна",
+
+Harbor:"Нейтральна",
+
+Industrial:"Нейтральна"
+
+}
+
+}
+
+);
+
+
+
+function updateFaction(){
+
+
+$("#faction").textContent =
+State.faction.name;
+
+
+
+$("#downtown").textContent =
+State.faction.territories.Downtown;
+
+
+$("#harbor").textContent =
+State.faction.territories.Harbor;
+
+
+$("#industrial").textContent =
+State.faction.territories.Industrial;
+
+
+
+save(
+"revenant_faction",
+State.faction
+);
+
+
+}
+
+
+
+function joinFaction(){
+
+
+const select =
+$("#factionSelect");
+
+
+State.faction.name =
+select.value;
+
+
+
+addLog(
+`Вступ у фракцію ${select.value}`
+);
+
+
+
+updateFaction();
+
+
+
+toast(
+"Фракцію змінено",
+"success"
+);
+
+
+}
+
+
+
+function mafiaWar(){
+
+
+const zones = [
+
+"Downtown",
+
+"Harbor",
+
+"Industrial"
+
+];
+
+
+const zone =
+zones[
+Math.floor(
+Math.random()*zones.length
+)
+];
+
+
+
+const result =
+Math.random()>0.5;
+
+
+
+if(result){
+
+
+State.faction.territories[zone]
+=
+State.faction.name;
+
+
+State.mafia.respect += 50;
+
+
+toast(
+`Захоплено ${zone}`,
+"success"
+);
+
+
+addLog(
+`Фракція захопила ${zone}`
+);
+
+
+}
+
+else{
+
+
+State.mafia.respect -= 10;
+
+
+toast(
+`Атака провалилась`,
+"error"
+);
+
+
+}
+
+
+
+updateFaction();
+
+updateMafiaStats();
+
+
+}
+
+
+
+
+document.addEventListener(
+"click",
+e=>{
+
+
+if(
+e.target.id==="joinFaction"
+){
+
+joinFaction();
+
+}
+
+
+
+if(
+e.target.id==="startWar"
+){
+
+mafiaWar();
+
+}
+
+
+});
+
+
+
+window.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+updateFaction();
+
+});
