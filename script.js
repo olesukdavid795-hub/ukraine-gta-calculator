@@ -761,3 +761,17 @@ calculate();
 
 
 };
+// Тестове додавання працівника в Firebase
+
+import { ref, set } from "firebase/database";
+
+function addWorker() {
+  set(ref(database, "workers/Davyd"), {
+    name: "Давид",
+    products: 0,
+    totalProducts: 0,
+    lastUpdate: new Date().toLocaleDateString()
+  });
+
+  alert("Працівник доданий!");
+}
