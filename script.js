@@ -286,7 +286,77 @@ function renderLogs() {
    OWNER LOGIN
 =========================== */
 
-function ownerLogin() {
+function ownerLogin(){
+
+
+const pass =
+$("#ownerPassword").value;
+
+
+
+if(pass !== CONFIG.ownerPassword){
+
+
+toast(
+"Невірний пароль",
+"error"
+);
+
+
+return;
+
+}
+
+
+
+$("#loginLoader")
+.classList
+.remove("hidden");
+
+
+
+setTimeout(()=>{
+
+
+State.owner = true;
+
+
+
+$("#ownerLogin")
+.classList
+.add("hidden");
+
+
+
+$("#ownerPanel")
+.classList
+.remove("hidden");
+
+
+
+$("#loginLoader")
+.classList
+.add("hidden");
+
+
+
+toast(
+"Owner Mode активовано",
+"success"
+);
+
+
+
+addLog(
+"Вхід власника"
+);
+
+
+
+},1200);
+
+
+}
 
     const pass = $("#ownerPassword").value;
 
