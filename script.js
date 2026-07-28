@@ -374,6 +374,69 @@ ${item.amount.toLocaleString("uk-UA")} грн
 
 function renderTop(){
 
+    const box = document.querySelector("#topPlayers");
+
+    if(!box) return;
+
+
+    if(players.length === 0){
+
+        box.innerHTML = `
+        <div class="top">
+        Даних ще немає
+        </div>
+        `;
+
+        return;
+
+    }
+
+
+    let top = [...players]
+    .sort((a,b)=>b.total-a.total)
+    .slice(0,3);
+
+
+
+    box.innerHTML = "";
+
+
+
+    top.forEach((p,index)=>{
+
+
+        let medal = "";
+
+        if(index === 0) medal = "🥇";
+        if(index === 1) medal = "🥈";
+        if(index === 2) medal = "🥉";
+
+
+
+        box.innerHTML += `
+
+        <div class="top">
+
+        ${medal} ${index+1} місце
+
+        <br>
+
+        <b>${p.name}</b>
+
+        <br>
+
+        💰 ${p.total.toLocaleString("uk-UA")} грн
+
+        </div>
+
+        `;
+
+
+    });
+
+
+}
+
 
 const box =
 document.querySelector("#topPlayers");
