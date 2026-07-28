@@ -1,3 +1,19 @@
+// Firebase
+import { initializeApp } from "firebase/app";
+import { getDatabase } from "firebase/database";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB-rv0vO2ZN_BYhraPNBIKhvTahrtEB9D8",
+  authDomain: "revenant-v2-955dc.firebaseapp.com",
+  databaseURL: "https://revenant-v2-955dc-default-rtdb.firebaseio.com",
+  projectId: "revenant-v2-955dc",
+  storageBucket: "revenant-v2-955dc.firebasestorage.app",
+  messagingSenderId: "888954510701",
+  appId: "1:888954510701:web:84dc99929d5b82ee564e64"
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 let prices = {
 
     alcohol2:900,
