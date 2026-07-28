@@ -1,400 +1,239 @@
 <!DOCTYPE html>
 <html lang="uk">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Revenant Panel</title>
 
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Revenant v2</title>
 
-    <script src="https://kit.fontawesome.com/6b8fd6d6b0.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-<div id="loader">
-    <div class="loader-logo">
-        <div class="loader-ring"></div>
-        <h1>REVENANT</h1>
-        <span>Loading Panel...</span>
-    </div>
-</div>
 
-<div class="background">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-</div>
+<div id="toastContainer"></div>
 
-<div class="app">
 
-    <aside class="sidebar">
+<header class="topbar">
 
-        <div class="logo">
-
-            <div class="logo-icon">
-                <i class="fa-solid fa-skull"></i>
-            </div>
-
-            <div>
-
-                <h2>Revenant</h2>
-
-                <p>Premium Mafia Panel</p>
-
-            </div>
-
-        </div>
-
-        <nav>
-
-            <button class="menu active">
-
-                <i class="fa-solid fa-house"></i>
-
-                <span>Головна</span>
-
-            </button>
-
-            <button class="menu">
-
-                <i class="fa-solid fa-calculator"></i>
-
-                <span>Калькулятор</span>
-
-            </button>
-
-            <button class="menu">
-
-                <i class="fa-solid fa-clock-rotate-left"></i>
-
-                <span>Історія</span>
-
-            </button>
-
-            <button class="menu">
-
-                <i class="fa-solid fa-chart-line"></i>
-
-                <span>Статистика</span>
-
-            </button>
-
-            <button class="menu owner">
-
-                <i class="fa-solid fa-crown"></i>
-
-                <span>Панель власника</span>
-
-            </button>
-
-        </nav>
-
-        <div class="sidebar-footer">
-
-            Version 1.0
-
-        </div>
-
-    </aside>
-
-    <main class="content">
-
-        <header class="topbar">
-
-            <div>
-
-                <h1>Revenant Calculator</h1>
-
-                <p>Мафіозний калькулятор працівника</p>
-
-            </div>
-
-            <div class="topbar-right">
-
-                <div class="online">
-
-                    <span></span>
-
-                    Online
-
-                </div>
-
-            </div>
-
-        </header>
-                <section class="dashboard">
-
-            <div class="welcome-card">
-
-                <div>
-
-                    <h2>Ласкаво просимо 👋</h2>
-
-                    <p>Калькулятор клану Revenant</p>
-
-                </div>
-
-                <div class="time-box">
-
-                    <span id="currentDate">--.--.----</span>
-                    <strong id="currentTime">00:00:00</strong>
-
-                </div>
-
-            </div>
-
-            <div class="cards">
-
-                <!-- Працівник -->
-
-                <div class="card">
-
-                    <h3>
-                        <i class="fa-solid fa-user"></i>
-                        Працівник
-                    </h3>
-
-                    <input
-                        type="text"
-                        id="worker"
-                        placeholder="Введіть ім'я">
-
-                </div>
-
-                <!-- Алко 2 -->
-
-                <div class="card product">
-
-                    <div class="product-title">
-
-                        🍾 Алкоголь ⭐⭐
-
-                    </div>
-
-                    <input
-                        type="number"
-                        id="a2"
-                        min="0"
-                        value="0">
-
-                </div>
-
-                <!-- Алко 3 -->
-
-                <div class="card product">
-
-                    <div class="product-title">
-
-                        🍾 Алкоголь ⭐⭐⭐
-
-                    </div>
-
-                    <input
-                        type="number"
-                        id="a3"
-                        min="0"
-                        value="0">
-
-                </div>
-
-                <!-- Петра 2 -->
-
-                <div class="card product">
-
-                    <div class="product-title">
-
-                        🌿 Петрушка ⭐⭐
-
-                    </div>
-
-                    <input
-                        type="number"
-                        id="p2"
-                        min="0"
-                        value="0">
-
-                </div>
-
-                <!-- Петра 3 -->
-
-                <div class="card product">
-
-                    <div class="product-title">
-
-                        🌿 Петрушка ⭐⭐⭐
-
-                    </div>
-
-                    <input
-                        type="number"
-                        id="p3"
-                        min="0"
-                        value="0">
-
-                </div>
-
-            </div>
-
-            <div class="total-card">
-
-                <p>Загальна сума</p>
-
-                <h1 id="totalMoney">
-
-                    0 грн
-
-                </h1>
-
-                <div class="buttons">
-
-                    <button id="calculateBtn">
-
-                        <i class="fa-solid fa-calculator"></i>
-
-                        Розрахувати
-
-                    </button>
-
-                    <button id="clearBtn">
-
-                        <i class="fa-solid fa-trash"></i>
-
-                        Очистити
-
-                    </button>
-
-                </div>
-
-            </div>
-                        <!-- Звіт -->
-
-            <div class="report-card">
-
-                <div class="card-header">
-
-                    <h2>
-
-                        <i class="fa-solid fa-file-lines"></i>
-
-                        Звіт
-
-                    </h2>
-
-                    <button id="copyReport">
-
-                        <i class="fa-solid fa-copy"></i>
-
-                        Копіювати
-
-                    </button>
-
-                </div>
-
-                <textarea
-                    id="report"
-                    readonly
-                    placeholder="Після розрахунку тут автоматично з'явиться звіт..."></textarea>
-
-            </div>
-
-            <!-- Історія -->
-
-            <div class="history-card">
-
-                <div class="card-header">
-
-                    <h2>
-
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-
-                        Останні розрахунки
-
-                    </h2>
-
-                    <button id="clearHistory">
-
-                        Очистити
-
-                    </button>
-
-                </div>
-
-                <div
-                    class="history-list"
-                    id="historyList">
-
-                    <div class="history-empty">
-
-                        Історія поки порожня
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-</div>
-
-<!-- Панель власника -->
-
-<div class="owner-modal" id="ownerModal">
-
-    <div class="owner-window">
-
-        <div class="owner-header">
-
-            <h2>
-
-                👑 Панель власника
-
-            </h2>
-
-            <button id="closeOwner">
-
-                ✕
-
-            </button>
-
-        </div>
-
-        <div class="owner-body">
-
-            <div class="input-group">
-
-                <label>Пароль</label>
-
-                <input
-                    type="password"
-                    id="ownerPassword"
-                    placeholder="Введіть пароль">
-
-            </div>
-
-            <button id="loginOwner">
-
-                Увійти
-
-            </button>
-
-        </div>
-
+    <div class="logo">
+        REVENANT <span>v2</span>
     </div>
 
+    <button id="toggleDark">
+        ◐
+    </button>
+
+</header>
+
+
+
+<main>
+
+
+<section class="card" id="ownerLogin">
+
+<h2>Owner Access</h2>
+
+<input 
+type="password"
+id="ownerPassword"
+placeholder="Пароль власника">
+
+
+<button id="ownerLoginBtn">
+Увійти
+</button>
+
+
+</section>
+
+
+
+
+<section 
+class="card hidden"
+id="ownerPanel">
+
+
+<h1>
+OWNER PANEL
+</h1>
+
+
+<div class="stats">
+
+
+<div class="stat">
+
+<span>Користувачі</span>
+
+<b id="statUsers">
+0
+</b>
+
 </div>
+
+
+<div class="stat">
+
+<span>Логи</span>
+
+<b id="statLogs">
+0
+</b>
+
+</div>
+
+
+<div class="stat">
+
+<span>Версія</span>
+
+<b id="statVersion">
+0
+</b>
+
+</div>
+
+
+</div>
+
+
+
+<div class="ownerBox">
+
+
+<h2>
+Створити користувача
+</h2>
+
+
+<input 
+id="newUserName"
+placeholder="Ім'я">
+
+
+<select id="newUserRole">
+
+<option>
+Admin
+</option>
+
+<option>
+Moderator
+</option>
+
+<option>
+Player
+</option>
+
+
+</select>
+
+
+<button id="createUserBtn">
+Створити
+</button>
+
+
+</div>
+
+
+
+
+<div class="ownerBox">
+
+<h2>
+Користувачі
+</h2>
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>
+Ім'я
+</th>
+
+
+<th>
+Роль
+</th>
+
+
+<th>
+Дата
+</th>
+
+
+<th>
+Дія
+</th>
+
+</tr>
+
+
+</thead>
+
+
+<tbody id="ownerUsers">
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+
+
+<div class="ownerBox">
+
+
+<h2>
+Система логів
+</h2>
+
+
+<div id="ownerLogs">
+
+</div>
+
+
+</div>
+
+
+
+
+<button id="logoutOwner">
+Вийти
+</button>
+
+
+
+</section>
+
+
+</main>
+
+
 
 <script src="script.js"></script>
 
+
 </body>
+
 </html>
