@@ -160,6 +160,61 @@ function renderUsers() {
 
 function createUser(name, role) {
 
+    const permissions = {
+
+        Admin: [
+            "users",
+            "logs",
+            "settings"
+        ],
+
+        Moderator: [
+            "users"
+        ],
+
+        Player: []
+
+    };
+
+
+    State.users.push({
+
+        id: createID(),
+
+        name,
+
+        role,
+
+        permissions:
+        permissions[role],
+
+        created:
+        formatTime()
+
+    });
+
+
+    save(
+        "revenant_users",
+        State.users
+    );
+
+
+    renderUsers();
+
+
+    addLog(
+        `Створено ${role}: ${name}`
+    );
+
+
+    toast(
+        `${role} створено`,
+        "success"
+    );
+
+}
+
     State.users.push({
 
         id: createID(),
@@ -549,3 +604,62 @@ State.settings
 
 
 },5000);
+/* =================================
+   ROLE SYSTEM
+================================= */
+
+
+function checkPermission(permission){
+
+    const owner = State.owner;
+
+
+    if(owner){
+
+        return true;
+
+    }
+
+
+    const user =
+    State.currentUser;
+
+
+    if(!user){
+
+        return false;
+
+    }
+
+
+    return user.permissions
+    .includes(permission);
+
+}
+
+
+
+function openSection(section){
+
+
+    if(
+    !checkPermission(section)
+    ){
+
+        toast(
+        "Недостатньо прав доступу",
+        "error"
+        );
+
+        return;
+
+    }
+
+
+    toast(
+    `Відкрито ${section}`,
+    "success"
+    );
+
+
+}
