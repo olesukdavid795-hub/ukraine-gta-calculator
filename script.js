@@ -11,9 +11,19 @@
 =========================== */
 
 const CONFIG = {
-    ownerPassword: "revenant_owner",
-    version: "2.0",
-    animation: 250
+
+    ownerPassword:
+    "revenant_owner",
+
+    version:
+    "2.0",
+
+    animation:
+    250,
+
+    project:
+    "Revenant"
+
 };
 
 /* ===========================
@@ -1944,5 +1954,39 @@ document.querySelector("#ownerPanel")
 
 }
 
+
+});
+/* =================================
+   SYSTEM BOOT
+================================= */
+
+
+function systemBoot(){
+
+    addLog(
+        "Revenant v2 запущено"
+    );
+
+
+    console.log(
+        "%c REVENANT v2 ONLINE ",
+        "color:red;font-size:20px;font-weight:bold"
+    );
+
+
+    toast(
+        "System Online",
+        "success"
+    );
+
+}
+
+
+
+window.addEventListener(
+"load",
+()=>{
+
+    systemBoot();
 
 });
