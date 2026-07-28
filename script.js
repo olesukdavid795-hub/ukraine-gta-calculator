@@ -1,50 +1,11 @@
-/* =========================================
-   REVENANT v2
-   PREMIUM SALARY CALCULATOR
-========================================= */
-
-"use strict";
-
-
-const CONFIG = {
-
-    ownerPassword: "revenant_owner",
-
-    limits: {
-
-        alcohol2: 900,
-
-        alcohol3: 1200,
-
-        parsley2: 800,
-
-        parsley3: 1100
-
-    }
-
-};
-
-
-
-let prices = JSON.parse(
-    localStorage.getItem("revenant_prices")
-) || {
+let prices = {
 
     alcohol2:900,
-
     alcohol3:1200,
-
     parsley2:800,
-
     parsley3:1100
 
 };
-
-
-
-let history = JSON.parse(
-    localStorage.getItem("revenant_history")
-) || [];
 
 
 
@@ -54,210 +15,58 @@ let players = JSON.parse(
 
 
 
-/* ==============================
-   SAVE
-============================== */
-
-
-function saveAll(){
-
-    localStorage.setItem(
-        "revenant_prices",
-        JSON.stringify(prices)
-    );
-
-
-    localStorage.setItem(
-        "revenant_history",
-        JSON.stringify(history)
-    );
-
-
-    localStorage.setItem(
-        "revenant_players",
-        JSON.stringify(players)
-    );
-
-}
-
-
-
-/* ==============================
-   TOAST
-============================== */
-
-
-function toast(message,type="success"){
-
-    const box =
-    document.createElement("div");
-
-
-    box.className =
-    "toast " + type;
-
-
-    box.innerHTML =
-    message;
-
-
-    document.body.appendChild(box);
-
-
-
-    setTimeout(()=>{
-
-        box.classList.add("show");
-
-    },50);
-
-
-
-    setTimeout(()=>{
-
-        box.remove();
-
-    },3000);
-
-}
+let history = JSON.parse(
+    localStorage.getItem("revenant_history")
+) || [];
 
 
 
 
-/* ==============================
-   CALCULATOR
-============================== */
+
+// ==========================
+// РОЗРАХУНОК
+// ==========================
 
 
 function calculate(){
 
-    let a2 = document.querySelector("#alcohol2");
-    let a3 = document.querySelector("#alcohol3");
-    let p2 = document.querySelector("#parsley2");
-    let p3 = document.querySelector("#parsley3");
 
-
-    console.log(
-        "Дані:",
-        a2?.value,
-        a3?.value,
-        p2?.value,
-        p3?.value
-    );
-
-
-    let total =
-        (Number(a2?.value) || 0) * 900 +
-        (Number(a3?.value) || 0) * 1200 +
-        (Number(p2?.value) || 0) * 800 +
-        (Number(p3?.value) || 0) * 1100;
-
-
-
-    document.querySelector("#total").innerHTML =
-        total.toLocaleString("uk-UA") + " грн";
-
-}
-}
-
-    const alcohol2 = Number(
+    let a2 = Number(
         document.getElementById("alcohol2").value
     ) || 0;
 
 
-    const alcohol3 = Number(
+    let a3 = Number(
         document.getElementById("alcohol3").value
     ) || 0;
 
 
-    const parsley2 = Number(
+    let p2 = Number(
         document.getElementById("parsley2").value
     ) || 0;
 
 
-    const parsley3 = Number(
+    let p3 = Number(
         document.getElementById("parsley3").value
     ) || 0;
 
 
 
-    const total =
+    let total =
 
-        alcohol2 * prices.alcohol2 +
+        a2 * prices.alcohol2 +
 
-        alcohol3 * prices.alcohol3 +
+        a3 * prices.alcohol3 +
 
-        parsley2 * prices.parsley2 +
+        p2 * prices.parsley2 +
 
-        parsley3 * prices.parsley3;
-
-
-
-    const result =
-    document.getElementById("total");
-
-
-    if(result){
-
-        result.innerHTML =
-        total.toLocaleString("uk-UA") + " грн";
-
-    }
-
-
-    return total;
-
-}
-
-
-    const alcohol2 =
-    Number(
-        document.querySelector("#alcohol2")?.value || 0
-    );
-
-
-    const alcohol3 =
-    Number(
-        document.querySelector("#alcohol3")?.value || 0
-    );
-
-
-    const parsley2 =
-    Number(
-        document.querySelector("#parsley2")?.value || 0
-    );
-
-
-    const parsley3 =
-    Number(
-        document.querySelector("#parsley3")?.value || 0
-    );
+        p3 * prices.parsley3;
 
 
 
-    const total =
+    document.getElementById("total").innerHTML =
 
-    alcohol2 * prices.alcohol2 +
-
-    alcohol3 * prices.alcohol3 +
-
-    parsley2 * prices.parsley2 +
-
-    parsley3 * prices.parsley3;
-
-
-
-    const result =
-    document.querySelector("#total");
-
-
-    if(result){
-
-        result.textContent =
-        total.toLocaleString("uk-UA")
-        + " грн";
-
-    }
+    total.toLocaleString("uk-UA") + " грн";
 
 
 
@@ -267,44 +76,41 @@ function calculate(){
 
 
 
-/* ==============================
-   ADD PLAYER HISTORY
-============================== */
 
 
-function saveSalary()// очищення калькулятора після збереження
-
-document.querySelector("#alcohol2").value = 0;
-
-document.querySelector("#alcohol3").value = 0;
-
-document.querySelector("#parsley2").value = 0;
-
-document.querySelector("#parsley3").value = 0;
-
-document.querySelector("#playerName").value = "";
 
 
-calculate();
+document.addEventListener(
+"input",
+calculate
+);
 
 
-toast(
-"Калькулятор очищено",
-"success"
-);{
 
 
-const name =
-document.querySelector("#playerName")?.value.trim();
+
+
+
+// ==========================
+// ЗБЕРЕЖЕННЯ ЗДАЧІ
+// ==========================
+
+
+document
+.getElementById("saveSalary")
+.onclick = ()=>{
+
+
+let name =
+
+document.getElementById("playerName")
+.value.trim();
 
 
 
 if(!name){
 
-toast(
-"Введіть нік гравця",
-"error"
-);
+showToast("Введіть нік гравця");
 
 return;
 
@@ -312,223 +118,173 @@ return;
 
 
 
-const total =
-calculate();
+let total = calculate();
 
 
 
-if(total<=0){
+let products =
 
-toast(
-"Немає даних",
-"error"
-);
+Number(document.getElementById("alcohol2").value || 0)
 
-return;
++
 
-}
+Number(document.getElementById("alcohol3").value || 0)
 
++
 
+Number(document.getElementById("parsley2").value || 0)
 
-history.unshift({
++
 
-    player:name,
-
-    amount:total,
-
-    date:
-    new Date()
-    .toLocaleString("uk-UA")
-
-});
+Number(document.getElementById("parsley3").value || 0);
 
 
 
 
-let player =
-players.find(
+
+let player = players.find(
 p=>p.name===name
 );
 
 
 
+
 if(!player){
+
 
 player={
 
-name,
+name:name,
 
-total:0,
+salary:0,
 
-count:0
+products:0,
+
+deliveries:0
 
 };
 
 
 players.push(player);
 
-}
-
-
-
-player.total += total;
-
-player.count++;
-
-
-
-saveAll();
-
-
-
-renderHistory();
-
-renderTop();
-
-
-
-toast(
-"Зарплату збережено"
-);
-
-
 
 }
 
 
 
-/* ==============================
-   HISTORY
-============================== */
 
 
-function renderHistory(){
+player.salary += total;
+
+player.products += products;
+
+player.deliveries++;
 
 
-const box =
-document.querySelector("#history");
 
 
-if(!box) return;
 
 
-box.innerHTML="";
+history.unshift({
 
+name:name,
 
-history.forEach(item=>{
+salary:total,
 
+products:products,
 
-box.innerHTML += `
-
-<div class="historyItem">
-
-<b>${item.player}</b>
-
-<br>
-
-${item.amount.toLocaleString("uk-UA")} грн
-
-<br>
-
-<small>${item.date}</small>
-
-</div>
-
-`;
-
+date:new Date()
+.toLocaleString("uk-UA")
 
 });
 
 
+
+
+
+saveData();
+
+
+
+render();
+
+
+
+clearForm();
+
+
+
+showToast(
+"Здача збережена"
+);
+
+
+
+};
+
+
+
+
+
+
+
+
+// ==========================
+// ЗБЕРЕЖЕННЯ
+// ==========================
+
+
+function saveData(){
+
+
+localStorage.setItem(
+
+"revenant_players",
+
+JSON.stringify(players)
+
+);
+
+
+
+localStorage.setItem(
+
+"revenant_history",
+
+JSON.stringify(history)
+
+);
+
+
 }
 
 
 
 
-/* ==============================
-   TOP 3
-============================== */
+
+
+
+
+// ==========================
+// ТОП
+// ==========================
 
 
 function renderTop(){
 
-    const box = document.querySelector("#topPlayers");
 
-    if(!box) return;
-
-
-    if(players.length === 0){
-
-        box.innerHTML = `
-        <div class="top">
-        Даних ще немає
-        </div>
-        `;
-
-        return;
-
-    }
+let box =
+document.getElementById(
+"topPlayers"
+);
 
 
-    let top = [...players]
-    .sort((a,b)=>b.total-a.total)
-    .slice(0,3);
+let top = [...players]
 
-
-
-    box.innerHTML = "";
-
-
-
-    top.forEach((p,index)=>{
-
-
-        let medal = "";
-
-        if(index === 0) medal = "🥇";
-        if(index === 1) medal = "🥈";
-        if(index === 2) medal = "🥉";
-
-
-
-        box.innerHTML += `
-
-        <div class="top">
-
-        ${medal} ${index+1} місце
-
-        <br>
-
-        <b>${p.name}</b>
-
-        <br>
-
-        💰 ${p.total.toLocaleString("uk-UA")} грн
-
-        </div>
-
-        `;
-
-
-    });
-
-
-}
-
-
-const box =
-document.querySelector("#topPlayers");
-
-
-if(!box) return;
-
-
-
-let top =
-[...players]
 .sort(
-(a,b)=>b.total-a.total
+(a,b)=>b.salary-a.salary
 )
+
 .slice(0,3);
 
 
@@ -537,24 +293,91 @@ box.innerHTML="";
 
 
 
-top.forEach((p,index)=>{
+top.forEach(
+(p,i)=>{
 
 
 box.innerHTML += `
 
-<div class="top">
+<div class="item">
 
-${index+1} місце 🏆
+${i+1} місце 🏆
+
+<br>
 
 <b>${p.name}</b>
 
 <br>
 
-${p.total.toLocaleString("uk-UA")} грн
+💰 ${p.salary.toLocaleString("uk-UA")} грн
+
+<br>
+
+📦 ${p.products} шт продукції
 
 </div>
 
 `;
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+// ==========================
+// ІСТОРІЯ
+// ==========================
+
+
+function renderHistory(){
+
+
+let box =
+document.getElementById(
+"history"
+);
+
+
+
+box.innerHTML="";
+
+
+
+history.slice(0,20)
+.forEach(h=>{
+
+
+box.innerHTML += `
+
+<div class="item">
+
+<b>${h.name}</b>
+
+<br>
+
+📦 ${h.products} шт
+
+<br>
+
+💰 ${h.salary.toLocaleString("uk-UA")} грн
+
+<br>
+
+🕒 ${h.date}
+
+</div>
+
+`;
+
+
 
 });
 
@@ -564,26 +387,154 @@ ${p.total.toLocaleString("uk-UA")} грн
 
 
 
-/* ==============================
-   OWNER PANEL
-============================== */
-
-
-function ownerLogin(){
-
-
-const pass =
-document.querySelector("#ownerPass")
-?.value;
 
 
 
-if(pass!==CONFIG.ownerPassword){
+// ==========================
+// СТАТИСТИКА
+// ==========================
 
-toast(
-"Невірний пароль",
-"error"
+
+function renderStats(){
+
+
+let box =
+document.getElementById(
+"statistics"
 );
+
+
+
+box.innerHTML="";
+
+
+
+players.forEach(p=>{
+
+
+box.innerHTML +=`
+
+<div class="item">
+
+👤 ${p.name}
+
+<br>
+
+💰 ${p.salary.toLocaleString("uk-UA")} грн
+
+<br>
+
+📦 ${p.products} шт
+
+<br>
+
+📈 ${p.deliveries} здач
+
+</div>
+
+`;
+
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+// ==========================
+// ВЛАСНИК
+// ==========================
+
+
+document
+.getElementById("ownerLogin")
+.onclick=()=>{
+
+
+let pass =
+document.getElementById(
+"ownerPassword"
+).value;
+
+
+
+if(pass==="admin"){
+
+
+document
+.getElementById(
+"ownerPanel"
+)
+.classList.remove("hidden");
+
+
+showToast(
+"Доступ власника відкрито"
+);
+
+
+}
+
+else{
+
+
+showToast(
+"Невірний пароль"
+);
+
+
+}
+
+
+};
+
+
+
+
+
+
+
+
+// ==========================
+// ПОШУК ГРАВЦЯ
+// ==========================
+
+
+document
+.getElementById("searchPlayer")
+.oninput=function(){
+
+
+let p =
+players.find(
+
+x=>x.name
+.toLowerCase()
+===
+this.value
+.toLowerCase()
+
+);
+
+
+
+let box =
+document.getElementById(
+"playerProfile"
+);
+
+
+
+if(!p){
+
+box.innerHTML=
+"Гравця не знайдено";
 
 return;
 
@@ -591,153 +542,204 @@ return;
 
 
 
-document.querySelector("#ownerPanel")
-.classList.remove("hidden");
+box.innerHTML=`
+
+<div class="item">
+
+👤 ${p.name}
+
+<br>
+
+📦 Всього продукції:
+${p.products} шт
+
+<br>
+
+💰 Зарплата:
+${p.salary.toLocaleString("uk-UA")} грн
+
+<br>
+
+📈 Здач:
+${p.deliveries}
+
+</div>
+
+`;
 
 
-toast(
-"Панель власника відкрита"
-);
-
-
-}
+};
 
 
 
-function updatePrices(){
 
+
+
+
+// ==========================
+// ЦІНИ
+// ==========================
+
+
+document
+.getElementById("savePrices")
+.onclick=()=>{
 
 
 prices.alcohol2 =
 Number(
-document.querySelector("#priceAlcohol2").value
-);
+document.getElementById("priceAlcohol2").value
+)
+|| prices.alcohol2;
+
 
 
 prices.alcohol3 =
 Number(
-document.querySelector("#priceAlcohol3").value
-);
+document.getElementById("priceAlcohol3").value
+)
+|| prices.alcohol3;
+
 
 
 prices.parsley2 =
 Number(
-document.querySelector("#priceParsley2").value
-);
+document.getElementById("priceParsley2").value
+)
+|| prices.parsley2;
+
 
 
 prices.parsley3 =
 Number(
-document.querySelector("#priceParsley3").value
+document.getElementById("priceParsley3").value
+)
+|| prices.parsley3;
+
+
+
+localStorage.setItem(
+"revenant_prices",
+JSON.stringify(prices)
 );
 
 
 
-saveAll();
-
-
-
-toast(
+showToast(
 "Ціни оновлено"
 );
 
 
+};
+
+
+
+
+
+
+
+// ==========================
+// ДОПОМІЖНЕ
+// ==========================
+
+
+function clearForm(){
+
+
+document
+.querySelectorAll(".calculator input")
+.forEach(
+i=>{
+
+if(i.id!=="playerName")
+i.value=0;
+
+
 }
+);
 
 
+document.getElementById(
+"playerName"
+).value="";
 
-/* ==============================
-   EXPORT PDF BUTTON
-============================== */
-
-
-function exportPDF(){
-
-
-window.print();
-
-
-}
-
-
-
-/* ==============================
-   EVENTS
-============================== */
-
-
-document.addEventListener(
-"input",
-()=>{
 
 calculate();
 
-});
+
+}
 
 
 
-document.addEventListener(
-"click",
-e=>{
+function showToast(text){
 
 
-if(e.target.id==="saveSalary")
-
-saveSalary();
-
-
-
-if(e.target.id==="ownerLogin")
-
-ownerLogin();
+let t =
+document.getElementById(
+"toast"
+);
 
 
+t.innerHTML=text;
 
-if(e.target.id==="savePrices")
-
-updatePrices();
+t.style.opacity=1;
 
 
 
-if(e.target.id==="pdfExport")
+setTimeout(()=>{
 
-exportPDF();
+t.style.opacity=0;
+
+},2500);
+
+
+}
 
 
 
-});
+
+
+
+
+
+function render(){
+
+renderTop();
+
+renderHistory();
+
+renderStats();
+
+}
+
+
 
 
 
 window.onload=()=>{
 
 
-renderHistory();
+let savedPrices =
+JSON.parse(
+
+localStorage.getItem(
+"revenant_prices"
+
+)
+
+);
 
 
-renderTop();
 
+if(savedPrices){
 
-calculate();
-
-
-// оновлення даних кожні 3 секунди
-
-setInterval(()=>{
-
-renderHistory();
-
-renderTop();
-
-},3000);
-
+prices=savedPrices;
 
 }
 
 
-renderHistory();
 
-renderTop();
+render();
 
 calculate();
 
