@@ -1247,3 +1247,43 @@ loadHistory();
 };
 
 }
+// ===============================
+// ЗАХИСТ ВІД ПРОСТОГО ПЕРЕГЛЯДУ
+// ===============================
+
+
+// Вимкнути праву кнопку миші
+
+document.addEventListener(
+"contextmenu",
+function(e){
+    e.preventDefault();
+});
+
+
+
+// Заблокувати F12 та комбінації
+
+document.addEventListener(
+"keydown",
+function(e){
+
+
+if(
+    e.key === "F12" ||
+
+    (e.ctrlKey && e.shiftKey && e.key === "I") ||
+
+    (e.ctrlKey && e.shiftKey && e.key === "J") ||
+
+    (e.ctrlKey && e.key === "U")
+){
+
+    e.preventDefault();
+
+    return false;
+
+}
+
+
+});
