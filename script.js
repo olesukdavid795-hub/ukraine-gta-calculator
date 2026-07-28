@@ -499,7 +499,7 @@ document.getElementById("ownerPassword").value;
 
 
 
-if(password === "admin"){
+if(password === "Revenant 0102105"){
 
 
 document
