@@ -548,3 +548,49 @@ display:none;
 }
 
 }
+/* =================================
+   PROFILE
+================================= */
+
+
+.profile {
+
+display:grid;
+
+grid-template-columns:
+repeat(2,1fr);
+
+gap:15px;
+
+}
+
+
+.profile div {
+
+background:
+
+rgba(255,0,0,.08);
+
+padding:15px;
+
+border-radius:12px;
+
+border:
+
+1px solid #400;
+
+}
+
+
+.profile b {
+
+color:#ff3333;
+
+}
+
+
+.profileBox button {
+
+margin-top:20px;
+
+}
