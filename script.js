@@ -414,3 +414,138 @@ window.addEventListener("DOMContentLoaded", () => {
     updateDashboard();
 
 });
+/* =================================
+   PREMIUM UI EFFECTS
+================================= */
+
+
+/* CARD ANIMATION */
+
+document.querySelectorAll(".card, .ownerBox, .stat")
+.forEach((element,index)=>{
+
+    element.style.opacity="0";
+
+    element.style.transform=
+    "translateY(25px)";
+
+    setTimeout(()=>{
+
+        element.style.transition=
+        "0.6s ease";
+
+        element.style.opacity="1";
+
+        element.style.transform=
+        "translateY(0)";
+
+
+    },index*120);
+
+
+});
+
+
+
+/* BUTTON SOUND EFFECT */
+
+document.addEventListener(
+"click",
+(e)=>{
+
+
+if(
+e.target.tagName==="BUTTON"
+&&
+State.settings.sounds
+){
+
+const audio=
+new Audio(
+"data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAA"
+);
+
+audio.volume=0.05;
+
+audio.play()
+.catch(()=>{});
+
+
+}
+
+
+});
+
+
+
+/* LIVE CLOCK */
+
+function liveClock(){
+
+let clock=
+document.querySelector("#liveClock");
+
+
+if(!clock) return;
+
+
+clock.textContent =
+new Date()
+.toLocaleTimeString(
+"uk-UA"
+);
+
+
+}
+
+
+setInterval(
+liveClock,
+1000
+);
+
+
+
+/* SECURITY */
+
+document.addEventListener(
+"contextmenu",
+e=>{
+
+if(State.owner){
+
+e.preventDefault();
+
+toast(
+"Owner режим захищено",
+"warning"
+);
+
+}
+
+});
+
+
+/* AUTO SAVE */
+
+setInterval(()=>{
+
+save(
+"revenant_users",
+State.users
+);
+
+
+save(
+"revenant_logs",
+State.logs
+);
+
+
+save(
+"revenant_settings",
+State.settings
+);
+
+
+},5000);
