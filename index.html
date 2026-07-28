@@ -17,157 +17,15 @@
 <body>
 
 
-<div id="toastContainer"></div>
+<div class="background"></div>
 
 
-<header class="topbar">
-<div class="sideMenu">
-
-   <button 
-class="menuBtn active"
-onclick="openSection('dashboard')">
-
-🏠 Dashboard
-
-</button>
+<header class="header">
 
 
-<button 
-class="menuBtn"
-onclick="openSection('users')">
+<div class="logo">
 
-👥 Users
-
-</button>
-
-
-<button 
-class="menuBtn"
-onclick="openSection('logs')">
-
-📜 Logs
-
-</button>
-
-
-<button 
-class="menuBtn"
-onclick="openSection('settings')">
-
-⚙ Settings
-
-</button>
-</div>
-
-
-<div class="liveStatus">
-
-    <span>
-        ● ONLINE
-    </span>
-
-    <b id="liveClock">
-        00:00:00
-    </b>
-
-</div>
-    <div class="logo">
-        REVENANT <span>v2</span>
-    </div>
-
-    <button id="toggleDark">
-        ◐
-    </button>
-
-</header>
-
-
-
-<main>
-<section class="card accountSystem">
-
-
-<h2>
-🎩 Player Account
-</h2>
-
-
-<div id="authPanel">
-
-
-<input 
-id="playerName"
-placeholder="Ваш нік">
-
-
-<input
-type="password"
-id="playerPassword"
-placeholder="Пароль">
-
-
-<button id="registerPlayer">
-Створити акаунт
-</button>
-
-
-<button id="loginPlayer">
-Увійти
-</button>
-
-
-</div>
-
-
-
-<div id="playerPanel" class="hidden">
-
-
-<h3>
-Профіль
-</h3>
-
-
-<p>
-Нік:
-<b id="profileName">
--
-</b>
-</p>
-
-
-<p>
-Ранг:
-<b id="profileRank">
--
-</b>
-</p>
-
-
-<p>
-Баланс:
-<b id="profileMoney">
-0 ₴
-</b>
-</p>
-
-
-<button id="logoutPlayer">
-Вийти
-</button>
-
-
-</div>
-
-
-</section>
-
-<section class="loginScreen" id="ownerLogin">
-
-
-<div class="loginLogo">
-
-REVENANT
+👑 REVENANT
 
 <span>
 v2
@@ -176,510 +34,288 @@ v2
 </div>
 
 
+<button class="mobileBtn">
+☰
+</button>
 
-<div class="loginPanel">
+
+<nav>
+
+<a>
+Калькулятор
+</a>
+
+<a>
+Статистика
+</a>
+
+<a>
+Власник
+</a>
+
+</nav>
+
+
+</header>
+
+
+
+
+
+<main>
+
+
+
+<section class="card calculator">
+
+
+<h1>
+💰 Калькулятор зарплат
+</h1>
+
+
+
+<div class="grid">
+
+
+
+<div class="item">
+
+<label>
+Алкоголь ⭐⭐
+</label>
+
+<input 
+type="number"
+id="alcohol2"
+value="0">
+
+
+</div>
+
+
+
+<div class="item">
+
+<label>
+Алкоголь ⭐⭐⭐
+</label>
+
+<input 
+type="number"
+id="alcohol3"
+value="0">
+
+
+</div>
+
+
+
+
+<div class="item">
+
+<label>
+Петрушка ⭐⭐
+</label>
+
+<input 
+type="number"
+id="parsley2"
+value="0">
+
+
+</div>
+
+
+
+<div class="item">
+
+<label>
+Петрушка ⭐⭐⭐
+</label>
+
+<input 
+type="number"
+id="parsley3"
+value="0">
+
+
+</div>
+
+
+
+</div>
+
 
 
 <h2>
-OWNER ACCESS
+
+Разом:
+
+<span id="total">
+0 грн
+</span>
+
 </h2>
 
 
-<p>
-Premium Mafia Control System
-</p>
+
+<input
+id="playerName"
+placeholder="Нік гравця">
 
 
+<button id="saveSalary">
 
-<input 
-type="password"
-id="ownerPassword"
-placeholder="Введіть пароль">
-
-
-
-<button id="ownerLoginBtn">
-
-Увійти
+💾 Зберегти зарплату
 
 </button>
 
 
 
-<div class="loader hidden" id="loginLoader">
-
-<div></div>
-
-</div>
+</section>
 
 
+
+
+
+
+<section class="card">
+
+
+<h2>
+🏆 ТОП гравців
+</h2>
+
+
+<div id="topPlayers">
 
 </div>
 
 
 </section>
-<h2>Owner Access</h2>
-
-<input 
-type="password"
-id="ownerPassword"
-placeholder="Пароль власника">
 
 
-<button id="ownerLoginBtn">
-Увійти
-</button>
+
+
+
+
+
+<section class="card">
+
+
+<h2>
+📜 Історія здачі
+</h2>
+
+
+<div id="history">
+
+</div>
 
 
 </section>
+
+
+
+
+
 
 
 
 
 <section 
-class="card hidden"
-id="ownerPanel">
+class="card owner">
 
-
-<h1>
-OWNER PANEL
-</h1>
-
-
-<div class="stats">
-
-
-<div class="stat">
-
-<span>Користувачі</span>
-
-<b id="statUsers">
-0
-</b>
-
-</div>
-
-
-<div class="stat">
-
-<span>Логи</span>
-
-<b id="statLogs">
-0
-</b>
-
-</div>
-
-
-<div class="stat">
-
-<span>Версія</span>
-
-<b id="statVersion">
-0
-</b>
-
-</div>
-
-
-</div>
-
-
-
-<div class="ownerBox">
 
 
 <h2>
-Створити користувача
+👑 Панель власника
 </h2>
 
-
-<input 
-id="newUserName"
-placeholder="Ім'я">
-
-
-<select id="newUserRole">
-
-<option>
-Admin
-</option>
-
-<option>
-Moderator
-</option>
-
-<option>
-Player
-</option>
-
-
-</select>
-
-
-<button id="createUserBtn">
-Створити
-</button>
-
-
-</div>
-
-
-
-
-<div class="ownerBox">
-
-<h2>
-Користувачі
-</h2>
-
-
-<table>
-
-
-<thead>
-
-<tr>
-
-<th>
-Ім'я
-</th>
-
-
-<th>
-Роль
-</th>
-
-
-<th>
-Дата
-</th>
-
-
-<th>
-Дія
-</th>
-
-</tr>
-
-
-</thead>
-
-
-<tbody id="ownerUsers">
-
-</tbody>
-
-
-</table>
-
-
-</div>
-
-
-
-
-<div class="ownerBox">
-
-
-<h2>
-Система логів
-</h2>
-
-
-<div id="ownerLogs">
-
-</div>
-
-
-</div>
-
-
-<div class="ownerBox profileBox">
-
-<h2>
-👤 Mafia Profile
-</h2>
-
-
-<div class="profile">
-
-<div>
-Rank:
-<b id="playerRank">
-Novice
-</b>
-</div>
-
-
-<div>
-Level:
-<b id="playerLevel">
-1
-</b>
-</div>
-
-
-<div>
-XP:
-<b id="playerXP">
-0
-</b>
-</div>
-
-
-<div>
-Status:
-<b id="playerStatus">
-Active
-</b>
-</div>
-
-
-</div>
-
-
-<button id="addXP">
-+100 XP
-</button>
-
-
-</div>
-   
-<div class="ownerBox mafiaStats">
-
-<h2>
-💰 Mafia Statistics
-</h2>
-
-
-<div class="statsGrid">
-
-
-<div class="stat">
-<span>Гроші</span>
-<b id="money">
-0 ₴
-</b>
-</div>
-
-
-<div class="stat">
-<span>Авторитет</span>
-<b id="respect">
-0</b>
-</div>
-
-
-<div class="stat">
-<span>Злочини</span>
-<b id="crimes">
-0</b>
-</div>
-
-
-<div class="stat">
-<span>Фракція</span>
-<b id="faction">
-Без фракції
-</b>
-</div>
-
-
-</div>
-
-
-<button id="crimeBtn">
-Здійснити злочин
-</button>
-
-
-</div>
-
-<div class="ownerBox factionBox">
-
-<h2>
-🏴 Mafia Factions
-</h2>
-
-
-<select id="factionSelect">
-
-<option>
-Без фракції
-</option>
-
-<option>
-Revenant Family
-</option>
-
-<option>
-Black Wolves
-</option>
-
-<option>
-Night Syndicate
-</option>
-
-</select>
-
-
-<button id="joinFaction">
-Приєднатися
-</button>
-
-
-
-<div class="territory">
-
-<h3>
-🌆 Території
-</h3>
-
-
-<div>
-Downtown:
-<b id="downtown">
-Нейтральна
-</b>
-</div>
-
-
-<div>
-Harbor:
-<b id="harbor">
-Нейтральна
-</b>
-</div>
-
-
-<div>
-Industrial:
-<b id="industrial">
-Нейтральна
-</b>
-</div>
-
-
-</div>
-
-
-
-<button id="startWar">
-⚔ Почати війну
-</button>
-
-
-</div>
-
-<div class="ownerBox adminConsole">
-
-<h2>
-🛡 Admin Console
-</h2>
-
-
-<input 
-id="targetPlayer"
-placeholder="Нік гравця">
-
-
-<select id="punishmentType">
-
-<option>
-Kick
-</option>
-
-<option>
-Ban
-</option>
-
-<option>
-Warn
-</option>
-
-</select>
 
 
 <input
-id="punishmentReason"
-placeholder="Причина">
+type="password"
+id="ownerPass"
+placeholder="Пароль власника">
 
 
-<button id="applyPunishment">
-Застосувати
+<button id="ownerLogin">
+
+Увійти
+
 </button>
 
 
 
-<div class="punishmentList">
+
+<div id="ownerPanel" class="hidden">
+
+
 
 <h3>
-Історія покарань
+Зміна цін
 </h3>
 
 
-<div id="punishmentLogs">
 
-</div>
-
-
-</div>
-
-
-</div>
-
-<div class="ownerBox databaseBox">
-
-<h2>
-💾 Database Manager
-</h2>
+<input
+id="priceAlcohol2"
+value="900"
+placeholder="Алкоголь ⭐⭐">
 
 
-<button id="exportData">
-📤 Export Database
+<input
+id="priceAlcohol3"
+value="1200"
+placeholder="Алкоголь ⭐⭐⭐">
+
+
+<input
+id="priceParsley2"
+value="800"
+placeholder="Петрушка ⭐⭐">
+
+
+<input
+id="priceParsley3"
+value="1100"
+placeholder="Петрушка ⭐⭐⭐">
+
+
+
+<button id="savePrices">
+
+💾 Зберегти ціни
+
 </button>
 
 
-<button id="importData">
-📥 Import Database
+
+<button id="pdfExport">
+
+📤 Експорт PDF
+
 </button>
 
-
-<input 
-type="file"
-id="importFile"
-accept=".json"
-hidden>
-
-
-<button id="clearDatabase">
-🗑 Clear Database
-</button>
-
-
-<div class="securityStatus">
-
-🔐 Security:
-<b id="securityState">
-Protected
-</b>
-
-</div>
 
 
 </div>
-
-<button id="logoutOwner">
-Вийти
-</button>
-
 
 
 </section>
 
 
+
+
 </main>
+
+
+
+<div id="toastContainer">
+
+</div>
 
 
 
