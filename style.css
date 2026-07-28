@@ -677,3 +677,33 @@ border:
 color:#ff3333;
 
 }
+/* =================================
+   ADMIN CONSOLE
+================================= */
+
+
+.adminConsole {
+
+border:
+
+1px solid rgba(255,0,0,.35);
+
+}
+
+
+
+.punishmentList {
+
+margin-top:25px;
+
+}
+
+
+
+.punishmentList .log {
+
+border-left:
+
+3px solid red;
+
+}
