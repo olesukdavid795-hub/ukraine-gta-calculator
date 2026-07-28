@@ -663,3 +663,174 @@ function openSection(section){
 
 
 }
+/* =================================
+   MAFIA RANK SYSTEM
+================================= */
+
+
+const RankSystem = {
+
+
+getRank(xp){
+
+
+    if(xp >= 10000)
+        return "👑 Don";
+
+
+    if(xp >= 5000)
+        return "🔥 Boss";
+
+
+    if(xp >= 2500)
+        return "💎 Capo";
+
+
+    if(xp >= 1000)
+        return "⚔ Veteran";
+
+
+    if(xp >= 500)
+        return "🕶 Member";
+
+
+    return "🔰 Novice";
+
+
+},
+
+
+
+getLevel(xp){
+
+    return Math.floor(
+        xp / 500
+    ) + 1;
+
+}
+
+
+};
+
+
+
+State.player =
+load(
+"revenant_player",
+{
+
+xp:0,
+
+name:"Unknown"
+
+}
+
+);
+
+
+
+function updateProfile(){
+
+
+const xp =
+State.player.xp;
+
+
+
+const rank =
+RankSystem.getRank(xp);
+
+
+
+const level =
+RankSystem.getLevel(xp);
+
+
+
+const rankEl =
+document.querySelector(
+"#playerRank"
+);
+
+
+
+const levelEl =
+document.querySelector(
+"#playerLevel"
+);
+
+
+
+const xpEl =
+document.querySelector(
+"#playerXP"
+);
+
+
+
+if(rankEl)
+rankEl.textContent = rank;
+
+
+
+if(levelEl)
+levelEl.textContent = level;
+
+
+
+if(xpEl)
+xpEl.textContent = xp;
+
+
+
+save(
+"revenant_player",
+State.player
+);
+
+
+}
+
+
+
+
+document.addEventListener(
+"click",
+e=>{
+
+
+if(
+e.target.id==="addXP"
+){
+
+State.player.xp += 100;
+
+
+updateProfile();
+
+
+addLog(
+"+100 XP отримано"
+);
+
+
+toast(
+"XP додано",
+"success"
+);
+
+
+}
+
+
+});
+
+
+
+window.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+updateProfile();
+
+});
