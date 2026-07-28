@@ -573,6 +573,29 @@ window.onload=()=>{
 
 renderHistory();
 
+
+renderTop();
+
+
+calculate();
+
+
+// оновлення даних кожні 3 секунди
+
+setInterval(()=>{
+
+renderHistory();
+
+renderTop();
+
+},3000);
+
+
+}
+
+
+renderHistory();
+
 renderTop();
 
 calculate();
