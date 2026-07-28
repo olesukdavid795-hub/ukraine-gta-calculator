@@ -453,9 +453,25 @@ new Date().toLocaleString("uk-UA")
 toast("Здачу збережено ✅");
 
 
+// Очищення калькулятора
+
+document.getElementById("playerName").value = "";
+
+document.getElementById("alcohol2").value = 0;
+
+document.getElementById("alcohol3").value = 0;
+
+document.getElementById("parsley2").value = 0;
+
+document.getElementById("parsley3").value = 0;
+
+
+// Оновити суму
+
+calculate();
+
 
 loadWorkers();
-
 
 
 };
