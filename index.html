@@ -20,6 +20,7 @@
 <div class="background"></div>
 
 
+
 <header class="header">
 
 
@@ -27,31 +28,28 @@
 
 👑 REVENANT
 
-<span>
-v2
-</span>
+<span>v2</span>
 
 </div>
 
 
-<button class="mobileBtn">
-☰
-</button>
-
-
 <nav>
 
-<a>
+<button>
 Калькулятор
-</a>
+</button>
 
-<a>
+<button>
 Статистика
-</a>
+</button>
 
-<a>
+<button>
+Історія
+</button>
+
+<button>
 Власник
-</a>
+</button>
 
 </nav>
 
@@ -66,28 +64,63 @@ v2
 
 
 
-<section class="card calculator">
+<section class="hero">
 
 
 <h1>
-💰 Калькулятор зарплат
+Premium Salary System
 </h1>
 
 
+<p>
+Облік продукції • Зарплата • Статистика
+</p>
 
-<div class="grid">
+
+</section>
 
 
 
-<div class="item">
+
+
+
+
+<section class="card calculator">
+
+
+<h2>
+💰 Калькулятор зарплати
+</h2>
+
+
+
+<div class="inputs">
+
+
+<div>
+
+<label>
+Нік гравця
+</label>
+
+<input 
+id="playerName"
+placeholder="Введіть нік">
+
+
+</div>
+
+
+
+<div>
 
 <label>
 Алкоголь ⭐⭐
 </label>
 
 <input 
-type="number"
 id="alcohol2"
+type="number"
 value="0">
 
 
@@ -95,15 +128,15 @@ value="0">
 
 
 
-<div class="item">
+<div>
 
 <label>
 Алкоголь ⭐⭐⭐
 </label>
 
 <input 
-type="number"
 id="alcohol3"
+type="number"
 value="0">
 
 
@@ -112,15 +145,15 @@ value="0">
 
 
 
-<div class="item">
+<div>
 
 <label>
 Петрушка ⭐⭐
 </label>
 
 <input 
-type="number"
 id="parsley2"
+type="number"
 value="0">
 
 
@@ -128,15 +161,16 @@ value="0">
 
 
 
-<div class="item">
+
+<div>
 
 <label>
 Петрушка ⭐⭐⭐
 </label>
 
 <input 
-type="number"
 id="parsley3"
+type="number"
 value="0">
 
 
@@ -148,26 +182,31 @@ value="0">
 
 
 
-<h2>
 
-Разом:
 
-<span id="total">
+<div class="result">
+
+
+<h3>
+Зарплата:
+</h3>
+
+
+<div id="total">
+
 0 грн
-</span>
 
-</h2>
-
+</div>
 
 
-<input
-id="playerName"
-placeholder="Нік гравця">
+</div>
+
+
 
 
 <button id="saveSalary">
 
-💾 Зберегти зарплату
+💾 Зберегти здачу
 
 </button>
 
@@ -180,20 +219,26 @@ placeholder="Нік гравця">
 
 
 
+
+
+
 <section class="card">
 
 
 <h2>
-🏆 ТОП гравців
+🏆 ТОП ГРАВЦІВ
 </h2>
 
 
 <div id="topPlayers">
 
+Поки немає даних
+
 </div>
 
 
 </section>
+
 
 
 
@@ -205,11 +250,13 @@ placeholder="Нік гравця">
 
 
 <h2>
-📜 Історія здачі
+📜 Історія здач
 </h2>
 
 
 <div id="history">
+
+Історія порожня
 
 </div>
 
@@ -224,9 +271,32 @@ placeholder="Нік гравця">
 
 
 
-<section 
-class="card owner">
+<section class="card">
 
+
+<h2>
+📊 Загальна статистика
+</h2>
+
+
+<div id="statistics">
+
+Немає даних
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section class="card owner">
 
 
 <h2>
@@ -234,11 +304,10 @@ class="card owner">
 </h2>
 
 
-
-<input
+<input 
 type="password"
-id="ownerPass"
-placeholder="Пароль власника">
+id="ownerPassword"
+placeholder="Пароль">
 
 
 <button id="ownerLogin">
@@ -250,7 +319,27 @@ placeholder="Пароль власника">
 
 
 
+
 <div id="ownerPanel" class="hidden">
+
+
+<h3>
+База гравців
+</h3>
+
+
+<input 
+id="searchPlayer"
+placeholder="Пошук гравця">
+
+
+
+<div id="playerProfile">
+
+Профіль не вибрано
+
+</div>
+
 
 
 
@@ -260,42 +349,29 @@ placeholder="Пароль власника">
 
 
 
-<input
+<input 
 id="priceAlcohol2"
-value="900"
 placeholder="Алкоголь ⭐⭐">
 
 
-<input
+<input 
 id="priceAlcohol3"
-value="1200"
 placeholder="Алкоголь ⭐⭐⭐">
 
 
-<input
+<input 
 id="priceParsley2"
-value="800"
 placeholder="Петрушка ⭐⭐">
 
 
-<input
+<input 
 id="priceParsley3"
-value="1100"
 placeholder="Петрушка ⭐⭐⭐">
-
 
 
 <button id="savePrices">
 
 💾 Зберегти ціни
-
-</button>
-
-
-
-<button id="pdfExport">
-
-📤 Експорт PDF
 
 </button>
 
@@ -309,11 +385,13 @@ placeholder="Петрушка ⭐⭐⭐">
 
 
 
+
 </main>
 
 
 
-<div id="toastContainer">
+
+<div id="toast">
 
 </div>
 
