@@ -1338,3 +1338,358 @@ window.addEventListener(
 renderPunishments();
 
 });
+/* =================================
+   DATABASE SYSTEM
+================================= */
+
+
+function exportDatabase(){
+
+const database = {
+
+users:State.users,
+
+logs:State.logs,
+
+settings:State.settings,
+
+player:State.player,
+
+mafia:State.mafia,
+
+faction:State.faction,
+
+punishments:State.punishments,
+
+version:CONFIG.version,
+
+date:formatTime()
+
+};
+
+
+const blob =
+new Blob(
+[
+JSON.stringify(
+database,
+null,
+2
+)
+],
+{
+type:"application/json"
+}
+);
+
+
+
+const url =
+URL.createObjectURL(blob);
+
+
+
+const link =
+document.createElement("a");
+
+
+link.href=url;
+
+link.download=
+"revenant_database.json";
+
+
+link.click();
+
+
+
+URL.revokeObjectURL(url);
+
+
+
+toast(
+"Database exported",
+"success"
+);
+
+
+}
+
+
+
+function importDatabase(file){
+
+
+const reader =
+new FileReader();
+
+
+
+reader.onload = e=>{
+
+
+try{
+
+
+const data =
+JSON.parse(
+e.target.result
+);
+
+
+
+State.users =
+data.users || [];
+
+
+State.logs =
+data.logs || [];
+
+
+State.settings =
+data.settings || {};
+
+
+State.player =
+data.player || {xp:0};
+
+
+State.mafia =
+data.mafia || {};
+
+
+State.faction =
+data.faction || {};
+
+
+State.punishments =
+data.punishments || [];
+
+
+
+save(
+"revenant_users",
+State.users
+);
+
+
+save(
+"revenant_logs",
+State.logs
+);
+
+
+
+save(
+"revenant_player",
+State.player
+);
+
+
+
+save(
+"revenant_mafia",
+State.mafia
+);
+
+
+
+save(
+"revenant_faction",
+State.faction
+);
+
+
+
+save(
+"revenant_punishments",
+State.punishments
+);
+
+
+
+renderUsers();
+
+renderLogs();
+
+updateProfile();
+
+updateMafiaStats();
+
+updateFaction();
+
+renderPunishments();
+
+
+
+toast(
+"Database imported",
+"success"
+);
+
+
+}
+
+catch{
+
+
+toast(
+"Помилка файлу",
+"error"
+);
+
+
+}
+
+
+};
+
+
+reader.readAsText(file);
+
+
+}
+
+
+
+
+function clearDatabase(){
+
+
+if(!State.owner){
+
+toast(
+"Потрібен Owner доступ",
+"error"
+);
+
+return;
+
+}
+
+
+
+localStorage.clear();
+
+
+
+toast(
+"Database очищено",
+"warning"
+);
+
+
+
+setTimeout(()=>{
+
+location.reload();
+
+},1000);
+
+
+}
+
+
+
+
+
+document.addEventListener(
+"click",
+e=>{
+
+
+if(
+e.target.id==="exportData"
+){
+
+exportDatabase();
+
+}
+
+
+
+if(
+e.target.id==="importData"
+){
+
+$("#importFile").click();
+
+}
+
+
+
+if(
+e.target.id==="clearDatabase"
+){
+
+clearDatabase();
+
+}
+
+
+});
+
+
+
+document.addEventListener(
+"change",
+e=>{
+
+
+if(
+e.target.id==="importFile"
+){
+
+importDatabase(
+e.target.files[0]
+);
+
+
+}
+
+
+});
+
+
+
+/* =================================
+   OWNER SECURITY
+================================= */
+
+
+setInterval(()=>{
+
+
+const state =
+$("#securityState");
+
+
+if(!state) return;
+
+
+
+if(State.owner){
+
+state.textContent =
+"OWNER ACTIVE";
+
+state.style.color =
+"#00ff66";
+
+
+}
+
+else{
+
+
+state.textContent =
+"Protected";
+
+state.style.color =
+"#ff3333";
+
+
+}
+
+
+},1000);
