@@ -2406,7 +2406,8 @@ if(State.currentPlayer){
 
 openPlayerPanel();
 
-}
+loadPlayerData();
 
+}
 
 });
