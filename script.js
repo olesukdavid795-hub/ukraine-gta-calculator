@@ -1163,3 +1163,178 @@ window.addEventListener(
 updateFaction();
 
 });
+/* =================================
+   ADMIN PUNISHMENT SYSTEM
+================================= */
+
+
+State.punishments =
+load(
+"revenant_punishments",
+[]
+);
+
+
+
+function renderPunishments(){
+
+
+const box =
+$("#punishmentLogs");
+
+
+if(!box) return;
+
+
+box.innerHTML="";
+
+
+State.punishments
+.forEach(item=>{
+
+
+box.innerHTML += `
+
+<div class="log">
+
+<b>${item.type}</b>
+
+<br>
+
+Гравець:
+${item.player}
+
+<br>
+
+Причина:
+${item.reason}
+
+<br>
+
+<small>
+${item.date}
+</small>
+
+</div>
+
+`;
+
+
+});
+
+
+}
+
+
+
+
+function applyPunishment(){
+
+
+const player =
+$("#targetPlayer")
+.value.trim();
+
+
+const type =
+$("#punishmentType")
+.value;
+
+
+const reason =
+$("#punishmentReason")
+.value.trim();
+
+
+
+if(!player){
+
+toast(
+"Вкажіть гравця",
+"error"
+);
+
+return;
+
+}
+
+
+
+State.punishments.unshift({
+
+id:createID(),
+
+player,
+
+type,
+
+reason:
+reason || "Не вказано",
+
+date:
+formatTime()
+
+});
+
+
+
+save(
+"revenant_punishments",
+State.punishments
+);
+
+
+
+renderPunishments();
+
+
+
+addLog(
+`${type}: ${player}`
+);
+
+
+
+toast(
+"Покарання застосовано",
+"success"
+);
+
+
+
+$("#targetPlayer").value="";
+
+$("#punishmentReason").value="";
+
+
+}
+
+
+
+
+
+document.addEventListener(
+"click",
+e=>{
+
+
+if(
+e.target.id==="applyPunishment"
+){
+
+applyPunishment();
+
+}
+
+
+});
+
+
+
+window.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+renderPunishments();
+
+});
