@@ -1163,3 +1163,82 @@ loadWorkers();
 
 
 });
+// ===============================
+// ОЧИЩЕННЯ ТОПУ
+// ===============================
+
+const clearTop = document.getElementById("clearTop");
+
+if(clearTop){
+
+clearTop.onclick = async ()=>{
+
+let confirmClear = confirm(
+"Очистити ТОП гравців?"
+);
+
+if(!confirmClear) return;
+
+
+for(let w of workers){
+
+await update(
+ref(db,"workers/"+w.name),
+{
+salary:0,
+products:0,
+deliveries:0,
+alcohol2:0,
+alcohol3:0,
+parsley2:0,
+parsley3:0
+}
+);
+
+}
+
+
+toast("ТОП гравців очищено 🏆");
+
+loadWorkers();
+
+};
+
+}
+
+
+
+// ===============================
+// ОЧИЩЕННЯ ІСТОРІЇ
+// ===============================
+
+const clearHistory = document.getElementById("clearHistory");
+
+
+if(clearHistory){
+
+clearHistory.onclick = async ()=>{
+
+
+let confirmClear = confirm(
+"Видалити всю історію здач?"
+);
+
+
+if(!confirmClear) return;
+
+
+await remove(
+ref(db,"history")
+);
+
+
+toast("Історію очищено 📜");
+
+
+loadHistory();
+
+
+};
+
+}
