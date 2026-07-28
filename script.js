@@ -1,45 +1,416 @@
-function calculate(){
+/* =========================================================
+   Revenant v2
+   Premium Mafia Edition
+   script.js
+========================================================= */
 
-let a2price = 900;
+"use strict";
 
-let a2 = Number(document.getElementById("a2").value) * a2price;
+/* ===========================
+   CONFIG
+=========================== */
 
+const CONFIG = {
+    ownerPassword: "revenant_owner",
+    version: "2.0",
+    animation: 250
+};
 
-let a3price = Number(document.getElementById("a3price").value);
+/* ===========================
+   STATE
+=========================== */
 
-if(a3price > 1200){
-    a3price = 1200;
+const State = {
+    owner: false,
+    users: [],
+    logs: [],
+    settings: {
+        darkMode: true,
+        sounds: true,
+        blur: true
+    }
+};
+
+/* ===========================
+   HELPERS
+=========================== */
+
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
+
+function save(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
 }
 
-let a3 = Number(document.getElementById("a3").value) * a3price;
+function load(key, fallback) {
+    const data = localStorage.getItem(key);
 
+    if (!data) return fallback;
 
-let p2price = Number(document.getElementById("p2price").value);
-
-if(p2price > 800){
-    p2price = 800;
+    try {
+        return JSON.parse(data);
+    } catch {
+        return fallback;
+    }
 }
 
-let p2 = Number(document.getElementById("p2").value) * p2price;
-
-
-let p3price = Number(document.getElementById("p3price").value);
-
-if(p3price > 1100){
-    p3price = 1100;
+function createID() {
+    return crypto.randomUUID();
 }
 
-let p3 = Number(document.getElementById("p3").value) * p3price;
+function formatTime() {
+    return new Date().toLocaleString("uk-UA");
+}
 
+/* ===========================
+   TOAST
+=========================== */
 
-let total = a2 + a3 + p2 + p3;
+function toast(text, type = "info") {
 
+    const box = $("#toastContainer");
 
-document.getElementById("result").innerHTML =
-`
-🍾 Алкоголь: ${a2+a3} грн <br>
-🌿 Петрушка: ${p2+p3} грн <br><br>
-🔥 Всього: ${total} грн
-`;
+    const toast = document.createElement("div");
+
+    toast.className = `toast ${type}`;
+
+    toast.innerHTML = `
+        <div class="toastIcon"></div>
+        <div class="toastText">${text}</div>
+    `;
+
+    box.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add("show");
+    }, 30);
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+
+    }, 3000);
 
 }
+
+/* ===========================
+   LOG SYSTEM
+=========================== */
+
+function addLog(action) {
+
+    State.logs.unshift({
+
+        id: createID(),
+
+        action,
+
+        date: formatTime()
+
+    });
+
+    save("revenant_logs", State.logs);
+
+    renderLogs();
+
+}
+
+/* ===========================
+   USERS
+=========================== */
+
+function renderUsers() {
+
+    const table = $("#ownerUsers");
+
+    if (!table) return;
+
+    table.innerHTML = "";
+
+    State.users.forEach(user => {
+
+        table.innerHTML += `
+        <tr>
+
+            <td>${user.name}</td>
+
+            <td>${user.role}</td>
+
+            <td>${user.created}</td>
+
+            <td>
+
+                <button class="btnDelete"
+                    data-id="${user.id}">
+                    Видалити
+                </button>
+
+            </td>
+
+        </tr>
+        `;
+
+    });
+
+}
+
+function createUser(name, role) {
+
+    State.users.push({
+
+        id: createID(),
+
+        name,
+
+        role,
+
+        created: formatTime()
+
+    });
+
+    save("revenant_users", State.users);
+
+    renderUsers();
+
+    addLog(`Створено користувача ${name}`);
+
+    toast("Користувача створено", "success");
+
+}
+
+function deleteUser(id) {
+
+    State.users =
+        State.users.filter(x => x.id !== id);
+
+    save("revenant_users", State.users);
+
+    renderUsers();
+
+    addLog("Користувача видалено");
+
+    toast("Видалено", "error");
+
+}
+
+/* ===========================
+   LOG RENDER
+=========================== */
+
+function renderLogs() {
+
+    const block = $("#ownerLogs");
+
+    if (!block) return;
+
+    block.innerHTML = "";
+
+    State.logs.forEach(log => {
+
+        block.innerHTML += `
+
+        <div class="log">
+
+            <span>${log.action}</span>
+
+            <small>${log.date}</small>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+/* ===========================
+   OWNER LOGIN
+=========================== */
+
+function ownerLogin() {
+
+    const pass = $("#ownerPassword").value;
+
+    if (pass !== CONFIG.ownerPassword) {
+
+        toast("Невірний пароль", "error");
+
+        return;
+
+    }
+
+    State.owner = true;
+
+    $("#ownerLogin").classList.add("hidden");
+
+    $("#ownerPanel").classList.remove("hidden");
+
+    toast("Owner Mode активовано", "success");
+
+    addLog("Вхід власника");
+
+}
+
+function ownerLogout() {
+
+    State.owner = false;
+
+    $("#ownerPanel").classList.add("hidden");
+
+    $("#ownerLogin").classList.remove("hidden");
+
+    $("#ownerPassword").value = "";
+
+    toast("Вихід виконано");
+
+}
+
+/* ===========================
+   OWNER DASHBOARD
+=========================== */
+
+function updateDashboard() {
+
+    $("#statUsers").textContent =
+        State.users.length;
+
+    $("#statLogs").textContent =
+        State.logs.length;
+
+    $("#statVersion").textContent =
+        CONFIG.version;
+
+}
+
+/* ===========================
+   SETTINGS
+=========================== */
+
+function loadSettings() {
+
+    State.settings =
+        load("revenant_settings", State.settings);
+
+}
+
+function saveSettings() {
+
+    save("revenant_settings", State.settings);
+
+}
+
+function toggleDark() {
+
+    State.settings.darkMode =
+        !State.settings.darkMode;
+
+    document.body.classList.toggle(
+        "light",
+        !State.settings.darkMode
+    );
+
+    saveSettings();
+
+}
+
+function toggleBlur() {
+
+    State.settings.blur =
+        !State.settings.blur;
+
+    document.body.classList.toggle(
+        "blurOff",
+        !State.settings.blur
+    );
+
+    saveSettings();
+
+}
+
+/* ===========================
+   EVENTS
+=========================== */
+
+document.addEventListener("click", e => {
+
+    if (e.target.id === "ownerLoginBtn") {
+
+        ownerLogin();
+
+    }
+
+    if (e.target.id === "logoutOwner") {
+
+        ownerLogout();
+
+    }
+
+    if (e.target.id === "createUserBtn") {
+
+        const name =
+            $("#newUserName").value.trim();
+
+        const role =
+            $("#newUserRole").value;
+
+        if (!name) {
+
+            toast("Введіть ім'я", "warning");
+
+            return;
+
+        }
+
+        createUser(name, role);
+
+        $("#newUserName").value = "";
+
+    }
+
+    if (e.target.classList.contains("btnDelete")) {
+
+        deleteUser(
+            e.target.dataset.id
+        );
+
+    }
+
+    if (e.target.id === "toggleDark") {
+
+        toggleDark();
+
+    }
+
+    if (e.target.id === "toggleBlur") {
+
+        toggleBlur();
+
+    }
+
+});
+
+/* ===========================
+   INIT
+=========================== */
+
+window.addEventListener("DOMContentLoaded", () => {
+
+    State.users =
+        load("revenant_users", []);
+
+    State.logs =
+        load("revenant_logs", []);
+
+    loadSettings();
+
+    renderUsers();
+
+    renderLogs();
+
+    updateDashboard();
+
+});
