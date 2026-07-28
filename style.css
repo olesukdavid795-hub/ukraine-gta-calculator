@@ -1,811 +1,137 @@
-/* =================================
+/* =====================================
    REVENANT v2
-   Premium Mafia Design
-================================= */
-
-* {
-    box-sizing: border-box;
-    font-family: "Segoe UI", sans-serif;
-}
+   PREMIUM MAFIA DESIGN
+===================================== */
 
 
-body {
+*{
 
-    margin: 0;
+box-sizing:border-box;
 
-    min-height: 100vh;
-
-    background:
-    radial-gradient(circle at top,
-    #3b0000,
-    #090909 55%);
-
-    color: #fff;
-
-}
-
-
-/* ===============================
-   TOP BAR
-=============================== */
-
-
-.topbar {
-
-    height: 70px;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    padding:0 35px;
-
-    background:
-    rgba(0,0,0,.55);
-
-    backdrop-filter: blur(15px);
-
-    border-bottom:
-    1px solid rgba(255,0,0,.25);
-
-}
-
-
-.logo {
-
-    font-size:28px;
-
-    font-weight:900;
-
-    letter-spacing:3px;
-
-}
-
-
-.logo span {
-
-    color:#ff1a1a;
+font-family:
+"Segoe UI",
+sans-serif;
 
 }
 
 
 
-/* ===============================
-   MAIN
-=============================== */
+body{
 
+margin:0;
 
-main {
+min-height:100vh;
 
-    display:flex;
+color:white;
 
-    justify-content:center;
+background:#050505;
 
-    padding:40px 20px;
-
-}
-
-
-
-.card {
-
-    width:100%;
-
-    max-width:1100px;
-
-    background:
-
-    rgba(15,15,15,.75);
-
-    backdrop-filter:blur(20px);
-
-    border:
-
-    1px solid rgba(255,0,0,.2);
-
-    border-radius:20px;
-
-    padding:30px;
-
-    box-shadow:
-
-    0 0 40px rgba(255,0,0,.15);
+overflow-x:hidden;
 
 }
 
 
 
-.hidden {
+/* BACKGROUND EFFECT */
 
-    display:none;
 
-}
+.background{
 
+position:fixed;
 
+inset:0;
 
-/* ===============================
-   INPUTS
-=============================== */
+z-index:-1;
 
-
-input,
-select {
-
-    width:100%;
-
-    padding:14px;
-
-    margin:10px 0;
-
-    background:#090909;
-
-    color:white;
-
-    border:
-
-    1px solid #550000;
-
-    border-radius:10px;
-
-    outline:none;
-
-}
-
-
-
-input:focus,
-select:focus {
-
-    border-color:#ff0000;
-
-}
-
-
-
-/* ===============================
- BUTTONS
-=============================== */
-
-
-button {
-
-    padding:13px 25px;
-
-    border:none;
-
-    border-radius:10px;
-
-    background:
-
-    linear-gradient(
-    135deg,
-    #ff0000,
-    #700000
-    );
-
-    color:white;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-}
-
-
-
-button:hover {
-
-    transform:translateY(-2px);
-
-    box-shadow:
-
-    0 0 20px red;
-
-}
-
-
-
-/* ===============================
- STATS
-=============================== */
-
-
-.stats {
-
-    display:grid;
-
-    grid-template-columns:
-
-    repeat(3,1fr);
-
-    gap:20px;
-
-    margin:25px 0;
-
-}
-
-
-
-.stat {
-
-    background:
-
-    rgba(0,0,0,.5);
-
-    padding:25px;
-
-    border-radius:15px;
-
-    text-align:center;
-
-    border:
-
-    1px solid #400000;
-
-}
-
-
-.stat span {
-
-    display:block;
-
-    opacity:.7;
-
-}
-
-
-.stat b {
-
-    font-size:35px;
-
-    color:#ff3333;
-
-}
-
-
-
-/* ===============================
- OWNER BOX
-=============================== */
-
-
-.ownerBox {
-
-    margin-top:30px;
-
-    padding:20px;
-
-    background:
-
-    rgba(0,0,0,.35);
-
-    border-radius:15px;
-
-}
-
-
-
-/* ===============================
- TABLE
-=============================== */
-
-
-table {
-
-    width:100%;
-
-    border-collapse:collapse;
-
-}
-
-
-th {
-
-    color:#ff3333;
-
-}
-
-
-td,
-th {
-
-    padding:14px;
-
-    border-bottom:
-
-    1px solid #330000;
-
-}
-
-
-
-.btnDelete {
-
-    background:
-
-    #700000;
-
-    padding:8px 15px;
-
-}
-
-
-
-/* ===============================
- LOGS
-=============================== */
-
-
-.log {
-
-    padding:12px;
-
-    margin:8px 0;
-
-    background:
-
-    rgba(255,0,0,.08);
-
-    border-radius:10px;
-
-}
-
-
-.log small {
-
-    display:block;
-
-    opacity:.5;
-
-}
-
-
-
-/* ===============================
- TOAST
-=============================== */
-
-
-#toastContainer {
-
-    position:fixed;
-
-    top:20px;
-
-    right:20px;
-
-    z-index:999;
-
-}
-
-
-
-.toast {
-
-    background:#111;
-
-    border-left:
-
-    5px solid red;
-
-    padding:15px 25px;
-
-    margin-bottom:10px;
-
-    border-radius:10px;
-
-    transform:translateX(120%);
-
-    transition:.3s;
-
-}
-
-
-
-.toast.show {
-
-    transform:translateX(0);
-
-}
-
-
-
-/* ===============================
- MOBILE
-=============================== */
-
-
-@media(max-width:700px){
-
-
-.stats {
-
-grid-template-columns:1fr;
-
-}
-
-
-.card {
-
-padding:20px;
-
-}
-
-
-}
-/* =================================
-   MAFIA SIDE MENU
-================================= */
-
-
-.sideMenu {
-
-    position:fixed;
-
-    left:20px;
-
-    top:100px;
-
-    width:200px;
-
-    padding:15px;
-
-    background:
-    rgba(0,0,0,.65);
-
-    backdrop-filter:
-    blur(20px);
-
-    border:
-
-    1px solid rgba(255,0,0,.25);
-
-    border-radius:18px;
-
-}
-
-
-.menuBtn {
-
-    width:100%;
-
-    margin-bottom:12px;
-
-    background:
-
-    rgba(255,0,0,.08);
-
-    border:
-
-    1px solid rgba(255,0,0,.2);
-
-}
-
-
-.menuBtn.active {
-
-    background:
-
-    linear-gradient(
-    135deg,
-    #ff0000,
-    #700000
-    );
-
-}
-
-
-
-/* LIVE STATUS */
-
-
-.liveStatus {
-
-    position:fixed;
-
-    right:25px;
-
-    bottom:25px;
-
-    background:
-
-    rgba(0,0,0,.7);
-
-    padding:15px 25px;
-
-    border-radius:15px;
-
-    border:
-
-    1px solid #500;
-
-    display:flex;
-
-    gap:20px;
-
-}
-
-
-.liveStatus span {
-
-    color:#00ff66;
-
-    font-weight:800;
-
-}
-
-
-@media(max-width:800px){
-
-.sideMenu{
-
-display:none;
-
-}
-
-}
-/* =================================
-   PROFILE
-================================= */
-
-
-.profile {
-
-display:grid;
-
-grid-template-columns:
-repeat(2,1fr);
-
-gap:15px;
-
-}
-
-
-.profile div {
 
 background:
 
-rgba(255,0,0,.08);
-
-padding:15px;
-
-border-radius:12px;
-
-border:
-
-1px solid #400;
-
-}
+radial-gradient(
+circle at top,
+#500000,
+#050505 60%
+);
 
 
-.profile b {
+animation:
 
-color:#ff3333;
-
-}
-
-
-.profileBox button {
-
-margin-top:20px;
-
-}
-/* =================================
-   MAFIA STATS
-================================= */
-
-
-.statsGrid {
-
-display:grid;
-
-grid-template-columns:
-repeat(4,1fr);
-
-gap:15px;
+bgMove 10s infinite alternate;
 
 }
 
 
 
-.mafiaStats .stat {
+@keyframes bgMove{
 
-background:
-rgba(255,0,0,.07);
+from{
 
-}
-
-
-
-@media(max-width:800px){
-
-.statsGrid{
-
-grid-template-columns:
-repeat(2,1fr);
-
-}
-
-}
-/* =================================
-   FACTION SYSTEM
-================================= */
-
-
-.factionBox select {
-
-margin-bottom:15px;
+transform:scale(1);
 
 }
 
 
+to{
 
-.territory {
+transform:scale(1.15);
 
-margin-top:25px;
-
-display:grid;
-
-gap:12px;
+}
 
 }
 
 
 
-.territory div {
-
-background:
-rgba(255,0,0,.08);
-
-padding:15px;
-
-border-radius:12px;
-
-border:
-1px solid #400;
-
-}
+/* HEADER */
 
 
+.header{
 
-.territory b {
-
-color:#ff3333;
-
-}
-/* =================================
-   ADMIN CONSOLE
-================================= */
-
-
-.adminConsole {
-
-border:
-
-1px solid rgba(255,0,0,.35);
-
-}
-
-
-
-.punishmentList {
-
-margin-top:25px;
-
-}
-
-
-
-.punishmentList .log {
-
-border-left:
-
-3px solid red;
-
-}
-/* =================================
-   DATABASE UI
-================================= */
-
-
-.databaseBox button {
-
-margin:8px;
-
-}
-
-
-.securityStatus {
-
-margin-top:20px;
-
-padding:15px;
-
-background:
-
-rgba(255,0,0,.08);
-
-border-radius:12px;
-
-font-weight:700;
-
-}
-/* =================================
-   PREMIUM LOGIN
-================================= */
-
-
-.loginScreen {
-
-min-height:70vh;
+height:80px;
 
 display:flex;
 
-justify-content:center;
-
 align-items:center;
 
-}
+justify-content:space-between;
 
+padding:0 40px;
 
-
-.loginPanel {
-
-
-width:380px;
-
-padding:40px;
 
 background:
 
-rgba(0,0,0,.75);
+rgba(0,0,0,.65);
+
 
 backdrop-filter:
 
-blur(25px);
+blur(20px);
 
 
-border-radius:25px;
+border-bottom:
 
-
-border:
-
-1px solid rgba(255,0,0,.35);
-
-
-text-align:center;
-
-
-box-shadow:
-
-0 0 50px rgba(255,0,0,.25);
+1px solid rgba(255,0,0,.3);
 
 }
 
 
 
-.loginLogo {
+.logo{
 
-
-font-size:55px;
+font-size:35px;
 
 font-weight:900;
 
-letter-spacing:8px;
+letter-spacing:5px;
 
 
-margin-bottom:25px;
+animation:
 
+glow 2s infinite alternate;
 
 }
 
 
 
-.loginLogo span {
+.logo span{
 
 color:#ff0000;
 
@@ -813,133 +139,428 @@ color:#ff0000;
 
 
 
-.loginPanel p {
+@keyframes glow{
 
-opacity:.6;
+from{
 
-margin-bottom:25px;
+text-shadow:
+0 0 5px red;
+
+}
+
+
+to{
+
+text-shadow:
+0 0 25px red;
+
+}
+
+}
+
+
+
+
+nav a{
+
+margin:15px;
+
+color:white;
+
+text-decoration:none;
+
+opacity:.8;
+
+cursor:pointer;
 
 }
 
 
 
-.loader {
+nav a:hover{
 
-margin:20px auto;
-
-width:40px;
-
-height:40px;
-
-border-radius:50%;
-
-border:4px solid #400;
-
-border-top-color:red;
-
-animation:
-
-spin .8s linear infinite;
+color:red;
 
 }
 
 
 
-@keyframes spin {
 
 
-to {
+.mobileBtn{
 
-transform:rotate(360deg);
+display:none;
+
+}
+
+
+
+/* MAIN */
+
+
+main{
+
+max-width:1100px;
+
+margin:auto;
+
+padding:30px 20px;
 
 }
 
-}
-/* =================================
-   MAFIA NOTIFICATIONS
-================================= */
 
 
-.mafiaNotify {
 
-position:fixed;
+/* CARD */
 
-right:30px;
 
-top:30px;
+.card{
 
-width:300px;
+margin-bottom:30px;
 
-padding:20px;
+padding:30px;
 
 
 background:
 
-rgba(10,10,10,.9);
+rgba(20,20,20,.75);
 
 
-border-left:
+border:
 
-4px solid red;
+1px solid rgba(255,0,0,.25);
+
+
+border-radius:25px;
+
+
+backdrop-filter:
+
+blur(20px);
+
+
+
+box-shadow:
+
+0 0 40px rgba(255,0,0,.15);
+
+
+
+animation:
+
+show .6s ease;
+
+}
+
+
+
+@keyframes show{
+
+from{
+
+opacity:0;
+
+transform:
+translateY(30px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:
+translateY(0);
+
+}
+
+}
+
+
+
+
+
+/* CALCULATOR */
+
+
+.grid{
+
+display:grid;
+
+grid-template-columns:
+
+repeat(2,1fr);
+
+gap:20px;
+
+}
+
+
+
+.item{
+
+background:
+
+rgba(255,0,0,.07);
+
+
+padding:20px;
+
+
+border-radius:15px;
+
+}
+
+
+
+label{
+
+display:block;
+
+margin-bottom:10px;
+
+color:#ff5555;
+
+font-weight:bold;
+
+}
+
+
+
+
+
+input{
+
+width:100%;
+
+padding:15px;
+
+
+background:#080808;
+
+
+border:
+
+1px solid #500;
+
+
+border-radius:12px;
+
+
+color:white;
+
+
+outline:none;
+
+}
+
+
+
+input:focus{
+
+border-color:red;
+
+box-shadow:
+
+0 0 15px red;
+
+}
+
+
+
+/* BUTTONS */
+
+
+button{
+
+padding:15px 25px;
+
+
+border:none;
 
 
 border-radius:15px;
 
 
-display:flex;
+background:
 
-flex-direction:column;
-
-
-gap:8px;
-
-
-transform:
-translateX(130%);
+linear-gradient(
+135deg,
+#ff0000,
+#700000
+);
 
 
-transition:.5s;
+color:white;
 
 
-z-index:9999;
+font-weight:bold;
 
 
-box-shadow:
+cursor:pointer;
 
-0 0 30px rgba(255,0,0,.25);
+
+transition:.3s;
 
 }
 
 
 
-.mafiaNotify.show {
+button:hover{
 
 transform:
+translateY(-3px);
+
+
+box-shadow:
+
+0 0 25px red;
+
+}
+
+
+
+
+
+/* TOTAL */
+
+
+#total{
+
+color:#ff3333;
+
+font-size:35px;
+
+}
+
+
+
+
+
+/* HISTORY */
+
+
+.historyItem,
+.top{
+
+
+background:
+
+rgba(255,0,0,.08);
+
+
+margin:10px 0;
+
+
+padding:15px;
+
+
+border-radius:15px;
+
+
+border-left:
+
+3px solid red;
+
+}
+
+
+
+
+
+/* OWNER */
+
+
+.hidden{
+
+display:none;
+
+}
+
+
+
+.owner{
+
+border:
+
+1px solid gold;
+
+}
+
+
+
+.owner h2{
+
+color:#ffd700;
+
+}
+
+
+
+
+
+/* TOAST */
+
+
+.toast{
+
+
+position:fixed;
+
+
+right:30px;
+
+
+top:30px;
+
+
+padding:20px 30px;
+
+
+background:#111;
+
+
+border-left:
+
+5px solid red;
+
+
+border-radius:15px;
+
+
+transform:
+
+translateX(150%);
+
+
+transition:.4s;
+
+
+z-index:9999;
+
+}
+
+
+
+.toast.show{
+
+transform:
+
 translateX(0);
 
 }
 
 
 
-.mafiaNotify strong {
+.toast.error{
 
-font-size:18px;
-
-color:#ff3333;
+border-color:red;
 
 }
 
 
 
-.mafiaNotify span {
-
-opacity:.8;
-
-}
-
-
-
-.mafiaNotify.success {
+.toast.success{
 
 border-color:#00ff66;
 
@@ -947,22 +568,60 @@ border-color:#00ff66;
 
 
 
-.mafiaNotify.error {
 
-border-color:#ff0000;
+/* MOBILE */
+
+
+@media(max-width:700px){
+
+
+.header{
+
+padding:0 20px;
 
 }
 
 
 
-/* SMOOTH UI */
+.logo{
 
-button,
-.card,
-.ownerBox,
-.stat {
+font-size:22px;
 
-transition:
-.3s ease;
+}
+
+
+
+nav{
+
+display:none;
+
+}
+
+
+
+.mobileBtn{
+
+display:block;
+
+}
+
+
+
+.grid{
+
+grid-template-columns:
+
+1fr;
+
+}
+
+
+
+.card{
+
+padding:20px;
+
+}
+
 
 }
