@@ -1763,3 +1763,186 @@ state.style.color =
 
 
 },1000);
+/* =================================
+   REVENDANT NOTIFICATION ENGINE
+================================= */
+
+
+const Notification = {
+
+    send(title, text, type="info"){
+
+        const box =
+        document.createElement("div");
+
+
+        box.className =
+        "mafiaNotify " + type;
+
+
+        box.innerHTML = `
+
+        <strong>${title}</strong>
+
+        <span>${text}</span>
+
+        `;
+
+
+        document.body.appendChild(box);
+
+
+
+        setTimeout(()=>{
+
+            box.classList.add("show");
+
+        },50);
+
+
+
+        setTimeout(()=>{
+
+            box.classList.remove("show");
+
+            setTimeout(()=>{
+
+                box.remove();
+
+            },500);
+
+
+        },3500);
+
+
+    }
+
+};
+
+
+
+
+
+/* =================================
+   SOUND ENGINE
+================================= */
+
+
+const Sound = {
+
+
+click(){
+
+    if(!State.settings.sounds)
+    return;
+
+
+    const audio =
+    new Audio(
+    "data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAA"
+    );
+
+
+    audio.volume = 0.03;
+
+
+    audio.play()
+    .catch(()=>{});
+
+
+}
+
+
+};
+
+
+
+
+document.addEventListener(
+"click",
+e=>{
+
+
+if(e.target.tagName==="BUTTON"){
+
+    Sound.click();
+
+}
+
+
+});
+
+
+
+
+
+/* =================================
+   PAGE TRANSITIONS
+================================= */
+
+
+function animatePanel(panel){
+
+
+panel.style.opacity="0";
+
+panel.style.transform=
+"translateY(30px)";
+
+
+setTimeout(()=>{
+
+
+panel.style.transition=
+".5s ease";
+
+
+panel.style.opacity="1";
+
+
+panel.style.transform=
+"translateY(0)";
+
+
+},50);
+
+
+}
+
+
+
+
+
+document.addEventListener(
+"click",
+e=>{
+
+
+if(
+e.target.classList.contains("menuBtn")
+){
+
+
+document.querySelectorAll(
+".menuBtn"
+)
+.forEach(btn=>{
+
+btn.classList.remove("active");
+
+});
+
+
+e.target.classList.add("active");
+
+
+
+animatePanel(
+document.querySelector("#ownerPanel")
+);
+
+
+}
+
+
+});
