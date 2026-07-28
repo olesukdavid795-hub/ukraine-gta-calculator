@@ -987,7 +987,7 @@ e.target.id==="addXP"
 ){
 
 State.player.xp += 100;
-
+syncPlayerData();
 
 updateProfile();
 
