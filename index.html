@@ -20,38 +20,37 @@
 <div class="background"></div>
 
 
-
 <header class="header">
 
 
 <div class="logo">
 
-👑 REVENANT
-
-<span>v2</span>
+👑 REVENANT <span>v2</span>
 
 </div>
-  
-<button id="addWorkerBtn" class="worker-btn">
-    Додати працівника
-</button>
+
+
 <nav>
 
-<button>
-Калькулятор
+<button class="nav-btn active">
+📦 Калькулятор
 </button>
 
-<button>
-Статистика
+
+<button class="nav-btn">
+📊 Статистика
 </button>
 
-<button>
-Історія
+
+<button class="nav-btn">
+📜 Історія
 </button>
 
-<button>
-Власник
+
+<button class="nav-btn">
+👑 Власник
 </button>
+
 
 </nav>
 
@@ -60,153 +59,143 @@
 
 
 
-
-
 <main>
-
 
 
 <section class="hero">
 
-
 <h1>
-Premium Salary System
+Revenant v2
 </h1>
 
-
 <p>
-Облік продукції • Зарплата • Статистика
+Система контролю працівників клану
 </p>
 
-
 </section>
-
-
-
-
-
-
-
-<section class="card calculator">
+<section class="calculator-section">
 
 
 <h2>
-💰 Калькулятор зарплати
+📦 Калькулятор продукції
 </h2>
 
 
 
-<div class="inputs">
+<div class="calculator-card">
 
 
-<div>
+
+<div class="input-group">
 
 <label>
-Нік гравця
+👤 Нік працівника
 </label>
 
 <input 
+type="text"
 id="playerName"
 placeholder="Введіть нік">
 
-
 </div>
 
 
 
-<div>
 
-<label>
-Алкоголь ⭐⭐
-</label>
+<div class="products-grid">
 
-<input 
+
+
+<div class="product-box">
+
+<h3>
+🍾 Алкоголь ⭐⭐
+</h3>
+
+<input
+type="number"
 id="alcohol2"
-type="number"
-value="0">
-
+value="0"
+min="0">
 
 </div>
 
 
 
-<div>
 
-<label>
-Алкоголь ⭐⭐⭐
-</label>
+<div class="product-box">
 
-<input 
+<h3>
+🍾 Алкоголь ⭐⭐⭐
+</h3>
+
+<input
+type="number"
 id="alcohol3"
-type="number"
-value="0">
-
+value="0"
+min="0">
 
 </div>
 
 
 
 
-<div>
+<div class="product-box">
 
-<label>
-Петрушка ⭐⭐
-</label>
+<h3>
+🌿 Петрушка ⭐⭐
+</h3>
 
-<input 
+<input
+type="number"
 id="parsley2"
-type="number"
-value="0">
-
+value="0"
+min="0">
 
 </div>
 
 
 
 
-<div>
+<div class="product-box">
 
-<label>
-Петрушка ⭐⭐⭐
-</label>
+<h3>
+🌿 Петрушка ⭐⭐⭐
+</h3>
 
-<input 
+<input
+type="number"
 id="parsley3"
-type="number"
-value="0">
+value="0"
+min="0">
+
+</div>
 
 
 </div>
 
 
 
-</div>
 
-
-
-
-
-<div class="result">
+<div class="total-box">
 
 
 <h3>
-Зарплата:
+💰 Зарплата
 </h3>
 
 
-<div id="total">
-
+<h1 id="total">
 0 грн
+</h1>
+
 
 </div>
 
 
-</div>
 
 
-
-
-<button id="saveSalary">
+<button id="saveSalary" class="main-btn">
 
 💾 Зберегти здачу
 
@@ -214,27 +203,75 @@ value="0">
 
 
 
+</div>
+
+
 </section>
-
-
-
-
-
-
-
-
-
-<section class="card">
-
+<section class="statistics-section">
 
 <h2>
-🏆 ТОП ГРАВЦІВ
+📊 Статистика
+</h2>
+
+
+<div class="stats-grid">
+
+
+<div class="stat-card">
+
+<h3>
+👥 Працівники
+</h3>
+
+<p id="workersCount">
+0
+</p>
+
+</div>
+
+
+
+<div class="stat-card">
+
+<h3>
+📦 Продукція
+</h3>
+
+<p id="productsCount">
+0
+</p>
+
+</div>
+
+
+
+<div class="stat-card">
+
+<h3>
+💰 Виплачено
+</h3>
+
+<p id="moneyCount">
+0 грн
+</p>
+
+</div>
+
+
+</div>
+
+
+<div class="top-box">
+
+<h2>
+🏆 ТОП працівників
 </h2>
 
 
 <div id="topPlayers">
 
-Поки немає даних
+</div>
+
 
 </div>
 
@@ -245,10 +282,7 @@ value="0">
 
 
 
-
-
-
-<section class="card">
+<section class="history-section">
 
 
 <h2>
@@ -258,150 +292,7 @@ value="0">
 
 <div id="history">
 
-Історія порожня
-
 </div>
 
 
 </section>
-
-
-
-
-
-
-
-
-
-<section class="card">
-
-
-<h2>
-📊 Загальна статистика
-</h2>
-
-
-<div id="statistics">
-
-Немає даних
-
-</div>
-
-
-</section>
-
-
-
-
-
-
-
-
-
-<section class="card owner">
-
-
-<h2>
-👑 Панель власника
-</h2>
-
-
-<input 
-type="password"
-id="ownerPassword"
-placeholder="Пароль">
-
-
-<button id="ownerLogin">
-
-Увійти
-
-</button>
-
-
-
-
-
-<div id="ownerPanel" class="hidden">
-
-
-<h3>
-База гравців
-</h3>
-
-
-<input 
-id="searchPlayer"
-placeholder="Пошук гравця">
-
-
-
-<div id="playerProfile">
-
-Профіль не вибрано
-
-</div>
-
-
-
-
-<h3>
-Зміна цін
-</h3>
-
-
-
-<input 
-id="priceAlcohol2"
-placeholder="Алкоголь ⭐⭐">
-
-
-<input 
-id="priceAlcohol3"
-placeholder="Алкоголь ⭐⭐⭐">
-
-
-<input 
-id="priceParsley2"
-placeholder="Петрушка ⭐⭐">
-
-
-<input 
-id="priceParsley3"
-placeholder="Петрушка ⭐⭐⭐">
-
-
-<button id="savePrices">
-
-💾 Зберегти ціни
-
-</button>
-
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-</main>
-
-
-
-
-<div id="toast">
-
-</div>
-
-
-
-<script type="module" src="script.js"></script>
-
-
-</body>
-
-</html>
