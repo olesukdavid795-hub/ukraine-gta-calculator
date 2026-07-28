@@ -430,7 +430,6 @@ function renderTop(){
 // ІСТОРІЯ ЗДАЧ
 // ========================================
 
-async function loadHistory(){
 
     const box = qs("history");
 
