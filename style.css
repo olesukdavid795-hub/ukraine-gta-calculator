@@ -855,3 +855,114 @@ transform:rotate(360deg);
 }
 
 }
+/* =================================
+   MAFIA NOTIFICATIONS
+================================= */
+
+
+.mafiaNotify {
+
+position:fixed;
+
+right:30px;
+
+top:30px;
+
+width:300px;
+
+padding:20px;
+
+
+background:
+
+rgba(10,10,10,.9);
+
+
+border-left:
+
+4px solid red;
+
+
+border-radius:15px;
+
+
+display:flex;
+
+flex-direction:column;
+
+
+gap:8px;
+
+
+transform:
+translateX(130%);
+
+
+transition:.5s;
+
+
+z-index:9999;
+
+
+box-shadow:
+
+0 0 30px rgba(255,0,0,.25);
+
+}
+
+
+
+.mafiaNotify.show {
+
+transform:
+translateX(0);
+
+}
+
+
+
+.mafiaNotify strong {
+
+font-size:18px;
+
+color:#ff3333;
+
+}
+
+
+
+.mafiaNotify span {
+
+opacity:.8;
+
+}
+
+
+
+.mafiaNotify.success {
+
+border-color:#00ff66;
+
+}
+
+
+
+.mafiaNotify.error {
+
+border-color:#ff0000;
+
+}
+
+
+
+/* SMOOTH UI */
+
+button,
+.card,
+.ownerBox,
+.stat {
+
+transition:
+.3s ease;
+
+}
