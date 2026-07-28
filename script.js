@@ -1,99 +1,186 @@
-// Firebase
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+// ===============================
+// REVENANT V2
+// FIREBASE SYSTEM
+// ===============================
 
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+    getDatabase,
+    ref,
+    set,
+    get,
+    remove,
+    update
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+
+
+// Firebase налаштування
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB-rv0vO2ZN_BYhraPNBIKhvTahrtEB9D8",
-  authDomain: "revenant-v2-955dc.firebaseapp.com",
-  databaseURL: "https://revenant-v2-955dc-default-rtdb.firebaseio.com",
-  projectId: "revenant-v2-955dc",
-  storageBucket: "revenant-v2-955dc.firebasestorage.app",
-  messagingSenderId: "888954510701",
-  appId: "1:888954510701:web:84dc99929d5b82ee564e64"
+
+apiKey: "AIzaSyB-rv0vO2ZN_BYhraPNBIKhvTahrtEB9D8",
+
+authDomain: "revenant-v2-955dc.firebaseapp.com",
+
+databaseURL:
+"https://revenant-v2-955dc-default-rtdb.firebaseio.com",
+
+projectId: "revenant-v2-955dc",
+
+storageBucket:
+"revenant-v2-955dc.firebasestorage.app",
+
+messagingSenderId:"888954510701",
+
+appId:
+"1:888954510701:web:84dc99929d5b82ee564e64"
+
 };
+
+
 
 const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+
+
+const db = getDatabase(app);
+
+
+
+// ===============================
+// ЦІНИ
+// ===============================
+
+
 let prices = {
 
-    alcohol2:900,
-    alcohol3:1200,
-    parsley2:800,
-    parsley3:1100
+
+alcohol2:900,
+
+
+alcohol3:1200,
+
+
+parsley2:800,
+
+
+parsley3:1100
+
 
 };
 
 
 
-let players = JSON.parse(
-    localStorage.getItem("revenant_players")
-) || [];
+// ===============================
+// ДАНІ
+// ===============================
+
+
+let workers = [];
+
+let history = [];
+
+let selectedWorker = null;
 
 
 
-let history = JSON.parse(
-    localStorage.getItem("revenant_history")
-) || [];
+// ===============================
+// TOAST
+// ===============================
 
 
+function toast(message){
 
 
-
-// ==========================
-// РОЗРАХУНОК
-// ==========================
+const box =
+document.getElementById("toast");
 
 
-function calculate(){
+box.innerHTML = message;
 
 
-    let a2 = Number(
-        document.getElementById("alcohol2").value
-    ) || 0;
+box.style.opacity = 1;
 
 
-    let a3 = Number(
-        document.getElementById("alcohol3").value
-    ) || 0;
+setTimeout(()=>{
 
+box.style.opacity = 0;
 
-    let p2 = Number(
-        document.getElementById("parsley2").value
-    ) || 0;
+},2500);
 
-
-    let p3 = Number(
-        document.getElementById("parsley3").value
-    ) || 0;
-
-
-
-    let total =
-
-        a2 * prices.alcohol2 +
-
-        a3 * prices.alcohol3 +
-
-        p2 * prices.parsley2 +
-
-        p3 * prices.parsley3;
-
-
-
-    document.getElementById("total").innerHTML =
-
-    total.toLocaleString("uk-UA") + " грн";
-
-
-
-    return total;
 
 }
 
 
 
+// ===============================
+// КАЛЬКУЛЯТОР
+// ===============================
 
+
+function calculate(){
+
+
+let alcohol2 =
+Number(document.getElementById("alcohol2").value)||0;
+
+
+let alcohol3 =
+Number(document.getElementById("alcohol3").value)||0;
+
+
+let parsley2 =
+Number(document.getElementById("parsley2").value)||0;
+
+
+let parsley3 =
+Number(document.getElementById("parsley3").value)||0;
+
+
+
+let total =
+
+alcohol2 * prices.alcohol2 +
+
+alcohol3 * prices.alcohol3 +
+
+parsley2 * prices.parsley2 +
+
+parsley3 * prices.parsley3;
+
+
+
+document.getElementById("total").innerHTML =
+
+total.toLocaleString("uk-UA")+" грн";
+
+
+
+return {
+
+
+alcohol2,
+
+alcohol3,
+
+parsley2,
+
+parsley3,
+
+products:
+alcohol2+
+alcohol3+
+parsley2+
+parsley3,
+
+total
+
+};
+
+
+}
 
 
 
@@ -101,33 +188,29 @@ document.addEventListener(
 "input",
 calculate
 );
+// ===============================
+// ДОДАВАННЯ ПРАЦІВНИКА
+// ===============================
 
 
+const addWorkerBtn =
+document.getElementById("addWorkerBtn");
 
 
+if(addWorkerBtn){
 
 
-
-// ==========================
-// ЗБЕРЕЖЕННЯ ЗДАЧІ
-// ==========================
-
-
-document
-.getElementById("saveSalary")
-.onclick = ()=>{
+addWorkerBtn.onclick = async ()=>{
 
 
 let name =
-
-document.getElementById("playerName")
-.value.trim();
+document.getElementById("newWorkerName").value.trim();
 
 
 
 if(!name){
 
-showToast("Введіть нік гравця");
+toast("Введіть нік працівника");
 
 return;
 
@@ -135,106 +218,35 @@ return;
 
 
 
-let total = calculate();
+let worker = {
 
-
-
-let products =
-
-Number(document.getElementById("alcohol2").value || 0)
-
-+
-
-Number(document.getElementById("alcohol3").value || 0)
-
-+
-
-Number(document.getElementById("parsley2").value || 0)
-
-+
-
-Number(document.getElementById("parsley3").value || 0);
-
-
-
-
-
-let player = players.find(
-p=>p.name===name
-);
-
-
-
-
-if(!player){
-
-
-player={
 
 name:name,
+
 
 salary:0,
 
+
 products:0,
 
-deliveries:0
 
-};
-
-
-players.push(player);
+deliveries:0,
 
 
-}
+alcohol2:0,
 
 
+alcohol3:0,
 
 
-
-player.salary += total;
-
-player.products += products;
-
-player.deliveries++;
+parsley2:0,
 
 
+parsley3:0,
 
 
-
-
-history.unshift({
-
-name:name,
-
-salary:total,
-
-products:products,
-
-date:new Date()
-.toLocaleString("uk-UA")
-
-});
-
-
-
-
-
-saveData();
-
-
-
-render();
-
-
-
-clearForm();
-
-
-
-showToast(
-"Здача збережена"
-);
-
+created:
+new Date().toLocaleString("uk-UA")
 
 
 };
@@ -242,365 +254,741 @@ showToast(
 
 
 
-
-
-
-
-// ==========================
-// ЗБЕРЕЖЕННЯ
-// ==========================
-
-
-function saveData(){
-
-
-localStorage.setItem(
-
-"revenant_players",
-
-JSON.stringify(players)
-
+await set(
+ref(db,"workers/"+name),
+worker
 );
 
 
 
-localStorage.setItem(
+toast("Працівника додано");
 
-"revenant_history",
 
-JSON.stringify(history)
 
-);
+document.getElementById("newWorkerName").value="";
 
 
-}
 
+loadWorkers();
 
-
-
-
-
-
-
-// ==========================
-// ТОП
-// ==========================
-
-
-function renderTop(){
-
-
-let box =
-document.getElementById(
-"topPlayers"
-);
-
-
-let top = [...players]
-
-.sort(
-(a,b)=>b.salary-a.salary
-)
-
-.slice(0,3);
-
-
-
-box.innerHTML="";
-
-
-
-top.forEach(
-(p,i)=>{
-
-
-box.innerHTML += `
-
-<div class="item">
-
-${i+1} місце 🏆
-
-<br>
-
-<b>${p.name}</b>
-
-<br>
-
-💰 ${p.salary.toLocaleString("uk-UA")} грн
-
-<br>
-
-📦 ${p.products} шт продукції
-
-</div>
-
-`;
-
-
-});
-
-
-
-}
-
-
-
-
-
-
-
-// ==========================
-// ІСТОРІЯ
-// ==========================
-
-
-function renderHistory(){
-
-
-let box =
-document.getElementById(
-"history"
-);
-
-
-
-box.innerHTML="";
-
-
-
-history.slice(0,20)
-.forEach(h=>{
-
-
-box.innerHTML += `
-
-<div class="item">
-
-<b>${h.name}</b>
-
-<br>
-
-📦 ${h.products} шт
-
-<br>
-
-💰 ${h.salary.toLocaleString("uk-UA")} грн
-
-<br>
-
-🕒 ${h.date}
-
-</div>
-
-`;
-
-
-
-});
-
-
-}
-
-
-
-
-
-
-
-// ==========================
-// СТАТИСТИКА
-// ==========================
-
-
-function renderStats(){
-
-
-let box =
-document.getElementById(
-"statistics"
-);
-
-
-
-box.innerHTML="";
-
-
-
-players.forEach(p=>{
-
-
-box.innerHTML +=`
-
-<div class="item">
-
-👤 ${p.name}
-
-<br>
-
-💰 ${p.salary.toLocaleString("uk-UA")} грн
-
-<br>
-
-📦 ${p.products} шт
-
-<br>
-
-📈 ${p.deliveries} здач
-
-</div>
-
-`;
-
-
-
-});
-
-
-}
-
-
-
-
-
-
-
-// ==========================
-// ВЛАСНИК
-// ==========================
-
-
-document
-.getElementById("ownerLogin")
-.onclick=()=>{
-
-
-let pass =
-document.getElementById(
-"ownerPassword"
-).value;
-
-
-
-if(pass==="admin"){
-
-
-document
-.getElementById(
-"ownerPanel"
-)
-.classList.remove("hidden");
-
-
-showToast(
-"Доступ власника відкрито"
-);
-
-
-}
-
-else{
-
-
-showToast(
-"Невірний пароль"
-);
-
-
-}
 
 
 };
 
 
 
+}
 
 
 
 
 
-// ==========================
-// ПОШУК ГРАВЦЯ
-// ==========================
+// ===============================
+// ЗБЕРЕГТИ ЗДАЧУ
+// ===============================
 
 
-document
-.getElementById("searchPlayer")
-.oninput=function(){
-
-
-let p =
-players.find(
-
-x=>x.name
-.toLowerCase()
-===
-this.value
-.toLowerCase()
-
-);
+const saveSalary =
+document.getElementById("saveSalary");
 
 
 
-let box =
-document.getElementById(
-"playerProfile"
-);
+if(saveSalary){
 
 
 
-if(!p){
+saveSalary.onclick = async ()=>{
 
-box.innerHTML=
-"Гравця не знайдено";
+
+
+let name =
+document.getElementById("playerName").value.trim();
+
+
+
+if(!name){
+
+
+toast("Введіть нік працівника");
+
 
 return;
 
+
 }
 
 
 
-box.innerHTML=`
 
-<div class="item">
+let data = calculate();
 
-👤 ${p.name}
 
-<br>
 
-📦 Всього продукції:
-${p.products} шт
+let workerRef =
+ref(db,"workers/"+name);
 
-<br>
 
-💰 Зарплата:
-${p.salary.toLocaleString("uk-UA")} грн
 
-<br>
+let snapshot =
+await get(workerRef);
 
-📈 Здач:
-${p.deliveries}
 
-</div>
 
-`;
+
+let worker;
+
+
+
+if(snapshot.exists()){
+
+
+worker=snapshot.val();
+
+
+
+}else{
+
+
+worker={
+
+
+name:name,
+
+
+salary:0,
+
+
+products:0,
+
+
+deliveries:0,
+
+
+alcohol2:0,
+
+
+alcohol3:0,
+
+
+parsley2:0,
+
+
+parsley3:0
+
+
+};
+
+
+}
+
+
+
+
+
+worker.salary += data.total;
+
+
+worker.products += data.products;
+
+
+worker.deliveries++;
+
+
+worker.alcohol2 += data.alcohol2;
+
+
+worker.alcohol3 += data.alcohol3;
+
+
+worker.parsley2 += data.parsley2;
+
+
+worker.parsley3 += data.parsley3;
+
+
+
+worker.lastUpdate =
+new Date().toLocaleString("uk-UA");
+
+
+
+
+
+await set(
+workerRef,
+worker
+);
+
+
+
+
+
+await set(
+
+ref(
+db,
+"history/"+Date.now()
+),
+
+{
+
+
+name:name,
+
+
+...data,
+
+
+date:
+new Date().toLocaleString("uk-UA")
+
+
+}
+
+);
+
+
+
+
+toast("Здачу збережено ✅");
+
+
+
+loadWorkers();
+
 
 
 };
 
 
 
+}
+// ===============================
+// ВХІД ВЛАСНИКА
+// ===============================
+
+
+const ownerLogin =
+document.getElementById("ownerLogin");
+
+
+if(ownerLogin){
+
+
+ownerLogin.onclick = ()=>{
+
+
+let password =
+document.getElementById("ownerPassword").value;
 
 
 
-
-// ==========================
-// ЦІНИ
-// ==========================
+if(password === "admin"){
 
 
 document
-.getElementById("savePrices")
-.onclick=()=>{
+.getElementById("ownerPanel")
+.classList.remove("hidden");
+
+
+
+toast("Доступ власника відкрито 👑");
+
+
+
+}else{
+
+
+toast("Невірний пароль");
+
+
+}
+
+
+};
+
+
+}
+
+
+
+
+
+// ===============================
+// ПОШУК ПРАЦІВНИКА
+// ===============================
+
+
+const searchPlayer =
+document.getElementById("searchPlayer");
+
+
+
+if(searchPlayer){
+
+
+
+searchPlayer.oninput = ()=>{
+
+
+
+let name =
+searchPlayer.value.trim().toLowerCase();
+
+
+
+let worker =
+workers.find(
+w=>w.name.toLowerCase()===name
+);
+
+
+
+let box =
+document.getElementById("playerProfile");
+
+
+
+if(!worker){
+
+
+box.innerHTML =
+"<div class='item'>Працівника не знайдено</div>";
+
+return;
+
+
+}
+
+
+
+selectedWorker = worker.name;
+
+
+
+box.innerHTML = `
+
+
+<div class="item">
+
+
+<h3>👤 ${worker.name}</h3>
+
+
+<p>📦 Всього продукції:
+${worker.products} шт</p>
+
+
+<p>💰 Зароблено:
+${Number(worker.salary || 0).toLocaleString("uk-UA")} грн</p>
+
+
+<p>📈 Здач:
+${worker.deliveries}</p>
+
+
+<hr>
+
+
+<p>🍾 Алкоголь ⭐⭐:
+${worker.alcohol2}</p>
+
+
+<p>🍾 Алкоголь ⭐⭐⭐:
+${worker.alcohol3}</p>
+
+
+<p>🌿 Петрушка ⭐⭐:
+${worker.parsley2}</p>
+
+
+<p>🌿 Петрушка ⭐⭐⭐:
+${worker.parsley3}</p>
+
+
+
+<button onclick="deleteSelectedWorker()">
+
+🗑 Видалити
+
+</button>
+
+
+
+</div>
+
+
+`;
+
+
+
+};
+
+
+
+}
+
+
+
+
+
+// ===============================
+// ВИДАЛЕННЯ ПРАЦІВНИКА
+// ===============================
+
+
+window.deleteSelectedWorker = async function(){
+
+
+
+if(!selectedWorker){
+
+
+toast("Виберіть працівника");
+
+
+return;
+
+
+}
+
+
+
+let check =
+confirm(
+"Видалити працівника "+selectedWorker+"?"
+);
+
+
+
+if(!check) return;
+
+
+
+await remove(
+ref(db,"workers/"+selectedWorker)
+);
+
+
+
+toast("Працівника видалено 🗑");
+
+
+
+selectedWorker=null;
+
+
+
+document.getElementById(
+"playerProfile"
+).innerHTML="";
+
+
+
+loadWorkers();
+
+
+
+};
+// ===============================
+// ЗАВАНТАЖЕННЯ ПРАЦІВНИКІВ
+// ===============================
+
+
+async function loadWorkers(){
+
+
+let snapshot =
+await get(ref(db,"workers"));
+
+
+
+workers=[];
+
+
+
+if(snapshot.exists()){
+
+
+
+snapshot.forEach((item)=>{
+
+
+workers.push(item.val());
+
+
+});
+
+
+}
+
+
+
+renderWorkers();
+
+renderStatistics();
+
+loadHistory();
+
+
+}
+
+
+
+
+
+// ===============================
+// ТОП ПРАЦІВНИКІВ
+// ===============================
+
+
+function renderWorkers(){
+
+
+
+let box =
+document.getElementById("topPlayers");
+
+
+
+if(!box) return;
+
+
+
+box.innerHTML="";
+
+
+
+let top =
+[...workers]
+.sort(
+(a,b)=>
+Number(b.salary||0)-Number(a.salary||0)
+)
+.slice(0,10);
+
+
+
+
+top.forEach((w,index)=>{
+
+
+box.innerHTML += `
+
+
+<div class="item">
+
+
+<h3>
+🏆 ${index+1} місце
+</h3>
+
+
+<p>
+👤 ${w.name}
+</p>
+
+
+<p>
+📦 ${w.products} шт
+</p>
+
+
+<p>
+💰 ${Number(w.salary||0).toLocaleString("uk-UA")} грн
+</p>
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+// ===============================
+// СТАТИСТИКА
+// ===============================
+
+
+function renderStatistics(){
+
+
+
+let workersCount =
+document.getElementById("workersCount");
+
+
+let productsCount =
+document.getElementById("productsCount");
+
+
+let moneyCount =
+document.getElementById("moneyCount");
+
+
+
+if(!workersCount) return;
+
+
+
+let products=0;
+
+let money=0;
+
+
+
+workers.forEach(w=>{
+
+
+products += Number(w.products||0);
+
+
+money += Number(w.salary||0);
+
+
+});
+
+
+
+workersCount.innerHTML =
+workers.length;
+
+
+
+productsCount.innerHTML =
+products+" шт";
+
+
+
+moneyCount.innerHTML =
+money.toLocaleString("uk-UA")+" грн";
+
+
+
+}
+
+
+
+
+
+// ===============================
+// ІСТОРІЯ
+// ===============================
+
+
+async function loadHistory(){
+
+
+
+let snapshot =
+await get(ref(db,"history"));
+
+
+
+let box =
+document.getElementById("history");
+
+
+
+if(!box) return;
+
+
+
+box.innerHTML="";
+
+
+
+if(snapshot.exists()){
+
+
+
+let data=[];
+
+
+
+snapshot.forEach(item=>{
+
+
+data.push(item.val());
+
+
+});
+
+
+
+data.reverse();
+
+
+
+data.slice(0,30).forEach(h=>{
+
+
+
+box.innerHTML += `
+
+
+<div class="item">
+
+
+<h3>
+👤 ${h.name}
+</h3>
+
+
+<p>
+📦 ${h.products} шт
+</p>
+
+
+<p>
+💰 ${Number(h.total||0).toLocaleString("uk-UA")} грн
+</p>
+
+
+<p>
+🕒 ${h.date}
+</p>
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+}
+
+
+
+}
+// ===============================
+// ЗМІНА ЦІН ВЛАСНИКОМ
+// ===============================
+
+
+const savePrices =
+document.getElementById("savePrices");
+
+
+if(savePrices){
+
+
+savePrices.onclick = ()=>{
 
 
 prices.alcohol2 =
@@ -635,150 +1023,127 @@ document.getElementById("priceParsley3").value
 
 
 
-localStorage.setItem(
-"revenant_prices",
-JSON.stringify(prices)
-);
-
-
-
-showToast(
-"Ціни оновлено"
-);
+toast("Ціни оновлено 💰");
 
 
 };
 
 
 
+}
 
 
 
 
-// ==========================
-// ДОПОМІЖНЕ
-// ==========================
+
+// ===============================
+// ОБНУЛЕННЯ ПРАЦІВНИКА
+// ===============================
 
 
-function clearForm(){
+const resetWorker =
+document.getElementById("resetWorker");
 
 
-document
-.querySelectorAll(".calculator input")
-.forEach(
-i=>{
 
-if(i.id!=="playerName")
-i.value=0;
+if(resetWorker){
+
+
+
+resetWorker.onclick = async ()=>{
+
+
+
+if(!selectedWorker){
+
+
+toast("Спочатку виберіть працівника");
+
+
+return;
 
 
 }
+
+
+
+let check =
+confirm(
+"Обнулити статистику "+selectedWorker+"?"
 );
 
 
-document.getElementById(
-"playerName"
-).value="";
+
+if(!check) return;
 
 
-calculate();
+
+await update(
+
+ref(db,"workers/"+selectedWorker),
+
+{
+
+
+salary:0,
+
+
+products:0,
+
+
+deliveries:0,
+
+
+alcohol2:0,
+
+
+alcohol3:0,
+
+
+parsley2:0,
+
+
+parsley3:0
 
 
 }
-
-
-
-function showToast(text){
-
-
-let t =
-document.getElementById(
-"toast"
-);
-
-
-t.innerHTML=text;
-
-t.style.opacity=1;
-
-
-
-setTimeout(()=>{
-
-t.style.opacity=0;
-
-},2500);
-
-
-}
-
-
-
-
-
-
-
-
-function render(){
-
-renderTop();
-
-renderHistory();
-
-renderStats();
-
-}
-
-
-
-
-
-window.onload=()=>{
-
-
-let savedPrices =
-JSON.parse(
-
-localStorage.getItem(
-"revenant_prices"
-
-)
 
 );
 
 
 
-if(savedPrices){
-
-prices=savedPrices;
-
-}
+toast("Статистику обнулено 🔄");
 
 
 
-render();
+loadWorkers();
 
-calculate();
 
 
 };
-// Тестове додавання працівника в Firebase
 
 
-function addWorker() {
-  set(ref(database, "workers/Davyd"), {
-    name: "Давид",
-    products: 0,
-    totalProducts: 0,
-    lastUpdate: new Date().toLocaleDateString()
-  })
-  .then(() => {
-    alert("Працівник доданий!");
-  })
-  .catch((error) => {
-    console.error(error);
-    alert("Помилка: " + error.message);
-  });
+
 }
 
-document.getElementById("addWorkerBtn").addEventListener("click", addWorker);
+
+
+
+
+// ===============================
+// СТАРТ ПРОГРАМИ
+// ===============================
+
+
+window.addEventListener(
+"load",
+()=>{
+
+
+calculate();
+
+
+loadWorkers();
+
+
+});
