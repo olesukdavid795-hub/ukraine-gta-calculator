@@ -912,7 +912,7 @@ updateMafiaStats();
 
 
 
-function updateProfile(){
+function updateProfile(){ syncPlayerData();
 
 
 const xp =
