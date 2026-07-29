@@ -1442,3 +1442,20 @@ async function init(){
 
 
 init();
+// Блокування ПКМ
+document.addEventListener("contextmenu", e => {
+    e.preventDefault();
+});
+
+// Блокування F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+document.addEventListener("keydown", e => {
+
+    if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) ||
+        (e.ctrlKey && (e.key === "u" || e.key === "U"))
+    ) {
+        e.preventDefault();
+    }
+
+});
