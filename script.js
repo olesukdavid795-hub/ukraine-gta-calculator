@@ -1582,3 +1582,22 @@ window.ownerLogin = function(){
     }
 
 }
+window.ownerLogin = function(){
+
+    let password = document.getElementById("ownerPassword").value;
+
+
+    if(password === "1234"){
+
+        document.getElementById("ownerLoginBox").style.display = "none";
+
+        document.getElementById("ownerPanel").style.display = "block";
+
+
+    } else {
+
+        alert("❌ Невірний пароль");
+
+    }
+
+};
