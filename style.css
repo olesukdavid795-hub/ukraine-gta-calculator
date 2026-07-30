@@ -643,3 +643,16 @@ nav{
     font-size:13px;
 
 }
+.owner-panel{
+
+    margin-top:20px;
+
+    padding:20px;
+
+    background:rgba(255,255,255,0.08);
+
+    border-radius:15px;
+
+    display:block;
+
+}
