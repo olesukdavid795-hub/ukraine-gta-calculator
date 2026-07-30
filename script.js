@@ -1402,7 +1402,90 @@ DOM.clearTop.addEventListener(
     }
 );
 
+// ========================================
+// ADD WORKER
+// ========================================
 
+window.addWorker = async function(){
+
+    const input =
+    document.getElementById("workerName");
+
+
+    if(!input || !input.value.trim()){
+
+        toast("Введи ім'я працівника","error");
+        return;
+
+    }
+
+
+    const name =
+    input.value.trim();
+
+
+    await set(
+        ref(db,"workers/" + name),
+        {
+
+            name:name,
+
+            alcohol2:0,
+            alcohol3:0,
+
+            parsley2:0,
+            parsley3:0,
+
+            products:0,
+            earned:0,
+            deliveries:0
+
+        }
+    );
+
+
+    input.value="";
+
+
+    toast("Працівника додано");
+
+};
+
+
+
+// ========================================
+// DELETE WORKER
+// ========================================
+
+window.deleteWorker = async function(){
+
+    const input =
+    document.getElementById("workerSearch");
+
+
+    if(!input || !input.value.trim()){
+
+        toast("Введи ім'я працівника","error");
+        return;
+
+    }
+
+
+    const name =
+    input.value.trim();
+
+
+    await remove(
+        ref(db,"workers/" + name)
+    );
+
+
+    input.value="";
+
+
+    toast("Працівника видалено");
+
+};
 
 // ========================================
 // START APPLICATION
