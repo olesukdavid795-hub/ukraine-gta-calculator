@@ -1140,3 +1140,27 @@ window.showToast=function(message){
 
 
 };
+window.savePrices = async function(){
+
+    state.prices.alcohol2 =
+    Number(document.getElementById("priceAlcohol2").value);
+
+    state.prices.alcohol3 =
+    Number(document.getElementById("priceAlcohol3").value);
+
+    state.prices.parsley2 =
+    Number(document.getElementById("priceParsley2").value);
+
+    state.prices.parsley3 =
+    Number(document.getElementById("priceParsley3").value);
+
+
+    await set(
+        ref(db,"prices"),
+        state.prices
+    );
+
+
+    showToast("Ціни збережено 💰");
+
+};
