@@ -1,1629 +1,2265 @@
-// ========================================
-// REVENANT v2
-// MAIN SCRIPT
-// ========================================
+/* =====================================
+   REVENANT v2 ULTIMATE
+   SCRIPT.JS
+   PART 1
+===================================== */
 
 
-// ========================================
-// FIREBASE
-// ========================================
+// ===============================
+// FIREBASE IMPORTS
+// ===============================
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import { initializeApp } from 
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 
 import {
-    getDatabase,
-    ref,
-    get,
-    set,
-    push,
-    update,
-    remove,
-    onValue
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+getDatabase,
+ref,
+set,
+get,
+push,
+remove,
+onValue
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+
+
+
+
+// ===============================
+// FIREBASE CONFIG
+// ===============================
+
+
+// СЮДИ ВСТАВЛЯЄМО ТВОЇ ДАНІ FIREBASE
 
 
 const firebaseConfig = {
 
-    apiKey: "AIzaSyB-rv0vO2ZN_BYhraPNBIKhvTahrtEB9D8",
 
-    authDomain: "revenant-v2-955dc.firebaseapp.com",
+apiKey: "ТВІЙ_API_KEY",
 
-    databaseURL:
-    "https://revenant-v2-955dc-default-rtdb.firebaseio.com",
+authDomain: "ТВІЙ_AUTH_DOMAIN",
 
-    projectId: "revenant-v2-955dc",
+databaseURL: "ТВІЙ_DATABASE_URL",
 
-    storageBucket:
-    "revenant-v2-955dc.firebasestorage.app",
+projectId: "ТВІЙ_PROJECT_ID",
 
-    messagingSenderId:
-    "888954510701",
+storageBucket: "ТВІЙ_STORAGE_BUCKET",
 
-    appId:
-    "1:888954510701:web:84dc99929d5b82ee564e64"
+messagingSenderId: "ТВІЙ_SENDER_ID",
+
+appId: "ТВІЙ_APP_ID"
+
 
 };
 
 
+
+
+
 const app = initializeApp(firebaseConfig);
+
 
 const db = getDatabase(app);
 
 
 
-// ========================================
+
+
+// ===============================
 // GLOBAL STATE
-// ========================================
+// ===============================
 
 
-let state = {
+const state = {
 
-    prices: {
 
-        alcohol2:900,
+workers:{},
 
-        alcohol3:1200,
 
-        parsley2:800,
+history:{},
 
-        parsley3:1100
 
-    },
+prices:{
 
-    workers:{},
 
-    history:{},
+alcohol2:900,
 
-    selectedWorker:null,
 
-    owner:false
+alcohol3:1200,
+
+
+parsley2:800,
+
+
+parsley3:1100
+
+
+},
+
+
+selectedWorker:null,
+
+
+owner:false
+
 
 };
 
 
 
-// ========================================
-// HELPERS
-// ========================================
 
 
-const $ = id => document.getElementById(id);
+console.log(
+"🔥 Revenant v2 Ultimate запущено"
+);
+/* =====================================
+   PART 2
+   NAVIGATION + TOAST + OWNER LOGIN
+===================================== */
 
 
-function num(value){
 
-    return Number(value) || 0;
+// ===============================
+// NAVIGATION
+// ===============================
 
-}
+
+const navButtons =
+document.querySelectorAll(".nav-btn");
 
 
-function money(value){
+const pages =
+document.querySelectorAll(".page");
 
-    return `${Number(value).toLocaleString("uk-UA")} грн`;
 
-}
-// ========================================
-// GENERATE WORKER CODE
-// ========================================
 
-function generateWorkerCode(){
+navButtons.forEach(btn=>{
 
-    const chars =
-    "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
-    let code = "";
+btn.addEventListener(
+"click",
+()=>{
 
-    for(let i=0;i<6;i++){
 
-        code += chars[
-            Math.floor(Math.random()*chars.length)
-        ];
+const target =
+btn.dataset.page;
 
-    }
 
-    return code;
 
-}
-// ========================================
-// ADD CODES TO OLD WORKERS
-// ========================================
+navButtons.forEach(b=>
 
-async function addCodesToOldWorkers(){
+b.classList.remove("active")
 
-    const snapshot = await get(ref(db,"workers"));
+);
 
-    if(!snapshot.exists()) return;
 
-    const workers = snapshot.val();
 
-    for(const name in workers){
+btn.classList.add("active");
 
-        if(!workers[name].code){
 
-            await update(
-                ref(db,"workers/"+name),
-                {
-                    code: generateWorkerCode()
-                }
-            );
 
-        }
+pages.forEach(page=>{
 
-    }
+
+page.classList.remove("active");
+
+
+
+if(page.id===target){
+
+page.classList.add("active");
 
 }
-// ========================================
-// DOM ELEMENTS
-// ========================================
-
-
-const DOM = {
-
-    playerName: $("playerName"),
-
-    alcohol2: $("alcohol2"),
-    alcohol3: $("alcohol3"),
-    parsley2: $("parsley2"),
-    parsley3: $("parsley3"),
-
-    total: $("total"),
-
-    saveSalary: $("saveSalary"),
-
-
-    workersCount: $("workersCount"),
-    productsCount: $("productsCount"),
-    moneyCount: $("moneyCount"),
-
-    topPlayers: $("topPlayers"),
-
-    history: $("history"),
-
-
-    ownerPassword: $("ownerPassword"),
-    ownerLogin: $("ownerLogin"),
-    ownerPanel: $("ownerPanel"),
-
-
-    searchPlayer: $("searchPlayer"),
-    playerProfile: $("playerProfile"),
-
-
-    newWorkerName: $("newWorkerName"),
-    addWorkerBtn: $("addWorkerBtn"),
-
-
-    priceAlcohol2: $("priceAlcohol2"),
-    priceAlcohol3: $("priceAlcohol3"),
-    priceParsley2: $("priceParsley2"),
-    priceParsley3: $("priceParsley3"),
-
-    savePrices: $("savePrices"),
-
-
-    deleteWorker: $("deleteWorker"),
-
-    resetWorker: $("resetWorker"),
-
-
-    clearTop: $("clearTop"),
-
-    clearHistory: $("clearHistory"),
-
-
-    toast: $("toast")
-
-};
-
-
-
-// ========================================
-// TOAST SYSTEM
-// ========================================
-
-
-function toast(message,type="success"){
-
-
-    if(!DOM.toast) return;
-
-
-    DOM.toast.textContent = message;
-
-
-    DOM.toast.className = "";
-
-
-    DOM.toast.classList.add(type);
-
-
-    DOM.toast.classList.add("show");
-
-
-
-    setTimeout(()=>{
-
-        DOM.toast.classList.remove("show");
-
-    },2500);
-
-
-}
-
-
-
-// ========================================
-// LOAD PRICES
-// ========================================
-
-
-async function loadPrices(){
-
-
-    const snapshot = await get(
-        ref(db,"prices")
-    );
-
-
-    if(snapshot.exists()){
-
-
-        state.prices = {
-
-            ...state.prices,
-
-            ...snapshot.val()
-
-        };
-
-
-    }else{
-
-
-        await set(
-            ref(db,"prices"),
-            state.prices
-        );
-
-
-    }
-
-
-
-    DOM.priceAlcohol2.value =
-        state.prices.alcohol2;
-
-
-    DOM.priceAlcohol3.value =
-        state.prices.alcohol3;
-
-
-    DOM.priceParsley2.value =
-        state.prices.parsley2;
-
-
-    DOM.priceParsley3.value =
-        state.prices.parsley3;
-
-
-}
-
-
-// ========================================
-// CALCULATOR
-// ========================================
-
-
-function calculate(){
-
-
-    const result =
-
-        num(DOM.alcohol2.value) *
-        state.prices.alcohol2 +
-
-
-        num(DOM.alcohol3.value) *
-        state.prices.alcohol3 +
-
-
-        num(DOM.parsley2.value) *
-        state.prices.parsley2 +
-
-
-        num(DOM.parsley3.value) *
-        state.prices.parsley3;
-
-
-
-    DOM.total.textContent =
-        money(result);
-
-
-
-    return result;
-
-
-}
-
-
-
-[
-DOM.alcohol2,
-DOM.alcohol3,
-DOM.parsley2,
-DOM.parsley3
-
-].forEach(input=>{
-
-
-    input.addEventListener(
-        "input",
-        calculate
-    );
 
 
 });
-// ========================================
-// FIREBASE LISTENERS
-// ========================================
 
 
-function startListeners(){
+});
 
 
-    onValue(
-        ref(db,"workers"),
-        snapshot=>{
+});
 
 
-            state.workers =
-                snapshot.exists()
-                ? snapshot.val()
-                : {};
 
 
-            renderStatistics();
 
-            renderTop();
 
+// ===============================
+// TOAST
+// ===============================
 
-            if(state.selectedWorker){
 
-                renderProfile(
-                    state.selectedWorker
-                );
+window.showToast = function(message){
 
-            }
 
+const toast =
+document.getElementById("toast");
 
-        }
-    );
 
 
+toast.innerText = message;
 
-    onValue(
-        ref(db,"history"),
-        snapshot=>{
 
+toast.classList.add("show");
 
-            state.history =
-                snapshot.exists()
-                ? snapshot.val()
-                : {};
 
 
-            renderHistory();
+setTimeout(()=>{
 
 
-        }
-    );
+toast.classList.remove("show");
 
 
-}
+},3000);
 
 
 
-// ========================================
-// SAVE DELIVERY
-// ========================================
+};
 
 
-async function saveDelivery(){
 
 
-    const name =
-        DOM.playerName.value.trim();
 
 
 
-    if(!name){
+// ===============================
+// OWNER LOGIN
+// ===============================
 
 
-        toast(
-            "Введіть нік працівника",
-            "error"
-        );
 
-        return;
+const OWNER_PASSWORD =
+"RV-ULTIMATE-2026-OWNER";
 
-    }
 
 
-
-    const delivery = {
-
-
-        alcohol2:
-            num(DOM.alcohol2.value),
-
-
-        alcohol3:
-            num(DOM.alcohol3.value),
-
-
-        parsley2:
-            num(DOM.parsley2.value),
-
-
-        parsley3:
-            num(DOM.parsley3.value)
-
-
-
-    };
-
-
-
-    const products =
-
-        delivery.alcohol2 +
-
-        delivery.alcohol3 +
-
-        delivery.parsley2 +
-
-        delivery.parsley3;
-
-
-
-    const salary =
-        calculate();
-
-
-
-    const workerRef =
-        ref(
-            db,
-            "workers/" + name
-        );
-
-
-
-    const snapshot =
-        await get(workerRef);
-
-
-
-    let worker = {
-
-
-        alcohol2:0,
-
-        alcohol3:0,
-
-        parsley2:0,
-
-        parsley3:0,
-
-        products:0,
-
-        earned:0,
-
-        deliveries:0
-
-
-    };
-
-
-
-    if(snapshot.exists()){
-
-
-        worker = snapshot.val();
-
-
-    }
-
-
-
-    worker.alcohol2 += delivery.alcohol2;
-
-    worker.alcohol3 += delivery.alcohol3;
-
-    worker.parsley2 += delivery.parsley2;
-
-    worker.parsley3 += delivery.parsley3;
-
-
-    worker.products += products;
-
-    worker.earned += salary;
-
-    worker.deliveries += 1;
-
-
-
-    await set(
-        workerRef,
-        worker
-    );
-
-
-
-    await push(
-        ref(db,"history"),
-        {
-
-            player:name,
-
-            ...delivery,
-
-
-            products,
-
-            earned:salary,
-
-
-            date:
-            new Date()
-            .toLocaleString("uk-UA")
-
-
-        }
-    );
-
-
-
-    clearCalculator();
-
-
-
-    toast(
-        "Здачу збережено"
-    );
-
-
-}
-
-
-
-// ========================================
-// CLEAR CALCULATOR
-// ========================================
-
-
-function clearCalculator(){
-
-
-    DOM.playerName.value="";
-
-
-    DOM.alcohol2.value=0;
-
-    DOM.alcohol3.value=0;
-
-    DOM.parsley2.value=0;
-
-    DOM.parsley3.value=0;
-
-
-
-    calculate();
-
-
-}
-
-
-
-DOM.saveSalary.addEventListener(
-    "click",
-    saveDelivery
+const ownerLoginBtn =
+document.getElementById(
+"ownerLoginBtn"
 );
-// ========================================
-// STATISTICS
-// ========================================
-
-
-function renderStatistics(){
-
-
-    const list =
-        Object.values(state.workers);
 
 
 
-    DOM.workersCount.textContent =
-        list.length;
+if(ownerLoginBtn){
+
+
+ownerLoginBtn.addEventListener(
+"click",
+()=>{
+
+
+const input =
+document.getElementById(
+"ownerPassword"
+);
 
 
 
-    let products = 0;
-
-    let moneyTotal = 0;
-
-
-
-    list.forEach(worker=>{
+if(
+input.value === OWNER_PASSWORD
+){
 
 
-        products +=
-            worker.products || 0;
-
-
-        moneyTotal +=
-            worker.earned || 0;
-
-
-    });
+state.owner = true;
 
 
 
-    DOM.productsCount.textContent =
-        products;
+document.getElementById(
+"ownerLogin"
+).style.display="none";
 
 
 
-    DOM.moneyCount.textContent =
-        money(moneyTotal);
+document.getElementById(
+"ownerPanel"
+).style.display="block";
+
+
+
+showToast(
+"👑 Панель власника відкрита"
+);
+
+
+
+}else{
+
+
+showToast(
+"❌ Неправильний пароль"
+);
+
 
 
 }
 
 
 
-// ========================================
-// TOP PLAYERS
-// ========================================
+});
+
+
+}
+/* =====================================
+   PART 3
+   WORKERS SYSTEM
+===================================== */
+
+
+
+// ===============================
+// GENERATE WORKER CODE
+// ===============================
+
+
+function generateWorkerCode(){
+
+
+const number =
+Math.floor(
+100000 +
+Math.random()*900000
+);
+
+
+
+return "RV-" + number;
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// ADD WORKER
+// ===============================
+
+
+const addWorkerBtn =
+document.getElementById(
+"addWorkerBtn"
+);
+
+
+
+if(addWorkerBtn){
+
+
+addWorkerBtn.addEventListener(
+"click",
+async()=>{
+
+
+const input =
+document.getElementById(
+"newWorkerName"
+);
+
+
+
+const name =
+input.value.trim();
+
+
+
+if(!name){
+
+
+showToast(
+"❌ Введіть нік працівника"
+);
+
+
+return;
+
+
+}
+
+
+
+
+// перевірка чи існує
+
+
+const snapshot =
+await get(
+ref(db,"workers")
+);
+
+
+
+let workers =
+snapshot.exists()
+?
+snapshot.val()
+:
+{};
+
+
+
+for(const id in workers){
+
+
+if(
+workers[id].name
+.toLowerCase()
+===
+name.toLowerCase()
+
+){
+
+
+showToast(
+"❌ Такий працівник вже існує"
+);
+
+
+return;
+
+
+}
+
+
+}
+
+
+
+
+const id =
+push(
+ref(db,"workers")
+).key;
+
+
+
+const worker = {
+
+
+name:name,
+
+
+code:
+generateWorkerCode(),
+
+
+alcohol2:0,
+
+
+alcohol3:0,
+
+
+parsley2:0,
+
+
+parsley3:0,
+
+
+totalProducts:0,
+
+
+money:0,
+
+
+deliveries:0,
+
+
+created:
+Date.now()
+
+
+};
+
+
+
+
+
+await set(
+ref(db,"workers/"+id),
+worker
+);
+
+
+
+input.value="";
+
+
+
+showToast(
+"✅ Працівника додано"
+);
+
+
+
+};
+
+
+}
+/* =====================================
+   PART 4
+   LOAD WORKERS + SEARCH + PROFILE
+===================================== */
+
+
+
+// ===============================
+// LOAD WORKERS
+// ===============================
+
+
+function loadWorkers(){
+
+
+onValue(
+ref(db,"workers"),
+
+snapshot=>{
+
+
+state.workers =
+snapshot.exists()
+?
+snapshot.val()
+:
+{};
+
+
+
+renderWorkers();
+
+
+
+}
+
+
+);
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// RENDER WORKERS
+// ===============================
+
+
+function renderWorkers(){
+
+
+const box =
+document.getElementById(
+"workersList"
+);
+
+
+
+if(!box) return;
+
+
+
+box.innerHTML="";
+
+
+
+Object.entries(
+state.workers
+)
+.forEach(
+([id,worker])=>{
+
+
+
+const div =
+document.createElement(
+"div"
+);
+
+
+
+div.className =
+"worker-item";
+
+
+
+div.innerHTML = `
+
+
+<div class="worker-info">
+
+<h3>
+${worker.name}
+</h3>
+
+<p class="worker-code">
+
+${worker.code}
+
+</p>
+
+</div>
+
+
+
+<div>
+
+
+<button 
+class="btn"
+onclick="
+openWorkerProfile('${id}')
+">
+
+👤
+
+</button>
+
+
+
+<button
+class="btn danger"
+onclick="
+deleteWorker('${id}')
+">
+
+❌
+
+</button>
+
+
+</div>
+
+
+`;
+
+
+
+box.appendChild(div);
+
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// SEARCH WORKER
+// ===============================
+
+
+const searchInput =
+document.getElementById(
+"workerSearch"
+);
+
+
+
+if(searchInput){
+
+
+searchInput.addEventListener(
+"input",
+()=>{
+
+
+const value =
+searchInput.value
+.toLowerCase();
+
+
+
+const box =
+document.getElementById(
+"workersList"
+);
+
+
+
+box.innerHTML="";
+
+
+
+Object.entries(
+state.workers
+)
+
+.filter(
+([id,w])=>
+
+w.name
+.toLowerCase()
+.includes(value)
+
+||
+
+w.code
+.toLowerCase()
+.includes(value)
+
+)
+
+
+.forEach(
+([id,worker])=>{
+
+
+const div =
+document.createElement(
+"div"
+);
+
+
+
+div.className =
+"worker-item";
+
+
+
+div.innerHTML = `
+
+<div>
+
+<h3>
+${worker.name}
+</h3>
+
+<p>
+${worker.code}
+</p>
+
+</div>
+
+
+<button
+class="btn"
+onclick="
+openWorkerProfile('${id}')
+">
+
+👤 Профіль
+
+</button>
+
+`;
+
+
+
+box.appendChild(div);
+
+
+});
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// OPEN PROFILE
+// ===============================
+
+
+window.openWorkerProfile =
+function(id){
+
+
+const worker =
+state.workers[id];
+
+
+
+if(!worker)return;
+
+
+
+state.selectedWorker=id;
+
+
+
+const box =
+document.getElementById(
+"workerProfile"
+);
+
+
+
+box.innerHTML = `
+
+
+<div class="profile-grid">
+
+
+<div class="profile-box">
+
+<h4>
+👤 Нік
+</h4>
+
+<strong>
+${worker.name}
+</strong>
+
+</div>
+
+
+
+<div class="profile-box">
+
+<h4>
+🆔 Код
+</h4>
+
+<strong>
+${worker.code}
+</strong>
+
+</div>
+
+
+
+<div class="profile-box">
+
+<h4>
+📦 Продукція
+</h4>
+
+<strong>
+${worker.totalProducts}
+</strong>
+
+</div>
+
+
+
+<div class="profile-box">
+
+<h4>
+💰 Зароблено
+</h4>
+
+<strong>
+${worker.money} грн
+</strong>
+
+</div>
+
+
+
+<div class="profile-box">
+
+<h4>
+📈 Здачі
+</h4>
+
+<strong>
+${worker.deliveries}
+</strong>
+
+</div>
+
+
+</div>
+
+
+`;
+
+
+
+};
+/* =====================================
+   PART 5
+   DELETE WORKER CONFIRMATION
+===================================== */
+
+
+
+let deleteWorkerId = null;
+
+
+
+
+
+// ===============================
+// OPEN CONFIRM MODAL
+// ===============================
+
+
+function openConfirm(
+title,
+text,
+callback
+){
+
+
+const modal =
+document.getElementById(
+"confirmModal"
+);
+
+
+
+document.getElementById(
+"confirmTitle"
+).innerText =
+title;
+
+
+
+document.getElementById(
+"confirmText"
+).innerText =
+text;
+
+
+
+modal.classList.add(
+"show"
+);
+
+
+
+deleteWorkerId =
+callback;
+
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// CANCEL
+// ===============================
+
+
+const cancelBtn =
+document.getElementById(
+"confirmCancel"
+);
+
+
+
+if(cancelBtn){
+
+
+cancelBtn.onclick =
+()=>{
+
+
+document
+.getElementById(
+"confirmModal"
+)
+.classList.remove(
+"show"
+);
+
+
+
+deleteWorkerId=null;
+
+
+};
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// ACCEPT
+// ===============================
+
+
+const acceptBtn =
+document.getElementById(
+"confirmAccept"
+);
+
+
+
+if(acceptBtn){
+
+
+acceptBtn.onclick =
+async()=>{
+
+
+if(deleteWorkerId){
+
+
+await deleteWorkerId();
+
+
+
+showToast(
+"🗑 Видалено"
+);
+
+
+
+}
+
+
+
+document
+.getElementById(
+"confirmModal"
+)
+.classList.remove(
+"show"
+);
+
+
+
+deleteWorkerId=null;
+
+
+};
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// DELETE WORKER
+// ===============================
+
+
+window.deleteWorker =
+function(id){
+
+
+const worker =
+state.workers[id];
+
+
+
+if(!worker)return;
+
+
+
+openConfirm(
+
+"⚠️ Видалення працівника",
+
+`
+Видалити ${worker.name}?
+
+Будуть видалені:
+• профіль
+• статистика
+• дані працівника
+
+Цю дію не можна скасувати.
+`,
+
+async()=>{
+
+
+await remove(
+ref(db,"workers/"+id)
+);
+
+
+
+}
+
+);
+
+
+};
+/* =====================================
+   PART 6
+   PRICES SYSTEM
+===================================== */
+
+
+
+// ===============================
+// LOAD PRICES
+// ===============================
+
+
+function loadPrices(){
+
+
+onValue(
+
+ref(db,"prices"),
+
+snapshot=>{
+
+
+if(snapshot.exists()){
+
+
+state.prices =
+snapshot.val();
+
+
+}
+
+
+
+fillPriceInputs();
+
+
+}
+
+
+);
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// FILL OWNER INPUTS
+// ===============================
+
+
+function fillPriceInputs(){
+
+
+
+const a2 =
+document.getElementById(
+"priceAlcohol2"
+);
+
+
+const a3 =
+document.getElementById(
+"priceAlcohol3"
+);
+
+
+const p2 =
+document.getElementById(
+"priceParsley2"
+);
+
+
+const p3 =
+document.getElementById(
+"priceParsley3"
+);
+
+
+
+
+if(a2)
+a2.value =
+state.prices.alcohol2;
+
+
+if(a3)
+a3.value =
+state.prices.alcohol3;
+
+
+if(p2)
+p2.value =
+state.prices.parsley2;
+
+
+if(p3)
+p3.value =
+state.prices.parsley3;
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// SAVE PRICES
+// ===============================
+
+
+const savePricesBtn =
+document.getElementById(
+"savePricesBtn"
+);
+
+
+
+if(savePricesBtn){
+
+
+savePricesBtn.onclick =
+async()=>{
+
+
+
+state.prices.alcohol2 =
+Number(
+document.getElementById(
+"priceAlcohol2"
+).value
+);
+
+
+
+state.prices.alcohol3 =
+Number(
+document.getElementById(
+"priceAlcohol3"
+).value
+);
+
+
+
+state.prices.parsley2 =
+Number(
+document.getElementById(
+"priceParsley2"
+).value
+);
+
+
+
+state.prices.parsley3 =
+Number(
+document.getElementById(
+"priceParsley3"
+).value
+);
+
+
+
+
+
+await set(
+
+ref(db,"prices"),
+
+state.prices
+
+);
+
+
+
+
+showToast(
+"💰 Ціни збережено"
+);
+
+
+
+};
+
+
+}
+/* =====================================
+   PART 6
+   PRICES SYSTEM
+===================================== */
+
+
+
+// ===============================
+// LOAD PRICES
+// ===============================
+
+
+function loadPrices(){
+
+
+onValue(
+
+ref(db,"prices"),
+
+snapshot=>{
+
+
+if(snapshot.exists()){
+
+
+state.prices =
+snapshot.val();
+
+
+}
+
+
+
+fillPriceInputs();
+
+
+}
+
+
+);
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// FILL OWNER INPUTS
+// ===============================
+
+
+function fillPriceInputs(){
+
+
+
+const a2 =
+document.getElementById(
+"priceAlcohol2"
+);
+
+
+const a3 =
+document.getElementById(
+"priceAlcohol3"
+);
+
+
+const p2 =
+document.getElementById(
+"priceParsley2"
+);
+
+
+const p3 =
+document.getElementById(
+"priceParsley3"
+);
+
+
+
+
+if(a2)
+a2.value =
+state.prices.alcohol2;
+
+
+if(a3)
+a3.value =
+state.prices.alcohol3;
+
+
+if(p2)
+p2.value =
+state.prices.parsley2;
+
+
+if(p3)
+p3.value =
+state.prices.parsley3;
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// SAVE PRICES
+// ===============================
+
+
+const savePricesBtn =
+document.getElementById(
+"savePricesBtn"
+);
+
+
+
+if(savePricesBtn){
+
+
+savePricesBtn.onclick =
+async()=>{
+
+
+
+state.prices.alcohol2 =
+Number(
+document.getElementById(
+"priceAlcohol2"
+).value
+);
+
+
+
+state.prices.alcohol3 =
+Number(
+document.getElementById(
+"priceAlcohol3"
+).value
+);
+
+
+
+state.prices.parsley2 =
+Number(
+document.getElementById(
+"priceParsley2"
+).value
+);
+
+
+
+state.prices.parsley3 =
+Number(
+document.getElementById(
+"priceParsley3"
+).value
+);
+
+
+
+
+
+await set(
+
+ref(db,"prices"),
+
+state.prices
+
+);
+
+
+
+
+showToast(
+"💰 Ціни збережено"
+);
+
+
+
+};
+
+
+}
+/* =====================================
+   PART 8
+   TOP + HISTORY
+===================================== */
+
+
+
+// ===============================
+// RENDER TOP
+// ===============================
 
 
 function renderTop(){
 
 
-    DOM.topPlayers.innerHTML = "";
+const box =
+document.getElementById(
+"topWorkers"
+);
 
 
 
-    const top =
-
-        Object.entries(state.workers)
-
-        .sort(
-            (a,b)=>
-            (b[1].earned || 0) -
-            (a[1].earned || 0)
-        )
-
-        .slice(0,10);
+if(!box)return;
 
 
 
-    if(!top.length){
-
-
-        DOM.topPlayers.innerHTML =
-        "<p>Даних ще немає</p>";
-
-
-        return;
-
-    }
+box.innerHTML="";
 
 
 
-    top.forEach(
-        ([name,worker],index)=>{
+const workers =
 
-
-        const card =
-        document.createElement("div");
-
-
-
-        card.className =
-        "top-player";
+Object.values(
+state.workers
+);
 
 
 
-        card.innerHTML = `
+workers.sort(
+(a,b)=>
 
-            <h3>
-            🏆 ${index+1}. ${name}
-            </h3>
+b.totalProducts -
+a.totalProducts
 
-            <p>
-            💰 ${money(worker.earned || 0)}
-            </p>
-
-            <p>
-            📦 ${worker.products || 0} шт.
-            </p>
-
-            <p>
-            📈 ${worker.deliveries || 0} здач
-            </p>
-
-        `;
+);
 
 
 
-        DOM.topPlayers.appendChild(card);
+
+
+workers
+.slice(0,10)
+.forEach(
+(worker,index)=>{
 
 
 
-    });
+const div =
+document.createElement(
+"div"
+);
+
+
+
+div.className =
+"top-card";
+
+
+
+div.innerHTML = `
+
+
+<div class="rank">
+
+${index+1}
+
+</div>
+
+
+
+<div>
+
+<h3>
+
+${worker.name}
+
+</h3>
+
+
+<p>
+
+📦 ${worker.totalProducts}
+
+</p>
+
+
+<p>
+
+💰 ${worker.money} грн
+
+</p>
+
+
+</div>
+
+
+`;
+
+
+
+box.appendChild(div);
+
+
+
+});
 
 
 }
 
 
 
-// ========================================
-// HISTORY
-// ========================================
+
+
+
+
+// ===============================
+// LOAD HISTORY
+// ===============================
+
+
+function loadHistory(){
+
+
+onValue(
+
+ref(db,"history"),
+
+snapshot=>{
+
+
+state.history =
+
+snapshot.exists()
+
+?
+
+snapshot.val()
+
+:
+
+{};
+
+
+
+renderHistory();
+
+
+}
+
+
+);
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// RENDER HISTORY
+// ===============================
 
 
 function renderHistory(){
 
 
-    DOM.history.innerHTML = "";
+const box =
+document.getElementById(
+"historyList"
+);
 
 
 
-    const list =
+if(!box)return;
 
-    Object.values(state.history)
 
-    .reverse();
 
+box.innerHTML="";
 
 
-    if(!list.length){
 
 
-        DOM.history.innerHTML =
-        "<p>Історія порожня</p>";
+Object.values(
+state.history
+)
 
+.reverse()
 
-        return;
+.slice(0,100)
 
+.forEach(
+(item)=>{
 
-    }
 
 
+const div =
+document.createElement(
+"div"
+);
 
-    list.forEach(item=>{
 
 
-        const card =
-        document.createElement("div");
+div.className =
+"history-card";
 
 
 
-        card.className =
-        "history-card";
+div.innerHTML = `
 
 
+<div>
 
-        card.innerHTML = `
+<h3>
 
+👤 ${item.worker}
 
-        <h3>
-        👤 ${item.player}
-        </h3>
+</h3>
 
-
-        <p>
-        🍾 Алкоголь ⭐⭐:
-        ${item.alcohol2}
-        </p>
-
-
-        <p>
-        🍾 Алкоголь ⭐⭐⭐:
-        ${item.alcohol3}
-        </p>
-
-
-        <p>
-        🌿 Петрушка ⭐⭐:
-        ${item.parsley2}
-        </p>
-
-
-        <p>
-        🌿 Петрушка ⭐⭐⭐:
-        ${item.parsley3}
-        </p>
-
-
-        <p>
-        📦 Продукція:
-        ${item.products}
-        </p>
-
-
-        <p>
-        💰 Зароблено:
-        ${money(item.earned)}
-        </p>
-
-
-        <small>
-        ${item.date}
-        </small>
-
-
-        `;
-
-
-
-        DOM.history.appendChild(card);
-
-
-
-    });
-
-
-}
-
-
-
-// ========================================
-// PROFILE
-// ========================================
-
-
-function renderProfile(name){
-
-
-    const worker =
-        state.workers[name];
-
-console.log(worker);
-
-    if(!worker){
-
-
-        DOM.playerProfile.innerHTML =
-        "<p>Працівника не знайдено</p>";
-
-
-        return;
-
-    }
-
-
-
-    state.selectedWorker = name;
-
-
-
-    DOM.playerProfile.innerHTML = `
-
-
-    <h2>
-    👤 ${name}
-    </h2>
-
-<div class="worker-code">
 
 <p>
-🆔 <b>${JSON.stringify(worker)}</b>
+
+🆔 ${item.code}
+
 </p>
 
-<button
-onclick="copyWorkerCode('${worker.code}')">
 
-📋 Копіювати код
+<p>
 
-</button>
+📅 ${item.date}
+
+</p>
+
 
 </div>
 
-    <p>
-    🍾 Алкоголь ⭐⭐:
-    ${worker.alcohol2 || 0}
-    </p>
 
 
-    <p>
-    🍾 Алкоголь ⭐⭐⭐:
-    ${worker.alcohol3 || 0}
-    </p>
+<div>
 
 
-    <p>
-    🌿 Петрушка ⭐⭐:
-    ${worker.parsley2 || 0}
-    </p>
+<p>
+🍺 ⭐⭐ ${item.alcohol2}
+</p>
 
 
-    <p>
-    🌿 Петрушка ⭐⭐⭐:
-    ${worker.parsley3 || 0}
-    </p>
+<p>
+🍺 ⭐⭐⭐ ${item.alcohol3}
+</p>
 
 
-    <p>
-    📦 Загальна продукція:
-    ${worker.products || 0}
-    </p>
+<p>
+🌿 ⭐⭐ ${item.parsley2}
+</p>
 
 
-    <p>
-    💰 Зароблено:
-    ${money(worker.earned || 0)}
-    </p>
+<p>
+🌿 ⭐⭐⭐ ${item.parsley3}
+</p>
 
 
-    <p>
-    📈 Кількість здач:
-    ${worker.deliveries || 0}
-    </p>
+<strong>
 
-<div class="profile-actions">
+💰 ${item.money} грн
 
-<button id="deleteWorkerCard">
-🗑 Видалити працівника
-</button>
+</strong>
 
-<button id="resetWorkerCard">
-🔄 Обнулити статистику
-</button>
 
 </div>
 
-    `;
-document.getElementById("deleteWorkerCard")
-.addEventListener("click", deleteWorkerHandler);
 
-document.getElementById("resetWorkerCard")
-.addEventListener("click", resetWorkerHandler);
+`;
 
-}
 
 
+box.appendChild(div);
 
-// ========================================
-// SEARCH
-// ========================================
 
 
-DOM.searchPlayer.addEventListener(
-    "input",
-    ()=>{
-
-
-        const value =
-        DOM.searchPlayer.value.trim();
-
-
-
-        if(!value){
-
-
-            DOM.playerProfile.innerHTML="";
-            state.selectedWorker=null;
-
-
-            return;
-
-        }
-
-
-
-        renderProfile(value);
-
-
-
-    }
-);
-
-
-
-
-// ========================================
-// ADD WORKER
-// ========================================
-
-
-DOM.addWorkerBtn.addEventListener(
-    "click",
-    addWorker
-);
-
-
-
-async function addWorker(){
-
-
-    const name =
-        DOM.newWorkerName.value.trim();
-
-
-
-    if(!name){
-
-
-        toast(
-            "Введіть нік",
-            "error"
-        );
-
-
-        return;
-
-    }
-
-
-
-    const workerRef =
-        ref(
-            db,
-            "workers/" + name
-        );
-
-
-
-    const snapshot =
-        await get(workerRef);
-
-
-
-    if(snapshot.exists()){
-
-
-        toast(
-            "Такий працівник вже є",
-            "error"
-        );
-
-
-        return;
-
-    }
-
-
-
-   await set(
-    workerRef,
-    {
-
-        code: generateWorkerCode(),
-
-        name: name,
-
-        created: new Date().toLocaleString("uk-UA"),
-
-        alcohol2:0,
-
-        alcohol3:0,
-
-        parsley2:0,
-
-        parsley3:0,
-
-        products:0,
-
-        earned:0,
-
-        deliveries:0
-
-    }
-);
-
-
-
-    DOM.newWorkerName.value="";
-
-
-
-    toast(
-        "Працівника додано"
-    );
+});
 
 
 }
-
-// ========================================
-// DELETE WORKER
-// ========================================
-
-window.deleteWorker = async function(){
-
-    const input =
-    document.getElementById("workerSearch");
+/* =====================================
+   START SYSTEM
+===================================== */
 
 
-    if(!input || !input.value.trim()){
+loadWorkers();
 
-        toast("Введи ім'я працівника","error");
-        return;
+loadPrices();
 
-    }
-
-
-    const name =
-    input.value.trim();
-
-
-    await remove(
-        ref(db,"workers/" + name)
-    );
+loadHistory();
+/* =====================================
+   PART 9
+   STATISTICS
+===================================== */
 
 
-    input.value="";
+function renderStatistics(){
 
 
-    toast("Працівника видалено");
-
-};
-
-// ========================================
-// SAVE PRICES
-// ========================================
-
-
-DOM.savePrices.addEventListener(
-    "click",
-    savePricesHandler
+const box =
+document.getElementById(
+"statisticsBox"
 );
 
 
-
-async function savePricesHandler(){
-
-
-    state.prices = {
-
-
-        alcohol2:
-        num(DOM.priceAlcohol2.value),
-
-
-        alcohol3:
-        num(DOM.priceAlcohol3.value),
-
-
-        parsley2:
-        num(DOM.priceParsley2.value),
-
-
-        parsley3:
-        num(DOM.priceParsley3.value)
-
-
-    };
+if(!box) return;
 
 
 
-    await set(
-        ref(db,"prices"),
-        state.prices
-    );
+let workersCount =
+Object.keys(state.workers).length;
+
+
+let products = 0;
+
+let money = 0;
+
+let deliveries = 0;
 
 
 
-    calculate();
+Object.values(
+state.workers
+)
+.forEach(worker=>{
+
+
+products +=
+worker.totalProducts || 0;
+
+
+money +=
+worker.money || 0;
+
+
+deliveries +=
+worker.deliveries || 0;
+
+
+});
 
 
 
-    toast(
-        "Ціни оновлено"
-    );
 
 
-}
-// ========================================
-// DELETE WORKER
-// ========================================
+box.innerHTML = `
 
 
-DOM.deleteWorker.addEventListener(
-    "click",
-    deleteWorkerHandler
-);
+<div class="stat-card">
 
 
+<h3>
+👷 Працівників
+</h3>
 
-async function deleteWorkerHandler(){
+
+<strong>
+${workersCount}
+</strong>
 
 
-    const name =
-        state.selectedWorker;
+</div>
 
 
 
-    if(!name){
+<div class="stat-card">
 
 
-        toast(
-            "Оберіть працівника",
-            "error"
-        );
+<h3>
+📦 Продукція
+</h3>
 
 
-        return;
+<strong>
+${products}
+</strong>
 
-    }
 
-
-
-    await remove(
-        ref(
-            db,
-            "workers/" + name
-        )
-    );
+</div>
 
 
 
-    DOM.playerProfile.innerHTML = "";
-
-    DOM.searchPlayer.value = "";
-
-    state.selectedWorker = null;
+<div class="stat-card">
 
 
+<h3>
+📈 Здач
+</h3>
 
-    toast(
-        "Працівника видалено"
-    );
+
+<strong>
+${deliveries}
+</strong>
+
+
+</div>
+
+
+
+<div class="stat-card">
+
+
+<h3>
+💰 Виплачено
+</h3>
+
+
+<strong>
+${money} грн
+</strong>
+
+
+</div>
+
+
+`;
+
 
 
 }
 
 
 
-// ========================================
-// RESET WORKER
-// ========================================
 
 
-DOM.resetWorker.addEventListener(
-    "click",
-    resetWorkerHandler
+
+// ===============================
+// UPDATE LISTENERS
+// ===============================
+
+
+onValue(
+
+ref(db,"workers"),
+
+snapshot=>{
+
+
+state.workers =
+
+snapshot.exists()
+
+?
+
+snapshot.val()
+
+:
+
+{};
+
+
+
+renderWorkers();
+
+renderTop();
+
+renderStatistics();
+
+
+
+}
+
+);
+/* =====================================
+   PART 9
+   STATISTICS
+===================================== */
+
+
+function renderStatistics(){
+
+
+const box =
+document.getElementById(
+"statisticsBox"
 );
 
 
-
-async function resetWorkerHandler(){
-
-
-    const name =
-        state.selectedWorker;
+if(!box) return;
 
 
 
-    if(!name){
+let workersCount =
+Object.keys(state.workers).length;
 
 
-        toast(
-            "Оберіть працівника",
-            "error"
-        );
+let products = 0;
 
+let money = 0;
 
-        return;
-
-    }
+let deliveries = 0;
 
 
 
-    await update(
-        ref(
-            db,
-            "workers/" + name
-        ),
-        {
+Object.values(
+state.workers
+)
+.forEach(worker=>{
 
 
-            alcohol2:0,
-
-            alcohol3:0,
-
-            parsley2:0,
-
-            parsley3:0,
+products +=
+worker.totalProducts || 0;
 
 
-            products:0,
-
-            earned:0,
-
-            deliveries:0
+money +=
+worker.money || 0;
 
 
-        }
-    );
+deliveries +=
+worker.deliveries || 0;
+
+
+});
 
 
 
-    toast(
-        "Статистика очищена"
-    );
+
+
+box.innerHTML = `
+
+
+<div class="stat-card">
+
+
+<h3>
+👷 Працівників
+</h3>
+
+
+<strong>
+${workersCount}
+</strong>
+
+
+</div>
+
+
+
+<div class="stat-card">
+
+
+<h3>
+📦 Продукція
+</h3>
+
+
+<strong>
+${products}
+</strong>
+
+
+</div>
+
+
+
+<div class="stat-card">
+
+
+<h3>
+📈 Здач
+</h3>
+
+
+<strong>
+${deliveries}
+</strong>
+
+
+</div>
+
+
+
+<div class="stat-card">
+
+
+<h3>
+💰 Виплачено
+</h3>
+
+
+<strong>
+${money} грн
+</strong>
+
+
+</div>
+
+
+`;
+
 
 
 }
 
 
 
-// ========================================
+
+
+
+// ===============================
+// UPDATE LISTENERS
+// ===============================
+
+
+onValue(
+
+ref(db,"workers"),
+
+snapshot=>{
+
+
+state.workers =
+
+snapshot.exists()
+
+?
+
+snapshot.val()
+
+:
+
+{};
+
+
+
+renderWorkers();
+
+renderTop();
+
+renderStatistics();
+
+
+
+}
+
+);
+/* =====================================
+   PART 10
+   CLEAR HISTORY + CLEAR TOP
+===================================== */
+
+
+
+// ===============================
 // CLEAR HISTORY
-// ========================================
+// ===============================
 
 
-DOM.clearHistory.addEventListener(
-    "click",
-    async ()=>{
-
-
-        await remove(
-            ref(db,"history")
-        );
-
-
-
-        toast(
-            "Історію очищено"
-        );
-
-
-    }
+const clearHistoryBtn =
+document.getElementById(
+"clearHistoryBtn"
 );
 
 
 
-// ========================================
+if(clearHistoryBtn){
+
+
+clearHistoryBtn.onclick = ()=>{
+
+
+openConfirm(
+
+"⚠️ Очистити історію",
+
+"Вся історія здач буде видалена. Цю дію не можна скасувати.",
+
+
+async()=>{
+
+
+await remove(
+ref(db,"history")
+);
+
+
+
+showToast(
+"🗑 Історію очищено"
+);
+
+
+}
+
+
+);
+
+
+};
+
+
+}
+
+
+
+
+
+
+
+// ===============================
 // CLEAR TOP
-// ========================================
+// ===============================
 
 
-DOM.clearTop.addEventListener(
-    "click",
-    async ()=>{
-
-
-        const workers =
-            Object.keys(state.workers);
-
-
-
-        for(const name of workers){
-
-
-            await update(
-                ref(
-                    db,
-                    "workers/" + name
-                ),
-                {
-
-
-                    earned:0,
-
-                    products:0,
-
-                    deliveries:0
-
-
-                }
-            );
-
-
-        }
-
-
-
-        toast(
-            "ТОП очищено"
-        );
-
-
-    }
+const clearTopBtn =
+document.getElementById(
+"clearTopBtn"
 );
 
-window.addWorker = async function(){
-
-    const input =
-    document.getElementById("newWorkerName");
 
 
-    if(!input || !input.value.trim()){
-
-        toast("Введи ім'я працівника","error");
-        return;
-
-    }
+if(clearTopBtn){
 
 
-    const name =
-    input.value.trim();
+clearTopBtn.onclick = ()=>{
 
 
-    await set(
-        ref(db,"workers/" + name),
-        {
+openConfirm(
 
-            name:name,
+"⚠️ Очистити ТОП",
 
-            alcohol2:0,
-            alcohol3:0,
-
-            parsley2:0,
-            parsley3:0,
-
-            products:0,
-            earned:0,
-            deliveries:0
-
-        }
-    );
+"Рейтинг буде очищено. Дані працівників залишаться.",
 
 
-    input.value="";
+async()=>{
 
 
-    toast("Працівника додано");
+// ТОП будується з workers,
+// тому тут просто оновлюємо рейтинг
 
-};
+
+renderTop();
 
 
 
-
-window.deleteWorker = async function(){
-
-    const input =
-    document.getElementById("workerSearch");
+showToast(
+"🏆 ТОП оновлено"
+);
 
 
-    if(!input || !input.value.trim()){
-
-        toast("Введи ім'я працівника","error");
-        return;
-
-    }
-
-
-    const name =
-    input.value.trim();
-
-
-    await remove(
-        ref(db,"workers/" + name)
-    );
-
-
-    input.value="";
-
-
-    toast("Працівника видалено");
-
-};
-
-// ========================================
-// DELETE WORKER
-// ========================================
-
-window.deleteWorker = async function(){
-
-    const input =
-    document.getElementById("workerSearch");
-
-
-    if(!input || !input.value.trim()){
-
-        toast("Введи ім'я працівника","error");
-        return;
-
-    }
-
-
-    const name =
-    input.value.trim();
-
-
-    await remove(
-        ref(db,"workers/" + name)
-    );
-
-
-    input.value="";
-
-
-    toast("Працівника видалено");
-
-};
-
-// ========================================
-// START APPLICATION
-// ========================================
-
-
-async function init(){
-
-    await loadPrices();
-
-    await addCodesToOldWorkers();
-
-    startListeners();
-
-    calculate();
 
 }
 
-// ========================================
-// COPY WORKER CODE
-// ========================================
 
-window.copyWorkerCode = async function(code){
-
-    if(!code){
-
-        toast("Код не знайдено","error");
-        return;
-
-    }
-
-    try{
-
-        await navigator.clipboard.writeText(code);
-
-        toast("Код скопійовано");
-
-    }catch{
-
-        toast("Не вдалося скопіювати","error");
-
-    }
-
-}
-
-init();
-// Блокування ПКМ
-document.addEventListener("contextmenu", e => {
-    e.preventDefault();
-});
-
-// Блокування F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-document.addEventListener("keydown", e => {
-
-    if (
-        e.key === "F12" ||
-        (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) ||
-        (e.ctrlKey && (e.key === "u" || e.key === "U"))
-    ) {
-        e.preventDefault();
-    }
-
-});
-window.ownerLogin = function(){
-
-    let password =
-    document.getElementById("ownerPassword").value;
+);
 
 
-    if(password === "1234"){
+};
 
-        document.getElementById("ownerLoginBox").style.display="none";
-
-        document.getElementById("ownerPanel").style.display="block";
-
-    }else{
-
-        alert("❌ Невірний пароль");
-
-    }
 
 }
