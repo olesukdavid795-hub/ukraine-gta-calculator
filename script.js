@@ -125,6 +125,34 @@ function generateWorkerCode(){
 
 }
 // ========================================
+// ADD CODES TO OLD WORKERS
+// ========================================
+
+async function addCodesToOldWorkers(){
+
+    const snapshot = await get(ref(db,"workers"));
+
+    if(!snapshot.exists()) return;
+
+    const workers = snapshot.val();
+
+    for(const name in workers){
+
+        if(!workers[name].code){
+
+            await update(
+                ref(db,"workers/"+name),
+                {
+                    code: generateWorkerCode()
+                }
+            );
+
+        }
+
+    }
+
+}
+// ========================================
 // DOM ELEMENTS
 // ========================================
 
