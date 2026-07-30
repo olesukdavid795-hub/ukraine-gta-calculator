@@ -1402,67 +1402,7 @@ DOM.clearTop.addEventListener(
     }
 );
 
-// ========================================
-// RENDER TOP
-// ========================================
 
-function renderTop(){
-
-    const box =
-    document.getElementById("topWorkers");
-
-
-    if(!box) return;
-
-
-    let workers =
-    Object.values(state.workers || {});
-
-
-    workers.sort(
-        (a,b)=>
-        (b.earned || 0) -
-        (a.earned || 0)
-    );
-
-
-    box.innerHTML = "";
-
-
-    workers
-    .slice(0,10)
-    .forEach((worker,index)=>{
-
-
-        box.innerHTML += `
-
-        <div class="top-card">
-
-            <h3>
-            🏆 ${index+1}. ${worker.name || "Працівник"}
-            </h3>
-
-            <p>
-            💰 ${worker.earned || 0} грн
-            </p>
-
-            <p>
-            📦 ${worker.products || 0} шт.
-            </p>
-
-            <p>
-            📈 ${worker.deliveries || 0} здач
-            </p>
-
-        </div>
-
-        `;
-
-
-    });
-
-
-}
 
 // ========================================
 // START APPLICATION
