@@ -1479,19 +1479,15 @@ DOM.clearTop.addEventListener(
 
 async function init(){
 
-
     await loadPrices();
 
+    await addCodesToOldWorkers();
 
     startListeners();
 
-
     calculate();
 
-
-
 }
-
 
 
 init();
