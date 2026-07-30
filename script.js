@@ -1664,43 +1664,7 @@ worker.deliveries || 0;
 });
 
 
-// ===============================
-// UPDATE LISTENERS
-// ===============================
 
-
-onValue(
-
-ref(db,"workers"),
-
-snapshot=>{
-
-
-state.workers =
-
-snapshot.exists()
-
-?
-
-snapshot.val()
-
-:
-
-{};
-
-
-
-renderWorkers();
-
-renderTop();
-
-renderStatistics();
-
-
-
-}
-
-);
 /* =====================================
    PART 9
    STATISTICS
