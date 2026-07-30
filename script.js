@@ -475,7 +475,7 @@ async function loadWorkers(){
 
     const snapshot = await get(ref(db,"workers"));
 
-    workers = snapshot.exists() ? snapshot.val() : {};
+  state.workers = snapshot.exists() ? snapshot.val() : {};
 
     renderWorkers();
 }
