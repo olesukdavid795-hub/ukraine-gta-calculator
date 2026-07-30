@@ -533,7 +533,7 @@ function renderWorkers(){
     box.innerHTML="";
 
 
-    Object.values(workers).forEach(worker=>{
+    Object.values(state.workers).forEach(worker=>{
 
 
         box.innerHTML += `
