@@ -1136,7 +1136,39 @@ async function addWorker(){
 
 }
 
+// ========================================
+// DELETE WORKER
+// ========================================
 
+window.deleteWorker = async function(){
+
+    const input =
+    document.getElementById("workerSearch");
+
+
+    if(!input || !input.value.trim()){
+
+        toast("Введи ім'я працівника","error");
+        return;
+
+    }
+
+
+    const name =
+    input.value.trim();
+
+
+    await remove(
+        ref(db,"workers/" + name)
+    );
+
+
+    input.value="";
+
+
+    toast("Працівника видалено");
+
+};
 
 // ========================================
 // SAVE PRICES
