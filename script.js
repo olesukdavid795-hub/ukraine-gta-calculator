@@ -1792,50 +1792,6 @@ renderStatistics();
 ===================================== */
 
 
-function renderStatistics(){
-
-
-const box =
-document.getElementById(
-"statisticsBox"
-);
-
-
-if(!box) return;
-
-
-
-let workersCount =
-Object.keys(state.workers).length;
-
-
-let products = 0;
-
-let money = 0;
-
-let deliveries = 0;
-
-
-
-Object.values(
-state.workers
-)
-.forEach(worker=>{
-
-
-products +=
-worker.totalProducts || 0;
-
-
-money +=
-worker.money || 0;
-
-
-deliveries +=
-worker.deliveries || 0;
-
-
-});
 
 
 
