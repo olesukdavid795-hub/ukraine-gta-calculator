@@ -903,8 +903,10 @@ const OWNER_PASSWORD = "1234";
 
 window.ownerLogin = function(){
 
+    console.log("Кнопка власника працює");
 
-    const pass = document.getElementById("ownerPassword")?.value;
+
+    const pass = document.getElementById("ownerPassword").value;
 
 
     if(pass !== OWNER_PASSWORD){
@@ -919,11 +921,12 @@ window.ownerLogin = function(){
     document.getElementById("ownerPanel").style.display="block";
 
 
+    console.log("Панель відкрита");
+
+
     showToast("Вхід успішний 👑");
 
 };
-
-
 
 
 // Збереження цін
