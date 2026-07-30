@@ -1306,68 +1306,6 @@ showToast(
 
 }
 
-// ===============================
-// FILL OWNER INPUTS
-// ===============================
-
-
-function fillPriceInputs(){
-
-
-
-const a2 =
-document.getElementById(
-"priceAlcohol2"
-);
-
-
-const a3 =
-document.getElementById(
-"priceAlcohol3"
-);
-
-
-const p2 =
-document.getElementById(
-"priceParsley2"
-);
-
-
-const p3 =
-document.getElementById(
-"priceParsley3"
-);
-
-
-
-
-if(a2)
-a2.value =
-state.prices.alcohol2;
-
-
-if(a3)
-a3.value =
-state.prices.alcohol3;
-
-
-if(p2)
-p2.value =
-state.prices.parsley2;
-
-
-if(p3)
-p3.value =
-state.prices.parsley3;
-
-
-}
-
-
-
-
-
-
 
 // ===============================
 // SAVE PRICES
