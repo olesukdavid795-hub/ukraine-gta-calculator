@@ -90,6 +90,252 @@ data-page="owner">
 id="calculator"
 class="page active">
 
+<div class="calculator-grid">
+
+<div>
+
+<div class="card">
+
+<h2 class="section-title">
+
+📦 Калькулятор здачі
+
+</h2>
+
+<div class="form-group">
+
+<label>
+
+Працівник
+
+</label>
+
+<input
+id="workerSearch"
+type="text"
+placeholder="Введіть нік або код працівника...">
+
+</div>
+
+<div
+id="workerSearchResults"
+class="list">
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Або створіть нового працівника
+
+</label>
+
+<input
+id="newWorkerName"
+type="text"
+placeholder="Нік працівника">
+
+</div>
+
+<button
+id="addWorkerBtn"
+class="btn btn-primary">
+
+➕ Додати працівника
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2 class="section-title">
+
+📦 Продукція
+
+</h2>
+
+<div class="product-grid">
+
+<div class="product-card">
+
+<h3>
+
+🍺 Алкоголь ⭐⭐
+
+</h3>
+
+<input
+id="alcohol2"
+type="number"
+min="0"
+value="0">
+
+</div>
+
+<div class="product-card">
+
+<h3>
+
+🍺 Алкоголь ⭐⭐⭐
+
+</h3>
+
+<input
+id="alcohol3"
+type="number"
+min="0"
+value="0">
+
+</div>
+
+<div class="product-card">
+
+<h3>
+
+🌿 Петрушка ⭐⭐
+
+</h3>
+
+<input
+id="parsley2"
+type="number"
+min="0"
+value="0">
+
+</div>
+
+<div class="product-card">
+
+<h3>
+
+🌿 Петрушка ⭐⭐⭐
+
+</h3>
+
+<input
+id="parsley3"
+type="number"
+min="0"
+value="0">
+
+</div>
+
+</div>
+
+<div class="button-group">
+
+<button
+id="calculateBtn"
+class="btn btn-blue">
+
+🧮 Розрахувати
+
+</button>
+
+<button
+id="saveBtn"
+class="btn btn-success">
+
+💾 Зберегти здачу
+
+</button>
+
+<button
+id="clearBtn"
+class="btn btn-danger">
+
+🗑 Очистити
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<aside>
+
+<div class="result-card">
+
+<h2>
+
+💰 Результат
+
+</h2>
+
+<div class="result-row">
+
+<span>Алкоголь ⭐⭐</span>
+
+<span id="sumAlcohol2">
+
+0 грн
+
+</span>
+
+</div>
+
+<div class="result-row">
+
+<span>Алкоголь ⭐⭐⭐</span>
+
+<span id="sumAlcohol3">
+
+0 грн
+
+</span>
+
+</div>
+
+<div class="result-row">
+
+<span>Петрушка ⭐⭐</span>
+
+<span id="sumParsley2">
+
+0 грн
+
+</span>
+
+</div>
+
+<div class="result-row">
+
+<span>Петрушка ⭐⭐⭐</span>
+
+<span id="sumParsley3">
+
+0 грн
+
+</span>
+
+</div>
+
+<div class="total-money">
+
+<p>
+
+Загальна зарплата
+
+</p>
+
+<h1 id="totalSalary">
+
+0 грн
+
+</h1>
+
+</div>
+
+</div>
+
+</aside>
+
+</div>
+
 </section>
 
 <section
