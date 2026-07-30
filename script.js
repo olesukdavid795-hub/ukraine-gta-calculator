@@ -916,6 +916,20 @@ function renderProfile(name){
     👤 ${name}
     </h2>
 
+<div class="worker-code">
+
+<p>
+🆔 <b>${worker.code || "Немає коду"}</b>
+</p>
+
+<button
+onclick="copyWorkerCode('${worker.code}')">
+
+📋 Копіювати код
+
+</button>
+
+</div>
 
     <p>
     🍾 Алкоголь ⭐⭐:
@@ -1489,6 +1503,32 @@ async function init(){
 
 }
 
+// ========================================
+// COPY WORKER CODE
+// ========================================
+
+window.copyWorkerCode = async function(code){
+
+    if(!code){
+
+        toast("Код не знайдено","error");
+        return;
+
+    }
+
+    try{
+
+        await navigator.clipboard.writeText(code);
+
+        toast("Код скопійовано");
+
+    }catch{
+
+        toast("Не вдалося скопіювати","error");
+
+    }
+
+}
 
 init();
 // Блокування ПКМ
