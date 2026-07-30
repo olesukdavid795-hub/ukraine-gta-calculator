@@ -754,7 +754,7 @@ function renderHistory(){
     box.innerHTML="";
 
 
-    Object.values(history)
+    Object.values(state.history)
     .reverse()
     .forEach(item=>{
 
