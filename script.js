@@ -919,7 +919,7 @@ function renderProfile(name){
 <div class="worker-code">
 
 <p>
-🆔 <b>${worker.code || "Немає коду"}</b>
+🆔 <b>${JSON.stringify(worker)}</b>
 </p>
 
 <button
