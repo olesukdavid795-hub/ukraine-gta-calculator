@@ -890,7 +890,7 @@ function renderProfile(name){
     const worker =
         state.workers[name];
 
-
+console.log(worker);
 
     if(!worker){
 
