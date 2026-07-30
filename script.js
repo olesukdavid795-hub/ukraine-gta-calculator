@@ -40,6 +40,13 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // ========================================
+// GLOBAL DATA
+// ========================================
+
+let workers = {};
+let historyData = {};
+
+// ========================================
 // GLOBAL STATE
 // ========================================
 
