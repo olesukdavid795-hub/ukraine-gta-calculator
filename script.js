@@ -972,6 +972,17 @@ onclick="copyWorkerCode('${worker.code}')">
     ${worker.deliveries || 0}
     </p>
 
+<div class="profile-actions">
+
+<button id="deleteWorkerCard">
+🗑 Видалити працівника
+</button>
+
+<button id="resetWorkerCard">
+🔄 Обнулити статистику
+</button>
+
+</div>
 
     `;
 
