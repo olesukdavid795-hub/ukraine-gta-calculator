@@ -1136,29 +1136,32 @@ async function addWorker(){
 
 
 
-    await set(
-        workerRef,
-        {
+   await set(
+    workerRef,
+    {
 
+        code: generateWorkerCode(),
 
-            alcohol2:0,
+        name: name,
 
-            alcohol3:0,
+        created: new Date().toLocaleString("uk-UA"),
 
-            parsley2:0,
+        alcohol2:0,
 
-            parsley3:0,
+        alcohol3:0,
 
+        parsley2:0,
 
-            products:0,
+        parsley3:0,
 
-            earned:0,
+        products:0,
 
-            deliveries:0
+        earned:0,
 
+        deliveries:0
 
-        }
-    );
+    }
+);
 
 
 
