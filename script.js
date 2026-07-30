@@ -1402,14 +1402,10 @@ DOM.clearTop.addEventListener(
     }
 );
 
-// ========================================
-// ADD WORKER
-// ========================================
-
 window.addWorker = async function(){
 
     const input =
-    document.getElementById("workerName");
+    document.getElementById("newWorkerName");
 
 
     if(!input || !input.value.trim()){
@@ -1452,6 +1448,37 @@ window.addWorker = async function(){
 };
 
 
+
+
+window.deleteWorker = async function(){
+
+    const input =
+    document.getElementById("workerSearch");
+
+
+    if(!input || !input.value.trim()){
+
+        toast("Введи ім'я працівника","error");
+        return;
+
+    }
+
+
+    const name =
+    input.value.trim();
+
+
+    await remove(
+        ref(db,"workers/" + name)
+    );
+
+
+    input.value="";
+
+
+    toast("Працівника видалено");
+
+};
 
 // ========================================
 // DELETE WORKER
