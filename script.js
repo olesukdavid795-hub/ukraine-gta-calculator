@@ -44,24 +44,23 @@ from
 
 const firebaseConfig = {
 
+apiKey: "AIzaSyB-rv0vO2ZN_BYhraPNBIKhvTahrtEB9D8",
 
-apiKey: "ТВІЙ_API_KEY",
+authDomain: "revenant-v2-955dc.firebaseapp.com",
 
-authDomain: "ТВІЙ_AUTH_DOMAIN",
+databaseURL: "https://revenant-v2-955dc-default-rtdb.firebaseio.com",
 
-databaseURL: "ТВІЙ_DATABASE_URL",
+projectId: "revenant-v2-955dc",
 
-projectId: "ТВІЙ_PROJECT_ID",
+storageBucket: "revenant-v2-955dc.firebasestorage.app",
 
-storageBucket: "ТВІЙ_STORAGE_BUCKET",
+messagingSenderId: "888954510701",
 
-messagingSenderId: "ТВІЙ_SENDER_ID",
+appId: "1:888954510701:web:84dc99929d5b82ee564e64",
 
-appId: "ТВІЙ_APP_ID"
-
+measurementId: "G-6T8KDGQFXR"
 
 };
-
 
 
 
