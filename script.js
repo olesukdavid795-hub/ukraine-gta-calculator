@@ -985,7 +985,11 @@ onclick="copyWorkerCode('${worker.code}')">
 </div>
 
     `;
+document.getElementById("deleteWorkerCard")
+.addEventListener("click", deleteWorkerHandler);
 
+document.getElementById("resetWorkerCard")
+.addEventListener("click", resetWorkerHandler);
 
 }
 
