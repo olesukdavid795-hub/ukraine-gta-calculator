@@ -732,7 +732,7 @@ async function loadHistory(){
 
     const snapshot = await get(ref(db,"history"));
 
-    history = snapshot.exists()
+    state.history = snapshot.exists()
     ? snapshot.val()
     : {};
 
