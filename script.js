@@ -1312,43 +1312,6 @@ showToast(
 
 
 
-// ===============================
-// LOAD PRICES
-// ===============================
-
-
-function loadPrices(){
-
-
-onValue(
-
-ref(db,"prices"),
-
-snapshot=>{
-
-
-if(snapshot.exists()){
-
-
-state.prices =
-snapshot.val();
-
-
-}
-
-
-
-fillPriceInputs();
-
-
-}
-
-
-);
-
-
-}
-
 
 
 
