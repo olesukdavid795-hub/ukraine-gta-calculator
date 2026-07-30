@@ -717,26 +717,8 @@ window.saveDelivery = async function(){
 
 
 
-// Очистка калькулятора
-
-function clearCalculator(){
 
 
-    [
-        "a2",
-        "a3",
-        "p2",
-        "p3"
-    ].forEach(id=>{
-
-        const el=document.getElementById(id);
-
-        if(el) el.value=0;
-
-    });
-
-
-}
 // ========================================
 // PART 7
 // HISTORY + TOP WORKERS
