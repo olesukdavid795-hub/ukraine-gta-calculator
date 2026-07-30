@@ -277,40 +277,109 @@ min="0">
 </div>
 
 
-</section>
 <section class="owner-section">
-
 
 <h2>
 👑 Панель власника
 </h2>
 
 
+<div class="owner-login" id="ownerLoginBox">
 
-<div class="owner-login">
-
-<input id="ownerPassword" type="password" placeholder="Пароль">
+<input 
+id="ownerPassword" 
+type="password" 
+placeholder="🔐 Пароль власника">
 
 <button onclick="ownerLogin()">
 Увійти
 </button>
 
+</div>
 
-<div id="ownerPanel" class="owner-panel">
+
+
+<div id="ownerPanel" class="owner-panel" style="display:none;">
+
 
 <h3>👑 Панель власника</h3>
 
 <p>✅ Вхід успішний</p>
 
-<button>
-Змінити ціни
-</button>
 
-<button>
-Видалити працівника
+<div class="owner-card">
+
+<h4>💰 Зміна цін</h4>
+
+<label>
+Алкоголь ⭐⭐
+<input id="priceAlcohol2" type="number" value="900">
+</label>
+
+
+<label>
+Алкоголь ⭐⭐⭐
+<input id="priceAlcohol3" type="number" value="1200">
+</label>
+
+
+<label>
+Петрушка ⭐⭐
+<input id="priceParsley2" type="number" value="800">
+</label>
+
+
+<label>
+Петрушка ⭐⭐⭐
+<input id="priceParsley3" type="number" value="1100">
+</label>
+
+
+<button onclick="savePrices()">
+💾 Зберегти ціни
 </button>
 
 </div>
+
+
+
+<div class="owner-card">
+
+<h4>👥 Працівники</h4>
+
+<input 
+id="workerSearch"
+placeholder="🔎 Пошук працівника">
+
+
+<button onclick="deleteWorker()">
+🗑 Видалити працівника
+</button>
+
+
+</div>
+
+
+
+<div class="owner-card">
+
+<h4>⚙️ Управління</h4>
+
+<button onclick="clearHistory()">
+📜 Очистити історію
+</button>
+
+
+<button onclick="clearTop()">
+🏆 Очистити ТОП
+</button>
+
+</div>
+
+
+</div>
+
+</section>
 
 
 
