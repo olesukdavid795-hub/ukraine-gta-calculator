@@ -839,7 +839,7 @@ box.innerHTML += `
 <br>
 
 
-💰 ${item.salary.toLocaleString()} грн
+${(item.salary ?? 0).toLocaleString()} грн
 
 
 <br>
