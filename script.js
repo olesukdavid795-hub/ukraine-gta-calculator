@@ -33,23 +33,14 @@ from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 
 const firebaseConfig = {
-
-
-    apiKey: "ТУТ_ТВІЙ_API_KEY",
-
-    authDomain: "ТУТ",
-
-    databaseURL: "ТУТ",
-
-    projectId: "ТУТ",
-
-    storageBucket: "ТУТ",
-
-    messagingSenderId: "ТУТ",
-
-    appId: "ТУТ"
-
-
+  apiKey: "AIzaSyB-rv0vO2ZN_BYhraPNBIKhvTahrtEB9D8",
+  authDomain: "revenant-v2-955dc.firebaseapp.com",
+  databaseURL: "https://revenant-v2-955dc-default-rtdb.firebaseio.com",
+  projectId: "revenant-v2-955dc",
+  storageBucket: "revenant-v2-955dc.firebasestorage.app",
+  messagingSenderId: "888954510701",
+  appId: "1:888954510701:web:84dc99929d5b82ee564e64",
+  measurementId: "G-6T8KDGQFXR"
 };
 
 
