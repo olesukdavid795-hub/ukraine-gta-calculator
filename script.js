@@ -317,16 +317,18 @@ saveBtn.addEventListener("click", async ()=>{
     showLoader();
 
     try{
+        
+await push(
+    ref(db,"history"),
+    delivery
+);
 
-        await push(
-            ref(db,"history"),
-            delivery
-        );
+await updateWorkerStatistics(delivery);
 
-        showToast(
-            "✅ Здачу успішно збережено",
-            "#42d96b"
-        );
+showToast(
+    "✅ Здачу успішно збережено",
+    "#42d96b"
+);
 
         workerNickname.value="";
 
@@ -361,3 +363,43 @@ saveBtn.addEventListener("click", async ()=>{
     }
 
 });
+// ========================================
+// FIREBASE LISTENERS
+// ========================================
+
+function startListeners(){
+
+    onValue(
+        ref(db,"workers"),
+        snapshot=>{
+
+            state.workers =
+                snapshot.exists()
+                ? snapshot.val()
+                : {};
+
+            renderStatistics();
+
+        }
+    );
+
+    onValue(
+        ref(db,"history"),
+        snapshot=>{
+
+            state.history =
+                snapshot.exists()
+                ? snapshot.val()
+                : {};
+
+            renderHistory();
+
+        }
+    );
+
+}
+// ========================================
+// START
+// ========================================
+
+startListeners();
