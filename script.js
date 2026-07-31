@@ -1,23 +1,31 @@
 // ========================================
 // REVENANT v3
+// PREMIUM MAFIA GOLD
 // SCRIPT.JS
+// PART 1
 // FIREBASE SETUP
 // ========================================
 
 
-import { initializeApp }
+import {
+
+initializeApp
+
+}
+
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
 
 
 import {
 
-    getDatabase,
-    ref,
-    get,
-    set,
-    push,
-    remove,
-    onValue
+getDatabase,
+ref,
+set,
+get,
+push,
+remove,
+onValue
 
 }
 
@@ -25,40 +33,58 @@ from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 
 
+
 // ========================================
 // FIREBASE CONFIG
 // ========================================
 
+
 const firebaseConfig = {
 
-    apiKey: "AIzaSyB-rv0vO2ZN_BYhraPNBIKhvTahrtEB9D8",
 
-    authDomain:
-    "revenant-v2-955dc.firebaseapp.com",
+apiKey:
+"AIzaSyB-rv0vO2ZN_BYhraPNBIKhvTahrtEB9D8",
 
-    databaseURL:
-    "https://revenant-v2-955dc-default-rtdb.firebaseio.com",
 
-    projectId:
-    "revenant-v2-955dc",
+authDomain:
+"revenant-v2-955dc.firebaseapp.com",
 
-    storageBucket:
-    "revenant-v2-955dc.firebasestorage.app",
 
-    messagingSenderId:
-    "888954510701",
+databaseURL:
+"https://revenant-v2-955dc-default-rtdb.firebaseio.com",
 
-    appId:
-    "1:888954510701:web:84dc99929d5b82ee564e64"
+
+projectId:
+"revenant-v2-955dc",
+
+
+storageBucket:
+"revenant-v2-955dc.firebasestorage.app",
+
+
+messagingSenderId:
+"888954510701",
+
+
+appId:
+"1:888954510701:web:84dc99929d5b82ee564e64"
 
 };
 
 
 
-const app = initializeApp(firebaseConfig);
 
 
-const db = getDatabase(app);
+const app =
+initializeApp(firebaseConfig);
+
+
+
+const db =
+getDatabase(app);
+
+
+
 
 
 
@@ -66,99 +92,121 @@ const db = getDatabase(app);
 // GLOBAL STATE
 // ========================================
 
+
 const state = {
 
 
-    workers:{},
+workers:{},
 
 
-    history:{},
+history:{},
 
 
-    prices:{
+prices:{
 
 
-        alcohol2:900,
+    alcohol2:900,
 
 
-        alcohol3:1200,
+    alcohol3:1200,
 
 
-        parsley2:800,
+    parsley2:800,
 
 
-        parsley3:1100
+    parsley3:1100
 
 
-    }
+},
+
+
+
+owner:false,
+
+
+currentSalary:0
+
 
 };
 
 
 
+
+
+
 // ========================================
-// DOM ELEMENTS
+// DOM
 // ========================================
 
-const loader =
-document.getElementById("loader");
 
+const $ = id =>
+document.getElementById(id);
 
-const toast =
-document.getElementById("toast");
-
-
-
-const workerNickname =
-document.getElementById("workerNickname");
-
-
-const alcohol2 =
-document.getElementById("alcohol2");
-
-
-const alcohol3 =
-document.getElementById("alcohol3");
-
-
-const parsley2 =
-document.getElementById("parsley2");
-
-
-const parsley3 =
-document.getElementById("parsley3");
 
 
 const salary =
-document.getElementById("salary");
+$("salary");
+
+
+const workerNickname =
+$("workerNickname");
+
+
+const alcohol2 =
+$("alcohol2");
+
+
+const alcohol3 =
+$("alcohol3");
+
+
+const parsley2 =
+$("parsley2");
+
+
+const parsley3 =
+$("parsley3");
 
 
 const calculateBtn =
-document.getElementById("calculateBtn");
+$("calculateBtn");
 
 
 const saveBtn =
-document.getElementById("saveBtn");
+$("saveBtn");
 
 
 const calculatorMessage =
-document.getElementById("calculatorMessage");
+$("calculatorMessage");
+
+
+
+console.log(
+"👑 REVENANT v3 STARTED"
+);
 // ========================================
-// NAVIGATION
+// PART 2
+// NAVIGATION + UI
 // ========================================
 
+
+
 window.showPage = function(pageId){
+
 
 
     document
     .querySelectorAll(".page")
     .forEach(page=>{
 
+
         page.classList.remove(
             "active-page"
         );
 
+
     });
+
 
 
 
@@ -169,9 +217,11 @@ window.showPage = function(pageId){
 
     if(page){
 
+
         page.classList.add(
             "active-page"
         );
+
 
     }
 
@@ -181,23 +231,30 @@ window.showPage = function(pageId){
     .querySelectorAll(".menu-btn")
     .forEach(btn=>{
 
+
         btn.classList.remove(
             "active"
         );
+
 
     });
 
 
 
-    if(event){
+    if(event && event.target){
+
 
         event.target.classList.add(
             "active"
         );
 
+
     }
 
+
 };
+
+
 
 
 
@@ -205,33 +262,45 @@ window.showPage = function(pageId){
 // TOAST
 // ========================================
 
-function showToast(
-    text,
-    type="gold"
-){
 
-    if(!toast) return;
+function toast(message){
 
 
-    toast.innerHTML = text;
+    const box =
+    $("toast");
 
 
-    toast.classList.add(
+    if(!box)
+    return;
+
+
+
+    box.innerHTML =
+    message;
+
+
+
+    box.classList.add(
         "show"
     );
+
 
 
     setTimeout(()=>{
 
 
-        toast.classList.remove(
+        box.classList.remove(
             "show"
         );
 
 
     },3000);
 
+
 }
+
+
+
 
 
 
@@ -239,87 +308,451 @@ function showToast(
 // LOADER
 // ========================================
 
+
 function showLoader(){
 
-    if(loader){
 
-        loader.classList.remove(
-            "hidden"
-        );
+    const loader =
+    $("loader");
 
-    }
+
+    if(loader)
+
+    loader.classList.remove(
+        "hidden"
+    );
+
 
 }
+
+
 
 
 
 function hideLoader(){
 
-    if(loader){
 
-        loader.classList.add(
-            "hidden"
+    const loader =
+    $("loader");
+
+
+    if(loader)
+
+    loader.classList.add(
+        "hidden"
+    );
+
+
+}
+// ========================================
+// PART 3
+// OWNER SYSTEM
+// ========================================
+
+
+const OWNER_PASSWORD =
+"DaniilChorni015327";
+
+
+
+const ownerLoginBtn =
+$("ownerLoginBtn");
+
+
+const ownerPassword =
+$("ownerPassword");
+
+
+const ownerContent =
+$("ownerContent");
+
+
+
+
+
+// ========================================
+// OWNER LOGIN
+// ========================================
+
+
+if(ownerLoginBtn){
+
+
+ownerLoginBtn.addEventListener(
+"click",
+()=>{
+
+
+    if(
+        ownerPassword.value
+        ===
+        OWNER_PASSWORD
+    ){
+
+
+        state.owner = true;
+
+
+
+        if(ownerContent){
+
+            ownerContent.style.display =
+            "block";
+
+        }
+
+
+
+        toast(
+            "👑 Вхід власника успішний"
         );
+
+
+
+        ownerPassword.value="";
+
 
     }
 
+    else{
+
+
+        toast(
+            "❌ Невірний пароль"
+        );
+
+
+    }
+
+
+});
+
+
 }
+
+
+
+
+
+// ========================================
+// CHECK OWNER
+// ========================================
+
+
+function checkOwner(){
+
+
+    if(!state.owner){
+
+
+        toast(
+            "👑 Доступ тільки власнику"
+        );
+
+
+        return false;
+
+
+    }
+
+
+
+    return true;
+
+
+}
+// ========================================
+// PART 4
+// WORKERS SYSTEM
+// ========================================
+
+
+
+const addWorkerBtn =
+$("addWorkerBtn");
+
+
+
+// ========================================
+// RENDER WORKERS
+// ========================================
+
+
+function renderWorkers(){
+
+
+    const box =
+    $("workersList");
+
+
+    if(!box)
+    return;
+
+
+
+    box.innerHTML = "";
+
+
+
+    Object.entries(
+        state.workers
+    )
+    .forEach(([name,worker])=>{
+
+
+        box.innerHTML += `
+
+
+        <div class="history-card">
+
+
+        👤 ${name}
+
+        <br>
+
+
+        💰 ${(worker.money || 0)
+        .toLocaleString()} грн
+
+
+        <br>
+
+
+        📦 Продукція:
+
+        ${(worker.products || 0)}
+
+
+        <br>
+
+
+        📈 Здач:
+
+        ${worker.deliveries || 0}
+
+
+        <br><br>
+
+
+        <button
+
+        class="danger-btn"
+
+        onclick="deleteWorker('${name}')">
+
+        🗑 Видалити
+
+        </button>
+
+
+        </div>
+
+
+        `;
+
+
+    });
+
+
+
+}
+
+
+
+
+
+
+
+// ========================================
+// ADD WORKER
+// ========================================
+
+
+if(addWorkerBtn){
+
+
+addWorkerBtn.addEventListener(
+"click",
+async ()=>{
+
+
+    if(!checkOwner())
+    return;
+
+
+
+
+    const name =
+    prompt(
+        "Введіть нік працівника"
+    );
+
+
+
+    if(!name)
+    return;
+
+
+
+
+    const exists =
+    await get(
+        ref(
+            db,
+            "workers/"+name
+        )
+    );
+
+
+
+    if(exists.exists()){
+
+
+        toast(
+            "❌ Такий працівник вже є"
+        );
+
+
+        return;
+
+    }
+
+
+
+
+
+
+    await set(
+
+        ref(
+            db,
+            "workers/"+name
+        ),
+
+
+        {
+
+
+        money:0,
+
+
+        products:0,
+
+
+        deliveries:0,
+
+
+        alcohol2:0,
+
+
+        alcohol3:0,
+
+
+        parsley2:0,
+
+
+        parsley3:0
+
+
+
+        }
+
+
+    );
+
+
+
+
+    toast(
+        "✅ Працівника додано"
+    );
+
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+// ========================================
+// DELETE WORKER
+// ========================================
+
+
+window.deleteWorker =
+async function(name){
+
+
+
+    if(!checkOwner())
+    return;
+
+
+
+    await remove(
+
+        ref(
+            db,
+            "workers/"+name
+        )
+
+    );
+
+
+
+    toast(
+        "🗑 Працівника видалено"
+    );
+
+
+};
+// ========================================
+// PART 5
+// CALCULATOR
+// ========================================
+
+
+
 // ========================================
 // CHECK WORKER
 // ========================================
 
-async function checkWorkerExists(nickname){
+
+async function findWorker(name){
 
 
-    if(!nickname){
-
-        return false;
-
-    }
-
-
-
-    const snapshot =
+    const snap =
     await get(
-        ref(db,"workers")
+        ref(db,"workers/"+name)
     );
 
 
-
-    if(!snapshot.exists()){
-
-        return false;
-
-    }
-
-
-
-    const workers =
-    snapshot.val();
-
-
-
-    return Object.keys(workers)
-    .some(name=>
-
-        name.toLowerCase()
-        ===
-        nickname.toLowerCase()
-
-    );
+    return snap.exists()
+    ?
+    snap.val()
+    :
+    null;
 
 
 }
 
 
 
+
+
+
 // ========================================
-// CALCULATE SALARY
+// CALCULATE
 // ========================================
 
 
-let currentSalary = 0;
-
+if(calculateBtn){
 
 
 calculateBtn.addEventListener(
@@ -335,8 +768,8 @@ async ()=>{
     if(!nickname){
 
 
-        showToast(
-            "❌ Введіть нік працівника"
+        toast(
+            "❌ Введіть нік"
         );
 
 
@@ -346,99 +779,120 @@ async ()=>{
 
 
 
-    const exists =
-    await checkWorkerExists(
+
+    const worker =
+    await findWorker(
         nickname
     );
 
 
 
-    if(!exists){
+
+    if(!worker){
 
 
         salary.innerHTML =
         "0 грн";
 
 
-
         calculatorMessage.innerHTML =
-        "❌ Працівника не знайдено!";
+        "❌ Працівника не знайдено";
 
 
-
-        saveBtn.disabled = true;
-
-
-
-        showToast(
-            "Працівника не знайдено"
+        toast(
+            "Працівника немає в базі"
         );
 
 
         return;
 
+
     }
 
 
 
-    currentSalary =
 
-        Number(alcohol2.value)
-        *
-        state.prices.alcohol2
 
-        +
 
-        Number(alcohol3.value)
-        *
-        state.prices.alcohol3
+    state.currentSalary =
 
-        +
 
-        Number(parsley2.value)
-        *
-        state.prices.parsley2
+    Number(alcohol2.value)
+    *
+    state.prices.alcohol2
 
-        +
 
-        Number(parsley3.value)
-        *
-        state.prices.parsley3;
+    +
+
+
+    Number(alcohol3.value)
+    *
+    state.prices.alcohol3
+
+
+    +
+
+
+    Number(parsley2.value)
+    *
+    state.prices.parsley2
+
+
+    +
+
+
+    Number(parsley3.value)
+    *
+    state.prices.parsley3;
+
+
+
 
 
 
     salary.innerHTML =
 
-    currentSalary
+    state.currentSalary
     .toLocaleString()
     +
     " грн";
 
 
 
+
     calculatorMessage.innerHTML =
 
-    "✅ Працівника знайдено";
+    "✅ Працівник знайдений";
 
 
 
-    saveBtn.disabled = false;
-
-
-
-    showToast(
-        "✅ Розрахунок готовий"
+    toast(
+        "🧮 Розрахунок готовий"
     );
 
 
 });
+
+
+}
+
+
+
+
+
+
 // ========================================
 // SAVE DELIVERY
 // ========================================
 
+
+if(saveBtn){
+
+
 saveBtn.addEventListener(
 "click",
 async ()=>{
+
 
 
     const nickname =
@@ -446,49 +900,44 @@ async ()=>{
 
 
 
-    if(!nickname || currentSalary <= 0){
+
+    if(!state.currentSalary){
 
 
-        showToast(
+        toast(
             "❌ Спочатку зробіть розрахунок"
         );
 
 
         return;
 
+
     }
 
 
 
-    const workerRef =
-    ref(
-        db,
-        "workers/" + nickname
+
+    const worker =
+    await findWorker(
+        nickname
     );
 
 
 
-    const workerSnap =
-    await get(workerRef);
+    if(!worker){
 
 
-
-    if(!workerSnap.exists()){
-
-
-        showToast(
+        toast(
             "❌ Працівника не знайдено"
         );
 
 
         return;
 
+
     }
 
 
-
-    const worker =
-    workerSnap.val();
 
 
 
@@ -515,22 +964,18 @@ async ()=>{
 
 
         salary:
-        currentSalary,
+        state.currentSalary,
 
 
         date:
         new Date()
-        .toLocaleString(
-            "uk-UA"
-        )
+        .toLocaleString("uk-UA")
+
 
     };
 
 
 
-    // ============================
-    // SAVE HISTORY
-    // ============================
 
 
     await push(
@@ -540,18 +985,26 @@ async ()=>{
             "history"
         ),
 
+
         delivery
 
     );
 
 
 
-    // ============================
-    // UPDATE WORKER
-    // ============================
 
 
-    const updatedWorker = {
+
+
+    await set(
+
+        ref(
+            db,
+            "workers/"+nickname
+        ),
+
+
+        {
 
 
         ...worker,
@@ -560,7 +1013,7 @@ async ()=>{
         money:
         (worker.money || 0)
         +
-        currentSalary,
+        state.currentSalary,
 
 
         deliveries:
@@ -569,141 +1022,50 @@ async ()=>{
         1,
 
 
-        alcohol2:
-        (worker.alcohol2 || 0)
+        products:
+        (worker.products || 0)
         +
-        delivery.alcohol2,
-
-
-        alcohol3:
-        (worker.alcohol3 || 0)
+        Number(alcohol2.value)
         +
-        delivery.alcohol3,
-
-
-        parsley2:
-        (worker.parsley2 || 0)
+        Number(alcohol3.value)
         +
-        delivery.parsley2,
-
-
-        parsley3:
-        (worker.parsley3 || 0)
+        Number(parsley2.value)
         +
-        delivery.parsley3
-
-    };
+        Number(parsley3.value)
 
 
 
-    await set(
+        }
 
-        workerRef,
-
-        updatedWorker
 
     );
 
 
 
-    showToast(
+
+
+    toast(
         "✅ Здача збережена"
     );
 
 
 
-    // ============================
-    // CLEAR CALCULATOR
-    // ============================
+    workerNickname.value="";
 
+    alcohol2.value=0;
 
-    workerNickname.value = "";
+    alcohol3.value=0;
 
-    alcohol2.value = 0;
+    parsley2.value=0;
 
-    alcohol3.value = 0;
-
-    parsley2.value = 0;
-
-    parsley3.value = 0;
+    parsley3.value=0;
 
 
     salary.innerHTML =
     "0 грн";
 
 
-    calculatorMessage.innerHTML =
-    "";
-
-
-    currentSalary = 0;
-
-
-});
-// ========================================
-// OWNER ACCESS
-// ========================================
-
-const OWNER_PASSWORD = "DaniilChorni015327";
-
-
-let ownerMode = false;
-
-
-
-const ownerLoginBtn =
-document.getElementById("ownerLoginBtn");
-
-
-const ownerPassword =
-document.getElementById("ownerPassword");
-
-
-const ownerContent =
-document.getElementById("ownerContent");
-
-
-
-if(ownerLoginBtn){
-
-
-ownerLoginBtn.addEventListener(
-"click",
-()=>{
-
-
-    if(
-        ownerPassword.value
-        ===
-        OWNER_PASSWORD
-    ){
-
-
-        ownerMode = true;
-
-
-        ownerContent.style.display =
-        "block";
-
-
-        showToast(
-            "👑 Вхід власника успішний"
-        );
-
-
-        ownerPassword.value = "";
-
-
-    }
-    else{
-
-
-        showToast(
-            "❌ Невірний пароль"
-        );
-
-
-    }
+    state.currentSalary=0;
 
 
 });
@@ -711,395 +1073,14 @@ ownerLoginBtn.addEventListener(
 
 }
 // ========================================
-// WORKERS
+// PART 6
+// STATISTICS + HISTORY + TOP
 // ========================================
 
 
-const workersTable =
-document.getElementById("workersTable");
 
 
-const addWorkerBtn =
-document.getElementById("addWorkerBtn");
 
-
-
-const searchWorker =
-document.getElementById("searchWorker");
-
-
-
-// ========================================
-// RENDER WORKERS
-// ========================================
-
-function renderWorkers(list = state.workers){
-
-
-    if(!workersTable) return;
-
-
-    workersTable.innerHTML = "";
-
-
-
-    Object.entries(list)
-    .forEach(([name,worker])=>{
-
-
-        const tr =
-        document.createElement("tr");
-
-
-
-        tr.innerHTML = `
-
-        <td>
-        ${name}
-        </td>
-
-
-        <td>
-        ${(worker.money || 0)
-        .toLocaleString()}
-        грн
-        </td>
-
-
-        <td>
-        ${
-        (worker.alcohol2 || 0)
-        +
-        (worker.alcohol3 || 0)
-        +
-        (worker.parsley2 || 0)
-        +
-        (worker.parsley3 || 0)
-        }
-        </td>
-
-
-        <td>
-        ${worker.deliveries || 0}
-        </td>
-
-
-        <td>
-
-        <button
-        class="danger-btn"
-        onclick="deleteWorker('${name}')">
-
-        🗑
-
-        </button>
-
-        </td>
-
-
-        `;
-
-
-
-        workersTable.appendChild(tr);
-
-
-
-    });
-
-
-
-}
-
-
-
-// ========================================
-// ADD WORKER
-// ========================================
-
-if(addWorkerBtn){
-
-
-addWorkerBtn.addEventListener(
-"click",
-async ()=>{
-
-
-    if(!ownerMode){
-
-
-        showToast(
-            "👑 Доступ тільки для власника"
-        );
-
-
-        return;
-
-    }
-
-
-
-    const name =
-    prompt(
-        "Введіть нік працівника:"
-    );
-
-
-
-    if(!name) return;
-
-
-
-    await set(
-
-        ref(
-            db,
-            "workers/" + name
-        ),
-
-        {
-
-
-            money:0,
-
-
-            deliveries:0,
-
-
-            alcohol2:0,
-
-
-            alcohol3:0,
-
-
-            parsley2:0,
-
-
-            parsley3:0
-
-
-        }
-
-    );
-
-
-
-    showToast(
-        "✅ Працівника додано"
-    );
-
-
-});
-
-
-}
-
-
-
-// ========================================
-// DELETE WORKER
-// ========================================
-
-window.deleteWorker =
-async function(name){
-
-
-    if(!ownerMode){
-
-
-        showToast(
-            "👑 Тільки власник"
-        );
-
-
-        return;
-
-    }
-
-
-
-    await remove(
-
-        ref(
-            db,
-            "workers/" + name
-        )
-
-    );
-
-
-    showToast(
-        "🗑 Працівника видалено"
-    );
-
-
-};
-
-
-
-// ========================================
-// SEARCH
-// ========================================
-
-if(searchWorker){
-
-
-searchWorker.addEventListener(
-"input",
-()=>{
-
-
-    const text =
-    searchWorker.value
-    .toLowerCase();
-
-
-
-    const filtered = {};
-
-
-
-    Object.entries(state.workers)
-    .forEach(([name,data])=>{
-
-
-        if(
-            name
-            .toLowerCase()
-            .includes(text)
-        ){
-
-            filtered[name]=data;
-
-        }
-
-
-    });
-
-
-
-    renderWorkers(filtered);
-
-
-
-});
-
-
-}
-// ========================================
-// FIREBASE LISTENERS
-// ========================================
-
-
-function startListeners(){
-
-
-
-// ============================
-// WORKERS
-// ============================
-
-onValue(
-
-    ref(db,"workers"),
-
-    snapshot=>{
-
-
-        state.workers =
-        snapshot.exists()
-        ?
-        snapshot.val()
-        :
-        {};
-
-
-        renderWorkers(
-            state.workers
-        );
-
-
-        renderStatistics();
-
-
-    }
-
-);
-
-
-
-
-// ============================
-// HISTORY
-// ============================
-
-onValue(
-
-    ref(db,"history"),
-
-    snapshot=>{
-
-
-        state.history =
-        snapshot.exists()
-        ?
-        snapshot.val()
-        :
-        {};
-
-
-        renderHistory();
-
-
-    }
-
-);
-
-
-
-
-// ============================
-// PRICES
-// ============================
-
-onValue(
-
-    ref(db,"prices"),
-
-    snapshot=>{
-
-
-        if(snapshot.exists()){
-
-
-            state.prices =
-            {
-
-                ...state.prices,
-
-                ...snapshot.val()
-
-            };
-
-
-        }
-
-
-    }
-
-);
-
-
-
-}
-
-
-
-// ========================================
-// START APP
-// ========================================
-
-startListeners();
 // ========================================
 // STATISTICS
 // ========================================
@@ -1108,233 +1089,125 @@ startListeners();
 function renderStatistics(){
 
 
+    const workersCount =
+    $("workersCount");
 
-const workersCount =
-document.getElementById(
-"workersCount"
-);
 
+    const totalMoney =
+    $("totalMoney");
 
 
-const totalMoney =
-document.getElementById(
-"totalMoney"
-);
+    const totalProducts =
+    $("totalProducts");
 
 
+    const totalDeliveries =
+    $("totalDeliveries");
 
-const totalProducts =
-document.getElementById(
-"totalProducts"
-);
 
 
+    if(!workersCount)
+    return;
 
-const totalDeliveries =
-document.getElementById(
-"totalDeliveries"
-);
 
 
 
-const topWorkers =
-document.getElementById(
-"topWorkers"
-);
+    let money = 0;
 
+    let products = 0;
 
+    let deliveries = 0;
 
-if(!workersCount) return;
 
 
-
-let money = 0;
-
-let products = 0;
-
-let deliveries = 0;
-
-
-
-const array =
-Object.entries(
-state.workers
-);
-
-
-
-
-array.forEach(
-([name,worker])=>{
-
-
-    money +=
-    worker.money || 0;
-
-
-
-    products +=
-
-    (worker.alcohol2 || 0)
-    +
-    (worker.alcohol3 || 0)
-    +
-    (worker.parsley2 || 0)
-    +
-    (worker.parsley3 || 0);
-
-
-
-    deliveries +=
-    worker.deliveries || 0;
-
-
-});
-
-
-
-
-
-workersCount.innerHTML =
-array.length;
-
-
-
-totalMoney.innerHTML =
-
-money
-.toLocaleString()
-+
-" грн";
-
-
-
-totalProducts.innerHTML =
-products;
-
-
-
-totalDeliveries.innerHTML =
-deliveries;
-
-
-
-
-
-// ============================
-// TOP
-// ============================
-
-
-if(topWorkers){
-
-
-    const top =
-
-    array
-
-    .sort(
-    (a,b)=>
-
-        (b[1].money || 0)
-        -
-        (a[1].money || 0)
-
+    Object.values(
+        state.workers
     )
-
-    .slice(0,5);
-
+    .forEach(worker=>{
 
 
-    topWorkers.innerHTML = "";
+        money +=
+        worker.money || 0;
 
 
+        products +=
+        worker.products || 0;
 
-    top.forEach(
-    ([name,worker],index)=>{
 
-
-        topWorkers.innerHTML += `
-
-        <div class="history-card">
-
-        🏆 ${index+1} місце
-
-        <br>
-
-        👤 ${name}
-
-        <br>
-
-        💰
-        ${(worker.money || 0)
-        .toLocaleString()}
-        грн
-
-        </div>
-
-        `;
+        deliveries +=
+        worker.deliveries || 0;
 
 
     });
 
 
-}
+
+
+
+    workersCount.innerHTML =
+    Object.keys(
+        state.workers
+    ).length;
+
+
+
+
+    totalMoney.innerHTML =
+
+    money
+    .toLocaleString()
+    +
+    " грн";
+
+
+
+    totalProducts.innerHTML =
+    products;
+
+
+
+    totalDeliveries.innerHTML =
+    deliveries;
 
 
 }
+
+
+
+
+
+
 // ========================================
 // HISTORY
 // ========================================
 
 
-const historyList =
-document.getElementById(
-"historyList"
-);
+function renderHistory(){
 
 
 
-const searchHistory =
-document.getElementById(
-"searchHistory"
-);
+    const box =
+    $("historyList");
+
+
+    if(!box)
+    return;
 
 
 
-const clearHistoryBtn =
-document.getElementById(
-"clearHistoryBtn"
-);
+    box.innerHTML="";
 
 
 
-
-// ========================================
-// RENDER HISTORY
-// ========================================
-
-
-function renderHistory(list = state.history){
-
-
-
-    if(!historyList) return;
-
-
-
-    historyList.innerHTML = "";
-
-
-
-    Object.values(list)
-
+    Object.values(
+        state.history
+    )
     .reverse()
-
     .forEach(item=>{
 
 
-        historyList.innerHTML += `
+
+        box.innerHTML += `
 
 
         <div class="history-card">
@@ -1346,32 +1219,32 @@ function renderHistory(list = state.history){
         <br>
 
 
-        🍾 ⭐⭐ :
+        🍾 ⭐⭐:
         ${item.alcohol2 || 0}
 
 
         <br>
 
 
-        🍾 ⭐⭐⭐ :
+        🍾 ⭐⭐⭐:
         ${item.alcohol3 || 0}
 
 
         <br>
 
 
-        🌿 ⭐⭐ :
+        🌿 ⭐⭐:
         ${item.parsley2 || 0}
 
 
         <br>
 
 
-        🌿 ⭐⭐⭐ :
+        🌿 ⭐⭐⭐:
         ${item.parsley3 || 0}
 
 
-        <br>
+        <br><br>
 
 
         💰
@@ -1388,6 +1261,7 @@ function renderHistory(list = state.history){
         📅 ${item.date || ""}
 
 
+
         </div>
 
 
@@ -1402,57 +1276,324 @@ function renderHistory(list = state.history){
 
 
 
+
+
 // ========================================
-// SEARCH HISTORY
+// TOP
 // ========================================
 
 
-if(searchHistory){
+function renderTop(){
 
 
-searchHistory.addEventListener(
-"input",
-()=>{
+    const box =
+    $("topWorkers");
 
 
-    const text =
-
-    searchHistory.value
-    .toLowerCase();
+    if(!box)
+    return;
 
 
 
-    const filtered = {};
+
+    box.innerHTML="";
 
 
+
+    const top =
 
     Object.entries(
-        state.history
+        state.workers
     )
 
-    .forEach(([id,item])=>{
+    .sort(
+        (a,b)=>
+
+        (b[1].money || 0)
+
+        -
+
+        (a[1].money || 0)
+
+    )
+
+    .slice(0,5);
 
 
-        if(
 
-        item.nickname
-        .toLowerCase()
-        .includes(text)
 
-        ){
 
-            filtered[id]=item;
+    top.forEach(
+    ([name,worker],index)=>{
 
-        }
+
+        box.innerHTML += `
+
+
+        <div class="history-card">
+
+
+        🏆 ${index+1} місце
+
+
+        <br>
+
+
+        👤 ${name}
+
+
+        <br>
+
+
+        💰
+
+        ${(worker.money || 0)
+        .toLocaleString()}
+
+        грн
+
+
+
+        </div>
+
+
+        `;
 
 
     });
 
 
+}
+// ========================================
+// PART 7
+// FIREBASE LISTENERS + OWNER ACTIONS
+// ========================================
 
-    renderHistory(
-        filtered
+
+
+
+
+function startListeners(){
+
+
+
+
+
+// ============================
+// WORKERS
+// ============================
+
+
+onValue(
+
+ref(db,"workers"),
+
+
+snapshot=>{
+
+
+    state.workers =
+
+    snapshot.exists()
+
+    ?
+
+    snapshot.val()
+
+    :
+
+    {};
+
+
+
+    renderWorkers();
+
+
+    renderStatistics();
+
+
+    renderTop();
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+// ============================
+// HISTORY
+// ============================
+
+
+onValue(
+
+ref(db,"history"),
+
+
+snapshot=>{
+
+
+    state.history =
+
+    snapshot.exists()
+
+    ?
+
+    snapshot.val()
+
+    :
+
+    {};
+
+
+
+    renderHistory();
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+// ============================
+// PRICES
+// ============================
+
+
+onValue(
+
+ref(db,"prices"),
+
+
+snapshot=>{
+
+
+    if(snapshot.exists()){
+
+
+        state.prices = {
+
+
+            ...state.prices,
+
+
+            ...snapshot.val()
+
+
+        };
+
+
+    }
+
+
+}
+
+
+
+);
+
+
+
+}
+
+
+
+
+
+
+
+// ========================================
+// SAVE PRICES
+// ========================================
+
+
+const savePricesBtn =
+$("savePricesBtn");
+
+
+
+if(savePricesBtn){
+
+
+savePricesBtn.addEventListener(
+"click",
+async ()=>{
+
+
+    if(!checkOwner())
+    return;
+
+
+
+    const prices = {
+
+
+        alcohol2:
+
+        Number(
+        $("priceAlcohol2").value
+        ),
+
+
+
+        alcohol3:
+
+        Number(
+        $("priceAlcohol3").value
+        ),
+
+
+
+        parsley2:
+
+        Number(
+        $("priceParsley2").value
+        ),
+
+
+
+        parsley3:
+
+        Number(
+        $("priceParsley3").value
+        )
+
+
+
+    };
+
+
+
+
+    await set(
+
+    ref(db,"prices"),
+
+    prices
+
     );
+
+
+
+
+    toast(
+        "💰 Ціни збережено"
+    );
+
 
 
 });
@@ -1463,9 +1604,17 @@ searchHistory.addEventListener(
 
 
 
+
+
+
 // ========================================
 // CLEAR HISTORY
 // ========================================
+
+
+const clearHistoryBtn =
+$("clearHistoryBtn");
+
 
 
 if(clearHistoryBtn){
@@ -1476,33 +1625,19 @@ clearHistoryBtn.addEventListener(
 async ()=>{
 
 
-    if(!ownerMode){
-
-
-        showToast(
-            "👑 Тільки власник"
-        );
-
-
-        return;
-
-    }
+    if(!checkOwner())
+    return;
 
 
 
     await remove(
-
-        ref(
-            db,
-            "history"
-        )
-
+        ref(db,"history")
     );
 
 
 
-    showToast(
-        "🗑 Історію очищено"
+    toast(
+        "📜 Історію очищено"
     );
 
 
@@ -1510,317 +1645,71 @@ async ()=>{
 
 
 }
-// ========================================
-// OWNER PRICES
-// ========================================
 
 
-const savePricesBtn =
-document.getElementById(
-"savePricesBtn"
-);
-
-
-const priceAlcohol2 =
-document.getElementById(
-"priceAlcohol2"
-);
-
-
-const priceAlcohol3 =
-document.getElementById(
-"priceAlcohol3"
-);
-
-
-const priceParsley2 =
-document.getElementById(
-"priceParsley2"
-);
-
-
-const priceParsley3 =
-document.getElementById(
-"priceParsley3"
-);
 
 
 
 
 // ========================================
-// LOAD PRICES TO INPUTS
+// CLEAR TOP
 // ========================================
 
 
-function loadPrices(){
-
-
-    if(!priceAlcohol2)
-    return;
+const clearTopBtn =
+$("clearTopBtn");
 
 
 
-    priceAlcohol2.value =
-    state.prices.alcohol2;
+if(clearTopBtn){
 
 
-
-    priceAlcohol3.value =
-    state.prices.alcohol3;
-
-
-
-    priceParsley2.value =
-    state.prices.parsley2;
-
-
-
-    priceParsley3.value =
-    state.prices.parsley3;
-
-
-}
-
-
-
-
-// ========================================
-// SAVE PRICES
-// ========================================
-
-
-if(savePricesBtn){
-
-
-savePricesBtn.addEventListener(
+clearTopBtn.addEventListener(
 "click",
 async ()=>{
 
 
-    if(!ownerMode){
-
-
-        showToast(
-            "👑 Тільки власник"
-        );
-
-
-        return;
-
-    }
+    if(!checkOwner())
+    return;
 
 
 
-    const prices = {
+    const updates = {};
 
 
-        alcohol2:
-        Number(
-            priceAlcohol2.value
-        ),
+
+    Object.keys(
+        state.workers
+    )
+    .forEach(name=>{
 
 
-        alcohol3:
-        Number(
-            priceAlcohol3.value
-        ),
+        updates[name+"/money"] = 0;
 
 
-        parsley2:
-        Number(
-            priceParsley2.value
-        ),
+    });
 
 
-        parsley3:
-        Number(
-            priceParsley3.value
-        )
-
-
-    };
 
 
 
     await set(
 
-        ref(
-            db,
-            "prices"
-        ),
+        ref(db,"workers"),
 
-        prices
+        {
+
+        ...state.workers,
+
+        }
+
 
     );
 
 
 
-    state.prices =
-    prices;
-
-
-
-    showToast(
-        "💰 Ціни збережено"
-    );
-
-
-});
-
-
-}
-// ========================================
-// OWNER PRICES
-// ========================================
-
-
-const savePricesBtn =
-document.getElementById(
-"savePricesBtn"
-);
-
-
-const priceAlcohol2 =
-document.getElementById(
-"priceAlcohol2"
-);
-
-
-const priceAlcohol3 =
-document.getElementById(
-"priceAlcohol3"
-);
-
-
-const priceParsley2 =
-document.getElementById(
-"priceParsley2"
-);
-
-
-const priceParsley3 =
-document.getElementById(
-"priceParsley3"
-);
-
-
-
-
-// ========================================
-// LOAD PRICES TO INPUTS
-// ========================================
-
-
-function loadPrices(){
-
-
-    if(!priceAlcohol2)
-    return;
-
-
-
-    priceAlcohol2.value =
-    state.prices.alcohol2;
-
-
-
-    priceAlcohol3.value =
-    state.prices.alcohol3;
-
-
-
-    priceParsley2.value =
-    state.prices.parsley2;
-
-
-
-    priceParsley3.value =
-    state.prices.parsley3;
-
-
-}
-
-
-
-
-// ========================================
-// SAVE PRICES
-// ========================================
-
-
-if(savePricesBtn){
-
-
-savePricesBtn.addEventListener(
-"click",
-async ()=>{
-
-
-    if(!ownerMode){
-
-
-        showToast(
-            "👑 Тільки власник"
-        );
-
-
-        return;
-
-    }
-
-
-
-    const prices = {
-
-
-        alcohol2:
-        Number(
-            priceAlcohol2.value
-        ),
-
-
-        alcohol3:
-        Number(
-            priceAlcohol3.value
-        ),
-
-
-        parsley2:
-        Number(
-            priceParsley2.value
-        ),
-
-
-        parsley3:
-        Number(
-            priceParsley3.value
-        )
-
-
-    };
-
-
-
-    await set(
-
-        ref(
-            db,
-            "prices"
-        ),
-
-        prices
-
-    );
-
-
-
-    state.prices =
-    prices;
-
-
-
-    showToast(
-        "💰 Ціни збережено"
+    toast(
+        "🏆 ТОП очищено"
     );
 
 
@@ -1828,3 +1717,16 @@ async ()=>{
 
 
 }
+
+
+
+
+
+
+// START
+
+startListeners();
+
+
+hideLoader();
+
