@@ -5,108 +5,145 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
 
+<title>👑 Revenant v3</title>
 
-<title>
-👑 Revenant v2
-</title>
+<link
+rel="preconnect"
+href="https://fonts.googleapis.com">
 
+<link
+rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
 
-<link rel="stylesheet" href="style.css">
+<link
+href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
 
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<link
+rel="stylesheet"
+href="style.css">
 
 </head>
 
-
 <body>
 
+<div class="background"></div>
 
 <header class="header">
 
+<div class="logo">
 
-<h1>
-👑 REVENANT 
-<span>
-v2
-</span>
-</h1>
+<i class="fa-solid fa-crown"></i>
 
+<div>
+
+<h1>REVENANT</h1>
+
+<span>v3 Premium</span>
+
+</div>
+
+</div>
+
+<nav class="navbar">
+
+<button
+class="nav-btn active"
+onclick="showPage('calculatorPage')">
+
+<i class="fa-solid fa-calculator"></i>
+
+<span>Калькулятор</span>
+
+</button>
+
+<button
+class="nav-btn"
+onclick="showPage('statisticsPage')">
+
+<i class="fa-solid fa-chart-column"></i>
+
+<span>Статистика</span>
+
+</button>
+
+<button
+class="nav-btn"
+onclick="showPage('historyPage')">
+
+<i class="fa-solid fa-clock-rotate-left"></i>
+
+<span>Історія</span>
+
+</button>
+
+<button
+class="nav-btn"
+onclick="showPage('ownerPage')">
+
+<i class="fa-solid fa-user-shield"></i>
+
+<span>Власник</span>
+
+</button>
+
+</nav>
 
 </header>
 
-
-
-<nav class="menu">
-
-
-<button onclick="showPage('calculatorPage')">
-📦 Калькулятор
-</button>
-
-
-<button onclick="showPage('statisticsPage')">
-📊 Статистика
-</button>
-
-
-<button onclick="showPage('historyPage')">
-📜 Історія
-</button>
-
-
-<button onclick="showPage('ownerPage')">
-👑 Власник
-</button>
-
-
-</nav>
-<!-- ======================================== -->
+<main class="container">
+  <!-- ======================================== -->
 <!-- CALCULATOR PAGE -->
 <!-- ======================================== -->
-
 
 <section
 id="calculatorPage"
 class="page active-page">
 
+<div class="page-card">
 
-<div class="card">
-
+<div class="page-title">
 
 <h2>
-📦 Калькулятор зарплати
+<i class="fa-solid fa-calculator"></i>
+Калькулятор зарплати
 </h2>
 
+<p>
+Розрахунок здачі працівника
+</p>
 
+</div>
 
-<div class="input-group">
+<div class="worker-box">
 
 <label>
-Нік працівника
-</label>
 
+Нік працівника
+
+</label>
 
 <input
 id="workerNickname"
 type="text"
-placeholder="Введіть нік">
+placeholder="Введіть нік працівника">
 
 </div>
 
-
-
-
 <div class="products-grid">
 
+<div class="product-card">
 
-
-<div class="input-group">
-
-<label>
-Алкоголь ⭐⭐
-</label>
-
+<h3>🍾 Алкоголь ⭐⭐</h3>
 
 <input
 id="alcohol2"
@@ -116,15 +153,9 @@ value="0">
 
 </div>
 
+<div class="product-card">
 
-
-
-<div class="input-group">
-
-<label>
-Алкоголь ⭐⭐⭐
-</label>
-
+<h3>🍾 Алкоголь ⭐⭐⭐</h3>
 
 <input
 id="alcohol3"
@@ -134,15 +165,9 @@ value="0">
 
 </div>
 
+<div class="product-card">
 
-
-
-<div class="input-group">
-
-<label>
-Петрушка ⭐⭐
-</label>
-
+<h3>🌿 Петрушка ⭐⭐</h3>
 
 <input
 id="parsley2"
@@ -152,15 +177,9 @@ value="0">
 
 </div>
 
+<div class="product-card">
 
-
-
-<div class="input-group">
-
-<label>
-Петрушка ⭐⭐⭐
-</label>
-
+<h3>🌿 Петрушка ⭐⭐⭐</h3>
 
 <input
 id="parsley3"
@@ -170,51 +189,47 @@ value="0">
 
 </div>
 
-
-
 </div>
 
-
-
-
-
-<div class="salary-card">
-
+<div class="salary-box">
 
 <span>
-💰 Зарплата
+
+До виплати
+
 </span>
 
-
 <h1 id="salary">
+
 0 грн
+
 </h1>
 
-
 </div>
-
-
-
-
 
 <div class="buttons">
 
+<button
+id="calculateBtn"
+class="primary-btn">
 
-<button id="calculateBtn">
-🧮 Розрахувати
+<i class="fa-solid fa-calculator"></i>
+
+Розрахувати
+
 </button>
 
+<button
+id="saveBtn"
+class="success-btn">
 
+<i class="fa-solid fa-floppy-disk"></i>
 
-<button id="saveBtn">
-💾 Зберегти здачу
+Зберегти здачу
+
 </button>
-
 
 </div>
-
-
-
 
 <div
 id="calculatorMessage"
@@ -222,367 +237,392 @@ class="message">
 
 </div>
 
-
-
-
 </div>
-
 
 </section>
 <!-- ======================================== -->
 <!-- STATISTICS PAGE -->
 <!-- ======================================== -->
 
-
 <section
 id="statisticsPage"
 class="page">
 
+<div class="page-card">
 
-
-<div class="card">
-
+<div class="page-title">
 
 <h2>
-📊 Статистика Revenant
+
+<i class="fa-solid fa-chart-column"></i>
+
+Статистика
+
 </h2>
 
+<p>
 
+Загальна статистика клану
 
+</p>
+
+</div>
 
 <div class="stats-grid">
 
-
-
 <div class="stat-card">
 
-<h3>
-👥 Працівники
+<i class="fa-solid fa-users"></i>
+
+<h3 id="workersCount">
+
+0
+
 </h3>
 
-<p id="statWorkers">
-0
-</p>
+<span>
+
+Працівників
+
+</span>
 
 </div>
 
-
-
-
 <div class="stat-card">
 
-<h3>
-📦 Продукція
-</h3>
+<i class="fa-solid fa-money-bill-wave"></i>
 
-<p id="statProducts">
-0
-</p>
+<h3 id="totalMoney">
 
-</div>
-
-
-
-
-<div class="stat-card">
-
-<h3>
-💰 Зароблено
-</h3>
-
-<p id="statMoney">
 0 грн
-</p>
+
+</h3>
+
+<span>
+
+Виплачено
+
+</span>
 
 </div>
-
-
-
 
 <div class="stat-card">
 
-<h3>
-📈 Здачі
+<i class="fa-solid fa-boxes-stacked"></i>
+
+<h3 id="totalProducts">
+
+0
+
 </h3>
 
-<p id="statDeliveries">
+<span>
+
+Продукції
+
+</span>
+
+</div>
+
+<div class="stat-card">
+
+<i class="fa-solid fa-truck-fast"></i>
+
+<h3 id="totalDeliveries">
+
 0
-</p>
+
+</h3>
+
+<span>
+
+Здач
+
+</span>
 
 </div>
 
-
-
 </div>
 
-
-
-
-
-<div class="top-box">
-
+<div class="top-workers">
 
 <h2>
+
 🏆 ТОП працівників
+
 </h2>
-
-
 
 <div id="topWorkers">
 
 </div>
 
-
-
 </div>
 
-
-
 </div>
-
-
 
 </section>
 <!-- ======================================== -->
 <!-- HISTORY PAGE -->
 <!-- ======================================== -->
 
-
 <section
 id="historyPage"
 class="page">
 
+<div class="page-card">
 
-
-<div class="card">
-
+<div class="page-title">
 
 <h2>
-📜 Історія здач
+
+<i class="fa-solid fa-clock-rotate-left"></i>
+
+Історія здач
+
 </h2>
 
+<p>
 
+Останні здачі працівників
 
-<div id="historyList">
-
-
-</div>
-
-
+</p>
 
 </div>
 
+<div class="history-toolbar">
+
+<input
+id="historySearch"
+type="text"
+placeholder="🔍 Пошук по ніку...">
+
+<button
+id="clearHistoryBtn"
+class="danger-btn">
+
+<i class="fa-solid fa-trash"></i>
+
+Очистити
+
+</button>
+
+</div>
+
+<div
+id="historyList"
+class="history-list">
+
+</div>
+
+</div>
 
 </section>
 <!-- ======================================== -->
 <!-- OWNER PAGE -->
 <!-- ======================================== -->
 
-
 <section
 id="ownerPage"
 class="page">
 
+<div class="page-card">
 
-
-<div class="card">
-
-
+<div class="page-title">
 
 <h2>
-👑 Панель власника
+
+<i class="fa-solid fa-user-shield"></i>
+
+Панель власника
+
 </h2>
 
+<p>
 
+Керування системою Revenant v3
 
+</p>
 
-<div id="ownerLoginBox">
+</div>
 
+<!-- Авторизація -->
 
+<div
+id="ownerLogin"
+class="owner-login">
 
 <input
 id="ownerPassword"
 type="password"
-placeholder="🔐 Пароль власника">
+placeholder="🔒 Введіть пароль">
 
+<button
+id="ownerLoginBtn"
+class="primary-btn">
 
-
-<button id="ownerLoginBtn">
-
-🔓 Увійти
+Увійти
 
 </button>
 
-
-
 </div>
 
+<!-- Панель -->
 
-
-
-
-
-<div id="ownerPanel"
+<div
+id="ownerPanel"
 style="display:none;">
 
+<!-- Працівники -->
 
-
-
+<div class="owner-card">
 
 <h3>
-👥 Працівники
+
+👤 Працівники
+
 </h3>
 
-
-
-<div class="owner-box">
-
-
+<div class="owner-row">
 
 <input
-id="newWorkerName"
-placeholder="Нік нового працівника">
+id="newWorker"
+type="text"
+placeholder="Нік працівника">
 
+<button
+id="addWorkerBtn"
+class="success-btn">
 
-
-<button id="addWorkerBtn">
-
-➕ Додати працівника
+➕ Додати
 
 </button>
 
+</div>
 
+<div
+id="workersList"
+class="workers-list">
 
 </div>
 
+</div>
 
+<!-- Ціни -->
 
-
-
-
+<div class="owner-card">
 
 <h3>
-💰 Зміна цін
+
+💰 Ціни
+
 </h3>
 
-
-
-
-<div class="prices-grid">
-
-
+<div class="price-grid">
 
 <input
 id="priceAlcohol2"
 type="number"
 placeholder="Алкоголь ⭐⭐">
 
-
-
 <input
 id="priceAlcohol3"
 type="number"
 placeholder="Алкоголь ⭐⭐⭐">
-
-
 
 <input
 id="priceParsley2"
 type="number"
 placeholder="Петрушка ⭐⭐">
 
-
-
 <input
 id="priceParsley3"
 type="number"
 placeholder="Петрушка ⭐⭐⭐">
 
-
-
 </div>
 
-
-
-
-<button id="savePricesBtn">
+<button
+id="savePricesBtn"
+class="primary-btn">
 
 💾 Зберегти ціни
 
 </button>
 
+</div>
 
+<!-- Дії -->
 
-
-
-
+<div class="owner-card">
 
 <h3>
+
 ⚙️ Керування
+
 </h3>
 
+<div class="owner-actions">
 
-
-<button id="clearHistoryBtn">
+<button
+id="clearHistoryBtnOwner"
+class="danger-btn">
 
 🗑️ Очистити історію
 
 </button>
 
-
-
-
-<button id="clearTopBtn">
+<button
+id="clearTopBtn"
+class="danger-btn">
 
 🏆 Очистити ТОП
 
 </button>
 
-
-
-
-
-
-<div id="ownerMessage"
-class="message">
+</div>
 
 </div>
 
-
-
-
 </div>
 
-
-
-
-
 </div>
-
-
 
 </section>
 <!-- ======================================== -->
-<!-- TOAST MESSAGE -->
+<!-- TOAST -->
 <!-- ======================================== -->
 
-
-<div id="toast">
+<div
+id="toast"
+class="toast">
 
 </div>
 
-
-
-
-
 <!-- ======================================== -->
-<!-- SCRIPTS -->
+<!-- LOADER -->
 <!-- ======================================== -->
 
+<div
+id="loader"
+class="loader hidden">
 
-<script type="module" src="script.js"></script>
+<div class="spinner"></div>
 
+<p>
 
+Завантаження...
+
+</p>
+
+</div>
+
+<script
+type="module"
+src="script.js">
+
+</script>
+
+</main>
 
 </body>
 
