@@ -3,7 +3,8 @@
 // FIREBASE
 // ========================================
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
 getDatabase,
@@ -14,30 +15,28 @@ push,
 update,
 remove,
 onValue
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+} 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyB-rv0vO2ZN_BYhraPNBIKhvTahrtEB9D8",
-  authDomain: "revenant-v2-955dc.firebaseapp.com",
-  databaseURL: "https://revenant-v2-955dc-default-rtdb.firebaseio.com",
-  projectId: "revenant-v2-955dc",
-  storageBucket: "revenant-v2-955dc.firebasestorage.app",
-  messagingSenderId: "888954510701",
-  appId: "1:888954510701:web:84dc99929d5b82ee564e64",
-  measurementId: "G-6T8KDGQFXR"
+
+apiKey: "AIzaSyB-rv0vO2ZN_BYhraPNBIKhvTahrtEB9D8",
+
+authDomain: "revenant-v2-955dc.firebaseapp.com",
+
+databaseURL: "https://revenant-v2-955dc-default-rtdb.firebaseio.com",
+
+projectId: "revenant-v2-955dc",
+
+storageBucket: "revenant-v2-955dc.firebasestorage.app",
+
+messagingSenderId: "888954510701",
+
+appId: "1:888954510701:web:84dc99929d5b82ee564e64"
+
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
 const app = initializeApp(firebaseConfig);
 
