@@ -534,74 +534,7 @@ function renderTop(){
     });
 
 }
-// ========================================
-// HISTORY
-// ========================================
 
-function renderHistory(){
-
-    const container =
-    $("historyContainer");
-
-    if(!container) return;
-
-
-    container.innerHTML="";
-
-
-    if(!state.history.length){
-
-        container.innerHTML=`
-
-        <div class="empty-card">
-
-        📜 Історія порожня
-
-        </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    state.history
-    .slice(0,50)
-    .forEach(item=>{
-
-
-        container.innerHTML += `
-
-        <div class="history-card">
-
-        <h3>
-        👤 ${item.worker}
-        </h3>
-
-        <p>
-        💰 ${(item.salary||0)
-        .toLocaleString("uk-UA")} грн
-        </p>
-
-        <p>
-        📦 Здано продукції:
-        ${
-        (item.alcohol2||0)+
-        (item.alcohol3||0)+
-        (item.parsley2||0)+
-        (item.parsley3||0)
-        }
-        </p>
-
-        </div>
-
-        `;
-
-
-    });
-
-}
 // ========================================
 // HISTORY
 // ========================================
