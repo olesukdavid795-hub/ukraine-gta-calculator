@@ -1,300 +1,167 @@
 <!DOCTYPE html>
 <html lang="uk">
-
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>
-👑 Revenant v3
-</title>
-
+<title>👑 REVENANT v3</title>
 
 <link rel="stylesheet" href="style.css">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 </head>
 
-
 <body>
 
+<div class="background"></div>
 
-<div class="app">
-
-
-<!-- ========================================
-SIDEBAR
-======================================== -->
-
-
-<aside class="sidebar">
-
+<header class="header">
 
 <div class="logo">
 
+<div class="logo-icon">
+👑
+</div>
 
-<h1>
-👑 REVENANT
-</h1>
+<div class="logo-text">
 
+<h1>REVENANT</h1>
 
-<span>
-Premium Mafia
-</span>
-
+<span>Premium Mafia v3</span>
 
 </div>
 
+</div>
 
+<nav class="menu">
 
-<nav>
+<button class="menu-btn active" data-page="calculator">
 
-
-<button 
-class="menu-btn active"
-onclick="showPage('calculatorPage')">
-
-📦 Калькулятор
+📦
+<span>Калькулятор</span>
 
 </button>
 
+<button class="menu-btn" data-page="statistics">
 
-
-<button 
-class="menu-btn"
-onclick="showPage('statisticsPage')">
-
-📊 Статистика
+📊
+<span>Статистика</span>
 
 </button>
 
+<button class="menu-btn" data-page="top">
 
-
-<button 
-class="menu-btn"
-onclick="showPage('historyPage')">
-
-📜 Історія
+🏆
+<span>ТОП</span>
 
 </button>
 
+<button class="menu-btn" data-page="history">
 
-
-<button 
-class="menu-btn"
-onclick="showPage('topPage')">
-
-🏆 ТОП
+📜
+<span>Історія</span>
 
 </button>
 
+<button class="menu-btn" data-page="owner">
 
-
-<button 
-class="menu-btn"
-onclick="showPage('ownerPage')">
-
-👑 Власник
+👑
+<span>Власник</span>
 
 </button>
-
 
 </nav>
 
+</header>
 
-</aside>
+<main class="container">
+  <!-- ===================================== -->
+<!-- CALCULATOR -->
+<!-- ===================================== -->
 
+<section id="calculator" class="page active">
 
+<div class="card">
 
+<div class="card-header">
 
+<h2>📦 Калькулятор зарплати</h2>
 
-<!-- ========================================
-MAIN
-======================================== -->
-
-
-<main class="content">
-  <!-- ========================================
-CALCULATOR PAGE
-======================================== -->
-
-
-<section 
-id="calculatorPage"
-class="page active-page">
-
-
-
-<div class="page-card">
-
-
-
-<div class="page-title">
-
-
-<h2>
-📦 Калькулятор зарплати
-</h2>
-
-
-<p>
-Розрахунок здачі працівника
-</p>
-
+<p>Розрахунок здачі працівника</p>
 
 </div>
 
+<div class="input-group">
 
-
-
-
-<div class="form-group">
-
-
-<label>
-👤 Нік працівника
-</label>
-
+<label>👤 Працівник</label>
 
 <input
-
 id="workerNickname"
-
 type="text"
-
-placeholder="Введіть нік працівника"
-
->
-
+placeholder="Введіть нік працівника">
 
 </div>
-
-
-
-
 
 <div class="products-grid">
 
+<div class="product">
 
-
-<div class="product-card">
-
-<h3>
-🍾 Алкоголь ⭐⭐
-</h3>
-
+<h3>🍾 Алкоголь ⭐⭐</h3>
 
 <input
-
 id="alcohol2"
-
 type="number"
-
 min="0"
-
-value="0"
-
->
-
+value="0">
 
 </div>
 
+<div class="product">
 
-
-
-
-<div class="product-card">
-
-<h3>
-🍾 Алкоголь ⭐⭐⭐
-</h3>
-
+<h3>🍾 Алкоголь ⭐⭐⭐</h3>
 
 <input
-
 id="alcohol3"
-
 type="number"
-
 min="0"
-
-value="0"
-
->
-
+value="0">
 
 </div>
 
+<div class="product">
 
-
-
-
-<div class="product-card">
-
-<h3>
-🌿 Петрушка ⭐⭐
-</h3>
-
+<h3>🌿 Петрушка ⭐⭐</h3>
 
 <input
-
 id="parsley2"
-
 type="number"
-
 min="0"
-
-value="0"
-
->
-
+value="0">
 
 </div>
 
+<div class="product">
 
-
-
-
-<div class="product-card">
-
-<h3>
-🌿 Петрушка ⭐⭐⭐
-</h3>
-
+<h3>🌿 Петрушка ⭐⭐⭐</h3>
 
 <input
-
 id="parsley3"
-
 type="number"
-
 min="0"
-
-value="0"
-
->
-
+value="0">
 
 </div>
 
-
 </div>
 
+<div class="salary-card">
 
-
-
-
-
-
-<div class="salary-box">
-
-
-<span>
-💰 Зарплата
-</span>
-
+<span>💰 Зарплата</span>
 
 <h1 id="salary">
 
@@ -302,577 +169,300 @@ value="0"
 
 </h1>
 
-
 </div>
 
-
-
-
-
-
-
-<div class="buttons">
-
+<div class="button-row">
 
 <button
-
 id="calculateBtn"
-
 class="gold-btn">
 
 🧮 Розрахувати
 
 </button>
 
-
-
-
-
 <button
-
 id="saveBtn"
-
 class="green-btn">
 
 💾 Зберегти здачу
 
 </button>
 
-
-
 </div>
 
-
-
-
-
-
-<div 
+<div
 id="calculatorMessage"
 class="message">
 
 </div>
 
-
-
 </div>
 
-
-
 </section>
-<!-- ========================================
-STATISTICS PAGE
-======================================== -->
+<!-- ===================================== -->
+<!-- STATISTICS -->
+<!-- ===================================== -->
 
-
-<section
-id="statisticsPage"
-class="page">
-
-
-
-<div class="page-card">
-
+<section id="statistics" class="page">
 
 <div class="page-title">
 
-<h2>
-📊 Статистика
-</h2>
+<h2>📊 Статистика клану</h2>
 
-<p>
-Загальна інформація системи
-</p>
+<p>Загальна інформація про роботу</p>
 
 </div>
-
-
-
-
 
 <div class="stats-grid">
 
+<div class="stat-card">
 
+<div class="stat-icon">
+👥
+</div>
+
+<div>
+
+<h3 id="workersCount">0</h3>
+
+<span>Працівників</span>
+
+</div>
+
+</div>
 
 <div class="stat-card">
 
-<span>
-👥 Працівники
-</span>
+<div class="stat-icon">
+📦
+</div>
 
-<h2 id="workersCount">
-0
-</h2>
+<div>
+
+<h3 id="totalProducts">0</h3>
+
+<span>Продукції</span>
 
 </div>
 
-
-
-
+</div>
 
 <div class="stat-card">
 
-<span>
-💰 Загальна зарплата
-</span>
+<div class="stat-icon">
+💰
+</div>
 
-<h2 id="totalMoney">
-0 грн
-</h2>
+<div>
+
+<h3 id="totalMoney">0 грн</h3>
+
+<span>Зароблено</span>
 
 </div>
 
-
-
-
+</div>
 
 <div class="stat-card">
 
-<span>
-📦 Продукція
-</span>
+<div class="stat-icon">
+📈
+</div>
 
-<h2 id="totalProducts">
-0
-</h2>
+<div>
+
+<h3 id="totalDeliveries">0</h3>
+
+<span>Здач</span>
 
 </div>
 
-
-
-
-
-<div class="stat-card">
-
-<span>
-📈 Кількість здач
-</span>
-
-<h2 id="totalDeliveries">
-0
-</h2>
+</div>
 
 </div>
 
+<div class="profile-card">
 
+<h3>
+👤 Профіль працівника
+</h3>
+
+<div id="workerProfile">
+
+<p>Виберіть працівника, щоб побачити його статистику.</p>
 
 </div>
 
-
-
 </div>
-
 
 </section>
-<!-- ========================================
-HISTORY PAGE
-======================================== -->
+<!-- ===================================== -->
+<!-- TOP WORKERS -->
+<!-- ===================================== -->
 
-
-<section
-id="historyPage"
-class="page">
-
-
-
-<div class="page-card">
-
-
+<section id="top" class="page">
 
 <div class="page-title">
 
+<h2>🏆 ТОП працівників</h2>
 
-<h2>
-📜 Історія здач
-</h2>
-
-
-<p>
-Останні операції працівників
-</p>
-
+<p>Найкращі працівники клану</p>
 
 </div>
 
+<div id="topContainer" class="top-grid">
+
+<div class="empty-card">
+
+🏆 ТОП поки порожній
+
+</div>
+
+</div>
+
+</section>
 
 
 
+<!-- ===================================== -->
+<!-- HISTORY -->
+<!-- ===================================== -->
 
-<div class="history-tools">
+<section id="history" class="page">
 
+<div class="page-title">
+
+<h2>📜 Історія здач</h2>
+
+<p>Останні збережені здачі</p>
+
+</div>
+
+<div id="historyContainer" class="history-list">
+
+<div class="empty-card">
+
+📜 Історія поки порожня
+
+</div>
+
+</div>
+
+</section>
+<!-- ===================================== -->
+<!-- OWNER PANEL -->
+<!-- ===================================== -->
+
+<section id="owner" class="page">
+
+<div class="page-title">
+
+<h2>👑 Панель власника</h2>
+
+<p>Доступ тільки після входу</p>
+
+</div>
+
+<div id="ownerLogin" class="owner-login">
 
 <input
-
-id="searchHistory"
-
-type="text"
-
-placeholder="🔍 Пошук працівника"
-
->
-
-
-</div>
-
-
-
-
-
-
-
-<div
-
-id="historyList"
-
-class="history-list">
-
-
-<!-- історія завантажується Firebase -->
-
-
-</div>
-
-
-
-
-</div>
-
-
-
-</section>
-<!-- ========================================
-TOP PAGE
-======================================== -->
-
-
-<section
-id="topPage"
-class="page">
-
-
-
-<div class="page-card">
-
-
-
-<div class="page-title">
-
-
-<h2>
-🏆 ТОП працівників
-</h2>
-
-
-<p>
-Найкращі результати команди
-</p>
-
-
-</div>
-
-
-
-
-
-
-<div
-
-id="topWorkers"
-
-class="top-workers">
-
-
-
-<!-- ТОП завантажується Firebase -->
-
-
-</div>
-
-
-
-
-
-</div>
-
-
-
-</section>
-<!-- ========================================
-OWNER PAGE
-======================================== -->
-
-
-<section
-id="ownerPage"
-class="page">
-
-
-
-<div class="page-card">
-
-
-
-<div class="page-title">
-
-
-<h2>
-👑 Панель власника
-</h2>
-
-
-<p>
-Керування системою
-</p>
-
-
-</div>
-
-
-
-
-
-<!-- LOGIN -->
-
-
-<div 
-id="ownerLoginBox"
-class="owner-login">
-
-
-
-<input
-
 id="ownerPassword"
-
 type="password"
-
-placeholder="🔐 Пароль власника"
-
->
-
-
+placeholder="🔐 Пароль власника">
 
 <button
-
 id="ownerLoginBtn"
-
 class="gold-btn">
 
 Увійти
 
 </button>
 
-
-
 </div>
 
-
-
-
-
-
-
-<!-- OWNER CONTENT -->
-
-
 <div
-
-id="ownerContent"
-
+id="ownerPanel"
 style="display:none;">
 
+<div class="owner-grid">
 
+<div class="owner-card">
 
+<h3>👥 Працівники</h3>
 
-
-<h3>
-👥 Працівники
-</h3>
-
-
-
+<input
+id="newWorker"
+type="text"
+placeholder="Нік працівника">
 
 <button
-
 id="addWorkerBtn"
-
 class="gold-btn">
 
 ➕ Додати працівника
 
 </button>
 
+</div>
 
+<div class="owner-card">
 
+<h3>💰 Ціни</h3>
 
+<label>🍾 Алкоголь ⭐⭐</label>
+<input id="priceAlcohol2" type="number">
+
+<label>🍾 Алкоголь ⭐⭐⭐</label>
+<input id="priceAlcohol3" type="number">
+
+<label>🌿 Петрушка ⭐⭐</label>
+<input id="priceParsley2" type="number">
+
+<label>🌿 Петрушка ⭐⭐⭐</label>
+<input id="priceParsley3" type="number">
 
 <button
+id="savePricesBtn"
+class="gold-btn">
 
+💾 Зберегти ціни
+
+</button>
+
+</div>
+
+<div class="owner-card">
+
+<h3>🗑 Керування</h3>
+
+<button
+id="clearHistoryBtn"
+class="danger-btn">
+
+🗑 Очистити історію
+
+</button>
+
+<button
 id="clearTopBtn"
-
 class="danger-btn">
 
 🏆 Очистити ТОП
 
 </button>
 
-
-
-
-
-<button
-
-id="clearHistoryBtn"
-
-class="danger-btn">
-
-📜 Очистити історію
-
-</button>
-
-
-
-
-
-
-
-<hr>
-
-
-
-
-
-<h3>
-💰 Налаштування цін
-</h3>
-
-
-
-
-
-
-<div class="price-grid">
-
-
-
-<input
-
-id="priceAlcohol2"
-
-type="number"
-
-placeholder="Алкоголь ⭐⭐">
-
-
-<input
-
-id="priceAlcohol3"
-
-type="number"
-
-placeholder="Алкоголь ⭐⭐⭐">
-
-
-
-<input
-
-id="priceParsley2"
-
-type="number"
-
-placeholder="Петрушка ⭐⭐">
-
-
-
-<input
-
-id="priceParsley3"
-
-type="number"
-
-placeholder="Петрушка ⭐⭐⭐">
-
-
+</div>
 
 </div>
 
-
-
-
-
-
-<button
-
-id="savePricesBtn"
-
-class="green-btn">
-
-💾 Зберегти ціни
-
-</button>
-
-
-
-
-
-
-
 </div>
-
-
-
-
-</div>
-
 
 </section>
-<!-- ========================================
-TOAST
-======================================== -->
-
-<div 
-id="toast"
-class="toast">
-
-</div>
-
-
-
-<!-- ========================================
-LOADER
-======================================== -->
-
-<div 
-id="loader"
-class="loader hidden">
-
-
-<div class="spinner"></div>
-
-
-<p>
-Завантаження...
-</p>
-
-
-</div>
-
-
-
-
 
 </main>
 
-</div>
-
-
-
-<script 
-type="module"
-src="script.js">
-</script>
-
+<script type="module" src="script.js"></script>
 
 </body>
-
 </html>
