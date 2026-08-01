@@ -534,3 +534,752 @@ function renderTop(){
     });
 
 }
+// ========================================
+// HISTORY
+// ========================================
+
+function renderHistory(){
+
+    const container =
+    $("historyContainer");
+
+    if(!container) return;
+
+
+    container.innerHTML="";
+
+
+    if(!state.history.length){
+
+        container.innerHTML=`
+
+        <div class="empty-card">
+
+        📜 Історія порожня
+
+        </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    state.history
+    .slice(0,50)
+    .forEach(item=>{
+
+
+        container.innerHTML += `
+
+        <div class="history-card">
+
+        <h3>
+        👤 ${item.worker}
+        </h3>
+
+        <p>
+        💰 ${(item.salary||0)
+        .toLocaleString("uk-UA")} грн
+        </p>
+
+        <p>
+        📦 Здано продукції:
+        ${
+        (item.alcohol2||0)+
+        (item.alcohol3||0)+
+        (item.parsley2||0)+
+        (item.parsley3||0)
+        }
+        </p>
+
+        </div>
+
+        `;
+
+
+    });
+
+}
+// ========================================
+// HISTORY
+// ========================================
+
+function renderHistory(){
+
+    const container =
+    $("historyContainer");
+
+    if(!container) return;
+
+
+    container.innerHTML="";
+
+
+    if(!state.history.length){
+
+        container.innerHTML=`
+
+        <div class="empty-card">
+
+        📜 Історія порожня
+
+        </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    state.history
+    .slice(0,50)
+    .forEach(item=>{
+
+
+        container.innerHTML += `
+
+        <div class="history-card">
+
+        <h3>
+        👤 ${item.worker}
+        </h3>
+
+        <p>
+        💰 ${(item.salary||0)
+        .toLocaleString("uk-UA")} грн
+        </p>
+
+        <p>
+        📦 Здано продукції:
+        ${
+        (item.alcohol2||0)+
+        (item.alcohol3||0)+
+        (item.parsley2||0)+
+        (item.parsley3||0)
+        }
+        </p>
+
+        </div>
+
+        `;
+
+
+    });
+
+}
+// ========================================
+// ADD WORKER
+// ========================================
+
+$("addWorkerBtn")?.addEventListener(
+"click",
+async()=>{
+
+
+    const name =
+    $("newWorker").value.trim();
+
+
+    if(!name){
+
+        toast("Введіть нік працівника");
+
+        return;
+
+    }
+
+
+    if(state.workers[name]){
+
+        toast("❌ Такий працівник вже існує");
+
+        return;
+
+    }
+
+
+    await set(
+    ref(db,"workers/"+name),
+    {
+
+        money:0,
+
+        products:0,
+
+        deliveries:0,
+
+        alcohol2:0,
+
+        alcohol3:0,
+
+        parsley2:0,
+
+        parsley3:0
+
+    });
+
+
+    $("newWorker").value="";
+
+
+    toast("✅ Працівника додано");
+
+
+});
+// ========================================
+// SAVE PRICES
+// ========================================
+
+$("savePricesBtn")?.addEventListener(
+"click",
+async()=>{
+
+
+    if(!state.owner){
+
+        // тимчасово дозволяємо після входу
+    }
+
+
+    const prices = {
+
+
+        alcohol2:
+        Number($("priceAlcohol2").value) || 900,
+
+
+        alcohol3:
+        Number($("priceAlcohol3").value) || 1200,
+
+
+        parsley2:
+        Number($("priceParsley2").value) || 800,
+
+
+        parsley3:
+        Number($("priceParsley3").value) || 1100
+
+
+    };
+
+
+    await set(
+    ref(db,"prices"),
+    prices
+    );
+
+
+    state.prices = prices;
+
+
+    toast("💰 Ціни збережено");
+
+
+});
+// ========================================
+// CLEAR HISTORY
+// ========================================
+
+$("clearHistoryBtn")?.addEventListener(
+"click",
+async()=>{
+
+
+    if(!confirm("Очистити всю історію?"))
+    return;
+
+
+    await remove(
+    ref(db,"history")
+    );
+
+
+    toast("🗑 Історію очищено");
+
+
+});
+// ========================================
+// CLEAR TOP
+// ========================================
+
+$("clearTopBtn")?.addEventListener(
+"click",
+async()=>{
+
+
+    if(!confirm("Очистити ТОП працівників?"))
+    return;
+
+
+    const updates={};
+
+
+    Object.keys(state.workers)
+    .forEach(name=>{
+
+
+        updates[name+"/money"]=0;
+
+
+    });
+
+
+    await update(
+    ref(db,"workers"),
+    updates
+    );
+
+
+    toast("🏆 ТОП очищено");
+
+
+});
+// ========================================
+// WORKER PROFILE
+// ========================================
+
+function renderProfile(name){
+
+    const container =
+    $("profileContainer");
+
+
+    if(!container) return;
+
+
+    const worker =
+    state.workers[name];
+
+
+    if(!worker){
+
+        container.innerHTML="";
+
+        return;
+
+    }
+
+
+    container.innerHTML = `
+
+    <div class="profile-card">
+
+        <h2>
+        👤 ${name}
+        </h2>
+
+
+        <p>
+        🍾 Алкоголь ⭐⭐:
+        ${worker.alcohol2 || 0}
+        </p>
+
+
+        <p>
+        🍾 Алкоголь ⭐⭐⭐:
+        ${worker.alcohol3 || 0}
+        </p>
+
+
+        <p>
+        🌿 Петрушка ⭐⭐:
+        ${worker.parsley2 || 0}
+        </p>
+
+
+        <p>
+        🌿 Петрушка ⭐⭐⭐:
+        ${worker.parsley3 || 0}
+        </p>
+
+
+        <p>
+        📦 Загальна продукція:
+        ${worker.products || 0}
+        </p>
+
+
+        <p>
+        💰 Зароблено:
+        ${(worker.money || 0)
+        .toLocaleString("uk-UA")} грн
+        </p>
+
+
+        <p>
+        📈 Кількість здач:
+        ${worker.deliveries || 0}
+        </p>
+
+
+    </div>
+
+    `;
+
+
+}
+// ========================================
+// SEARCH WORKER
+// ========================================
+
+$("searchWorkerBtn")?.addEventListener(
+"click",
+()=>{
+
+
+    const name =
+    $("searchWorker").value.trim();
+
+
+    if(!name){
+
+        toast("Введіть нік");
+
+        return;
+
+    }
+
+
+    if(!state.workers[name]){
+
+        toast("❌ Працівника не знайдено");
+
+        return;
+
+    }
+
+
+    state.selectedWorker=name;
+
+
+    renderProfile(name);
+
+
+});
+// ========================================
+// DELETE WORKER
+// ========================================
+
+$("deleteWorkerBtn")?.addEventListener(
+"click",
+async()=>{
+
+
+    const name =
+    state.selectedWorker;
+
+
+    if(!name){
+
+        toast("Оберіть працівника");
+
+        return;
+
+    }
+
+
+    if(!confirm(
+    `Видалити ${name}?`
+    )) return;
+
+
+    await remove(
+    ref(db,"workers/"+name)
+    );
+
+
+    state.selectedWorker=null;
+
+
+    $("profileContainer").innerHTML="";
+
+
+    toast("🗑 Працівника видалено");
+
+
+});
+// ========================================
+// TOP PLAYERS
+// ========================================
+
+function renderTop(){
+
+    const container =
+    $("topContainer");
+
+
+    if(!container) return;
+
+
+    container.innerHTML="";
+
+
+    const workers =
+
+    Object.entries(state.workers)
+
+    .sort((a,b)=>
+
+    (b[1].money||0)
+    -
+    (a[1].money||0)
+
+    )
+    .slice(0,10);
+
+
+
+    if(!workers.length){
+
+        container.innerHTML=
+        `
+        <div class="empty-card">
+        🏆 ТОП порожній
+        </div>
+        `;
+
+        return;
+
+    }
+
+
+
+    workers.forEach(
+
+    ([name,data],index)=>{
+
+
+        let place;
+
+
+        if(index===0)
+        place="🥇";
+
+        else if(index===1)
+        place="🥈";
+
+        else if(index===2)
+        place="🥉";
+
+        else
+        place=`#${index+1}`;
+
+
+
+        container.innerHTML += `
+
+        <div class="top-card">
+
+            <div class="top-place">
+            ${place}
+            </div>
+
+
+            <div>
+
+            <h3>
+            ${name}
+            </h3>
+
+
+            <p>
+            💰 
+            ${(data.money||0)
+            .toLocaleString("uk-UA")}
+            грн
+            </p>
+
+
+            <p>
+            📦 ${data.products||0}
+            продукції
+            </p>
+
+            </div>
+
+        </div>
+
+        `;
+
+
+    });
+
+
+}
+// ========================================
+// TOGGLE WORKERS TABLE
+// ========================================
+
+$("toggleWorkersBtn")?.addEventListener(
+"click",
+()=>{
+
+    const table =
+    $("workersTable");
+
+
+    if(!table) return;
+
+
+    if(table.style.display==="none"
+    ||
+    table.style.display===""){
+
+        table.style.display="block";
+
+        $("toggleWorkersBtn").innerHTML =
+        "🔼 Сховати працівників";
+
+    }
+    else{
+
+        table.style.display="none";
+
+        $("toggleWorkersBtn").innerHTML =
+        "👥 Показати працівників";
+
+    }
+
+});
+// ========================================
+// OWNER WORKERS LIST
+// ========================================
+
+function renderOwnerWorkers(){
+
+    const box =
+    $("workersTable");
+
+
+    if(!box) return;
+
+
+    box.innerHTML="";
+
+
+    Object.entries(state.workers)
+    .forEach(([name,data])=>{
+
+
+        box.innerHTML += `
+
+        <div class="worker-row">
+
+
+            <h3>
+            👤 ${name}
+            </h3>
+
+
+            <p>
+            💰 ${(data.money||0)
+            .toLocaleString("uk-UA")} грн
+            </p>
+
+
+            <button
+            class="gold-btn"
+            onclick="selectWorker('${name}')">
+
+            📂 Відкрити
+
+            </button>
+
+
+        </div>
+
+        `;
+
+
+    });
+
+}
+// ========================================
+// OWNER WORKERS TABLE
+// ========================================
+
+window.renderOwnerWorkers = function(){
+
+    const box = $("workersTable");
+
+    if(!box) return;
+
+
+    box.innerHTML = "";
+
+
+    Object.entries(state.workers)
+    .forEach(([name,data])=>{
+
+
+        box.innerHTML += `
+
+        <div class="worker-row">
+
+            <h3>
+            👤 ${name}
+            </h3>
+
+
+            <p>
+            💰 ${(data.money||0)
+            .toLocaleString("uk-UA")} грн
+            </p>
+
+
+            <button
+            class="gold-btn"
+            onclick="selectWorker('${name}')">
+
+            📂 Відкрити
+
+            </button>
+
+        </div>
+
+        `;
+
+
+    });
+
+
+};
+
+
+
+// ========================================
+// SHOW / HIDE TABLE
+// ========================================
+
+$("toggleWorkersBtn")?.addEventListener(
+"click",
+()=>{
+
+    const table =
+    $("workersTable");
+
+
+    if(!table) return;
+
+
+    if(table.style.display==="none"){
+
+        table.style.display="block";
+
+        $("toggleWorkersBtn").innerHTML =
+        "🔼 Сховати працівників";
+
+    }
+    else{
+
+        table.style.display="none";
+
+        $("toggleWorkersBtn").innerHTML =
+        "👥 Показати працівників";
+
+    }
+
+});
