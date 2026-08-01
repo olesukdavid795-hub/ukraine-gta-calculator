@@ -1283,3 +1283,12 @@ $("toggleWorkersBtn")?.addEventListener(
     }
 
 });
+setTimeout(()=>{
+
+    if(typeof renderOwnerWorkers === "function"){
+
+        renderOwnerWorkers();
+
+    }
+
+},1000);
