@@ -1200,6 +1200,10 @@ if(toggleWorkersTable){
 
 }
 
+// ========================================
+// WORKERS TABLE
+// ========================================
+
 function renderWorkersTable(){
 
     const body =
@@ -1208,32 +1212,51 @@ function renderWorkersTable(){
     if(!body) return;
 
     body.innerHTML="";
-    
-   console.log(Object.entries(state.workers));
 
-Object.entries(state.workers).forEach(
-    
-    ([name,data])=>{
+    const workers =
+    Object.values(state.workers);
+
+    if(workers.length===0){
+
+        body.innerHTML=`
+
+        <tr>
+
+            <td colspan="6">
+
+            Працівників поки немає
+
+            </td>
+
+        </tr>
+
+        `;
+
+        return;
+
+    }
+
+    workers.forEach(worker=>{
 
         body.innerHTML += `
 
         <tr>
 
-            <td>${name}</td>
+            <td>${worker.name||"-"}</td>
 
-            <td>${data.code||"-"}</td>
+            <td>${worker.code||"-"}</td>
 
-          <td>${(data.earned||0).toLocaleString("uk-UA")} грн</td>
+            <td>${(worker.earned||0).toLocaleString("uk-UA")} грн</td>
 
-            <td>${data.products||0}</td>
+            <td>${worker.products||0}</td>
 
-            <td>${data.deliveries||0}</td>
+            <td>${worker.deliveries||0}</td>
 
             <td>
 
                 <button
                 class="small-btn"
-                onclick="editWorker('${name}')">
+                onclick="editWorker('${worker.name}')">
 
                 ✏️
 
@@ -1241,7 +1264,7 @@ Object.entries(state.workers).forEach(
 
                 <button
                 class="small-btn delete-btn"
-                onclick="deleteWorker('${name}')">
+                onclick="deleteWorker('${worker.name}')">
 
                 🗑️
 
