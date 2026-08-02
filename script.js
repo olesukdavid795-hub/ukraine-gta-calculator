@@ -1173,3 +1173,83 @@ document.getElementById("ownerLoginBtn")?.addEventListener("click", () => {
     document.getElementById("ownerPanel").style.display = "block";
 
 });
+// ========================================
+// OWNER WORKERS TABLE
+// ========================================
+
+const toggleWorkersTable =
+document.getElementById("toggleWorkersTable");
+
+if(toggleWorkersTable){
+
+    toggleWorkersTable.onclick = ()=>{
+
+        const box =
+        document.getElementById("workersTableBox");
+
+        box.style.display =
+
+        box.style.display==="none"
+        ? "block"
+        : "none";
+
+        renderWorkersTable();
+
+    };
+
+}
+
+function renderWorkersTable(){
+
+    const body =
+    document.getElementById("workersTableBody");
+
+    if(!body) return;
+
+    body.innerHTML="";
+
+    Object.entries(state.workers).forEach(
+
+    ([name,data])=>{
+
+        body.innerHTML += `
+
+        <tr>
+
+            <td>${name}</td>
+
+            <td>${data.code||"-"}</td>
+
+            <td>${(data.money||0).toLocaleString("uk-UA")} грн</td>
+
+            <td>${data.products||0}</td>
+
+            <td>${data.deliveries||0}</td>
+
+            <td>
+
+                <button
+                class="small-btn"
+                onclick="editWorker('${name}')">
+
+                ✏️
+
+                </button>
+
+                <button
+                class="small-btn delete-btn"
+                onclick="deleteWorker('${name}')">
+
+                🗑️
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
