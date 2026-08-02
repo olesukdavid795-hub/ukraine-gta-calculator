@@ -1209,7 +1209,7 @@ function renderWorkersTable(){
 
     body.innerHTML="";
     
-    console.log(state.workers);
+    console.log(JSON.stringify(state.workers, null, 2));
     
     Object.entries(state.workers).forEach(
 
