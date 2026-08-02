@@ -1223,7 +1223,7 @@ function renderWorkersTable(){
 
             <td>${data.code||"-"}</td>
 
-            <td>${(data.money||0).toLocaleString("uk-UA")} грн</td>
+          <td>${(data.earned||0).toLocaleString("uk-UA")} грн</td>
 
             <td>${data.products||0}</td>
 
