@@ -469,22 +469,19 @@ function renderStatistics(){
 
 function renderHistory(){
 
-    const container =
-    $("historyContainer");
+    const container = $("historyContainer");
 
     if(!container) return;
 
-
     container.innerHTML="";
 
-
-    if(!state.history.length){
+    if(state.history.length===0){
 
         container.innerHTML=`
 
         <div class="empty-card">
 
-        📜 Історія порожня
+            📜 Історія порожня
 
         </div>
 
@@ -494,43 +491,54 @@ function renderHistory(){
 
     }
 
-
     state.history
-    .slice(0,50)
+    .sort((a,b)=>(b.time||0)-(a.time||0))
     .forEach(item=>{
-
 
         container.innerHTML += `
 
         <div class="history-card">
 
-        <h3>
-        👤 ${item.worker}
-        </h3>
+            <h3>👤 ${item.worker||"-"}</h3>
 
-        <p>
-        💰 ${(item.salary||0)
-        .toLocaleString("uk-UA")} грн
-        </p>
+            <p>📅 ${item.date||"-"}</p>
 
-        <p>
-        📦 Здано продукції:
-        ${
-        (item.alcohol2||0)+
-        (item.alcohol3||0)+
-        (item.parsley2||0)+
-        (item.parsley3||0)
-        }
-        </p>
+            <p>🍾 Алкоголь ⭐⭐ : ${item.alcohol2||0}</p>
+
+            <p>🍾 Алкоголь ⭐⭐⭐ : ${item.alcohol3||0}</p>
+
+            <p>🌿 Петрушка ⭐⭐ : ${item.parsley2||0}</p>
+
+            <p>🌿 Петрушка ⭐⭐⭐ : ${item.parsley3||0}</p>
+
+            <p>
+
+            📦 Всього:
+
+            ${(item.alcohol2||0)+
+              (item.alcohol3||0)+
+              (item.parsley2||0)+
+              (item.parsley3||0)}
+
+            </p>
+
+            <p>
+
+            💰 Зароблено:
+
+            ${(item.salary||0).toLocaleString("uk-UA")}
+
+            грн
+
+            </p>
 
         </div>
 
         `;
 
-
     });
 
-}
+} 
 // ========================================
 // ADD WORKER
 // ========================================
