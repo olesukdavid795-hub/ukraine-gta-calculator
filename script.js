@@ -365,9 +365,10 @@ function startListeners(){
             snapshot.exists()
             ? snapshot.val()
             : {};
-
-            renderStatistics();
-            renderTop();
+            
+renderStatistics();
+renderTop();
+renderWorkersTable();
 
         }
     );
