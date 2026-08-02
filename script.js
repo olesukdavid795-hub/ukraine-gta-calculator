@@ -1297,20 +1297,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.deleteWorker = async function(name){
 
-    if(!confirm(`Видалити працівника "${name}"?`))
+    const worker = state.workers[name];
+
+    if(!worker){
+        alert("Працівника не знайдено.");
+        return;
+    }
+
+    if(!confirm(`Видалити працівника "${worker.name}"?`))
         return;
 
     try{
 
-        await remove(ref(db,"workers/"+name));
+        await remove(ref(db,`workers/${name}`));
 
-        alert("✅ Працівника видалено.");
+        alert("✅ Працівника успішно видалено.");
 
     }catch(err){
 
         console.error(err);
 
-        alert("❌ Помилка видалення.");
+        alert("❌ Не вдалося видалити працівника.");
 
     }
 
