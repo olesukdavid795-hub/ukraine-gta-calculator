@@ -1149,3 +1149,27 @@ setTimeout(()=>{
     }
 
 },1000);
+// ========================================
+// OWNER LOGIN
+// ========================================
+
+const OWNER_PASSWORD = "1234";
+
+document.getElementById("ownerLoginBtn")?.addEventListener("click", () => {
+
+    const password =
+        document.getElementById("ownerPassword").value;
+
+    if (password !== OWNER_PASSWORD) {
+
+        alert("❌ Невірний пароль");
+
+        return;
+
+    }
+
+    document.getElementById("ownerLogin").style.display = "none";
+
+    document.getElementById("ownerPanel").style.display = "block";
+
+});
