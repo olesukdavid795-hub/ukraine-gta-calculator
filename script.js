@@ -883,7 +883,7 @@ function renderTop(){
 
     (b[1].earned||0)
     -
-    (a[1].money||0)
+    (a[1].earned||0)
 
     )
     .slice(0,10);
