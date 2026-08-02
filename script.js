@@ -1282,3 +1282,12 @@ function renderWorkersTable(){
     });
 
 }
+// ========================================
+// START APP
+// ========================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    startListeners();
+
+});
