@@ -1208,7 +1208,9 @@ function renderWorkersTable(){
     if(!body) return;
 
     body.innerHTML="";
-
+    
+    console.log(state.workers);
+    
     Object.entries(state.workers).forEach(
 
     ([name,data])=>{
