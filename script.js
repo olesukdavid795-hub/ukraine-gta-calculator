@@ -881,7 +881,7 @@ function renderTop(){
 
     .sort((a,b)=>
 
-    (b[1].money||0)
+    (b[1].earned||0)
     -
     (a[1].money||0)
 
