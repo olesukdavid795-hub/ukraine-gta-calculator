@@ -366,6 +366,9 @@ function startListeners(){
             ? snapshot.val()
             : {};
             
+console.log("Workers snapshot:", snapshot.val());
+console.log("Workers exists:", snapshot.exists());
+            
 renderStatistics();
 renderTop();
 renderWorkersTable();
