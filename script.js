@@ -1315,3 +1315,12 @@ window.deleteWorker = async function(name){
     }
 
 }
+// ========================================
+// EDIT WORKER
+// ========================================
+
+window.editWorker = function(name){
+
+    alert("Редагування працівника: " + name);
+
+}
