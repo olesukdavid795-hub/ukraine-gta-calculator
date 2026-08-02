@@ -945,7 +945,7 @@ function renderTop(){
 
             <p>
             💰 
-            ${(data.money||0)
+           (data.earned||0)
             .toLocaleString("uk-UA")}
             грн
             </p>
