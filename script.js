@@ -1291,3 +1291,27 @@ document.addEventListener("DOMContentLoaded", () => {
     startListeners();
 
 });
+// ========================================
+// DELETE WORKER
+// ========================================
+
+window.deleteWorker = async function(name){
+
+    if(!confirm(`Видалити працівника "${name}"?`))
+        return;
+
+    try{
+
+        await remove(ref(db,"workers/"+name));
+
+        alert("✅ Працівника видалено.");
+
+    }catch(err){
+
+        console.error(err);
+
+        alert("❌ Помилка видалення.");
+
+    }
+
+}
