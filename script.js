@@ -393,7 +393,9 @@ renderWorkersTable();
                         ...item.val()
 
                     });
-
+                    
+console.log(item.val());
+                    
                 });
 
             }
