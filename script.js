@@ -525,7 +525,7 @@ function renderHistory(){
 
             <h3>
 
-                👤 ${item.worker||"-"}
+                👤 ${item.worker||item.name||item.nickname||item.player||"-"}
 
             </h3>
 
