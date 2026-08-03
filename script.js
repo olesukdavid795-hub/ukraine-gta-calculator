@@ -430,38 +430,44 @@ function renderStatistics(){
     const workers =
     Object.values(state.workers);
 
-    $("workersCount").textContent =
-    workers.length;
+    let totalWorkers = workers.length;
 
-    let products=0;
-    let money=0;
-    let deliveries=0;
+    let totalProducts = 0;
+
+    let totalMoney = 0;
+
+    let totalDeliveries = 0;
 
     workers.forEach(worker=>{
 
-        products +=
-        worker.products || 0;
+        totalProducts +=
+            Number(worker.products||0);
 
-        money +=
-        worker.money || 0;
+        totalMoney +=
+            Number(worker.earned||worker.money||0);
 
-        deliveries +=
-        worker.deliveries || 0;
+        totalDeliveries +=
+            Number(worker.deliveries||0);
 
     });
 
-    $("totalProducts").textContent =
-    products.toLocaleString("uk-UA");
+    if($("statWorkers"))
+        $("statWorkers").textContent =
+        totalWorkers;
 
-    $("totalMoney").textContent =
-    money.toLocaleString("uk-UA")+" грн";
+    if($("statProducts"))
+        $("statProducts").textContent =
+        totalProducts.toLocaleString("uk-UA");
 
-    $("totalDeliveries").textContent =
-    deliveries;
+    if($("statMoney"))
+        $("statMoney").textContent =
+        totalMoney.toLocaleString("uk-UA")+" грн";
+
+    if($("statDeliveries"))
+        $("statDeliveries").textContent =
+        totalDeliveries;
 
 }
-
-
 
 // ========================================
 // HISTORY
