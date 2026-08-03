@@ -475,15 +475,16 @@ function renderStatistics(){
 
 function renderHistory(){
 
-    const container = $("historyContainer");
+    const container =
+    $("historyContainer");
 
     if(!container) return;
 
-    container.innerHTML="";
+    container.innerHTML = "";
 
     if(state.history.length===0){
 
-        container.innerHTML=`
+        container.innerHTML = `
 
         <div class="empty-card">
 
@@ -497,44 +498,86 @@ function renderHistory(){
 
     }
 
-    state.history
-    .sort((a,b)=>(b.time||0)-(a.time||0))
-    .forEach(item=>{
+    const history = [...state.history]
+
+    .sort((a,b)=>
+
+        Number(b.time||0)
+
+        -
+
+        Number(a.time||0)
+
+    );
+
+    history.forEach(item=>{
+
+        const total =
+
+            Number(item.alcohol2||0)+
+            Number(item.alcohol3||0)+
+            Number(item.parsley2||0)+
+            Number(item.parsley3||0);
 
         container.innerHTML += `
 
         <div class="history-card">
 
-            <h3>👤 ${item.worker||"-"}</h3>
+            <h3>
 
-            <p>📅 ${item.date||"-"}</p>
+                👤 ${item.worker||"-"}
 
-            <p>🍾 Алкоголь ⭐⭐ : ${item.alcohol2||0}</p>
-
-            <p>🍾 Алкоголь ⭐⭐⭐ : ${item.alcohol3||0}</p>
-
-            <p>🌿 Петрушка ⭐⭐ : ${item.parsley2||0}</p>
-
-            <p>🌿 Петрушка ⭐⭐⭐ : ${item.parsley3||0}</p>
+            </h3>
 
             <p>
 
-            📦 Всього:
-
-            ${(item.alcohol2||0)+
-              (item.alcohol3||0)+
-              (item.parsley2||0)+
-              (item.parsley3||0)}
+                📅 ${item.date||item.created||"-"}
 
             </p>
 
             <p>
 
-            💰 Зароблено:
+                🍾 Алкоголь ⭐⭐ :
+                ${item.alcohol2||0}
 
-            ${(item.salary||0).toLocaleString("uk-UA")}
+            </p>
 
-            грн
+            <p>
+
+                🍾 Алкоголь ⭐⭐⭐ :
+                ${item.alcohol3||0}
+
+            </p>
+
+            <p>
+
+                🌿 Петрушка ⭐⭐ :
+                ${item.parsley2||0}
+
+            </p>
+
+            <p>
+
+                🌿 Петрушка ⭐⭐⭐ :
+                ${item.parsley3||0}
+
+            </p>
+
+            <hr>
+
+            <p>
+
+                📦 Всього:
+                ${total}
+
+            </p>
+
+            <p>
+
+                💰 Зароблено:
+                ${(Number(item.salary||item.earned||0))
+                .toLocaleString("uk-UA")}
+                грн
 
             </p>
 
@@ -544,7 +587,7 @@ function renderHistory(){
 
     });
 
-} 
+}
 // ========================================
 // ADD WORKER
 // ========================================
@@ -885,93 +928,94 @@ function renderTop(){
     const container =
     $("topContainer");
 
-
     if(!container) return;
-
 
     container.innerHTML="";
 
-
     const workers =
 
-    Object.entries(state.workers)
+    Object.values(state.workers)
 
     .sort((a,b)=>
 
-    (b[1].earned||0)
-    -
-    (a[1].earned||0)
+        Number(b.earned||b.money||0)
+
+        -
+
+        Number(a.earned||a.money||0)
 
     )
+
     .slice(0,10);
 
+    if(workers.length===0){
 
+        container.innerHTML=`
 
-    if(!workers.length){
-
-        container.innerHTML=
-        `
         <div class="empty-card">
-        🏆 ТОП порожній
+
+            🏆 ТОП порожній
+
         </div>
+
         `;
 
         return;
 
     }
 
+    workers.forEach((worker,index)=>{
 
-
-    workers.forEach(
-
-    ([name,data],index)=>{
-
-
-        let place;
-
+        let medal;
 
         if(index===0)
-        place="🥇";
+            medal="🥇";
 
         else if(index===1)
-        place="🥈";
+            medal="🥈";
 
         else if(index===2)
-        place="🥉";
+            medal="🥉";
 
         else
-        place=`#${index+1}`;
-
-
+            medal="#"+(index+1);
 
         container.innerHTML += `
 
         <div class="top-card">
 
             <div class="top-place">
-            ${place}
+
+                ${medal}
+
             </div>
 
+            <div class="top-info">
 
-            <div>
+                <h3>
 
-            <h3>
-            ${name}
-            </h3>
+                    ${worker.name||"Без імені"}
 
+                </h3>
 
-            <p>
-            💰 
-           (data.earned||0)
-            .toLocaleString("uk-UA")}
-            грн
-            </p>
+                <p>
 
+                    💰 ${(Number(worker.earned||worker.money||0))
+                    .toLocaleString("uk-UA")} грн
 
-            <p>
-            📦 ${data.products||0}
-            продукції
-            </p>
+                </p>
+
+                <p>
+
+                    📦 ${worker.products||0} продукції
+
+                </p>
+
+                <p>
+
+                    📈 ${worker.deliveries||0} здач
+
+                </p>
 
             </div>
 
@@ -979,9 +1023,7 @@ function renderTop(){
 
         `;
 
-
     });
-
 
 }
 // ========================================
