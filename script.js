@@ -1017,38 +1017,36 @@ async()=>{
 
 function renderTop(){
 
-    const container =
-    $("topContainer");
+    const container = $("topContainer");
 
     if(!container) return;
 
-    container.innerHTML="";
+    container.innerHTML = "";
 
-    const workers =
+    const workers = Object.entries(state.workers)
 
-    Object.values(state.workers)
+        .sort((a,b) => {
 
-    .sort((a,b)=>
+            const workerA = a[1];
+            const workerB = b[1];
 
-        Number(b.earned||b.money||0)
+            return Number(workerB.earned || workerB.money || 0)
+                 - Number(workerA.earned || workerA.money || 0);
 
-        -
+        })
 
-        Number(a.earned||a.money||0)
+        .slice(0,10);
 
-    )
 
-    .slice(0,10);
+    if(workers.length === 0){
 
-    if(workers.length===0){
+        container.innerHTML = `
 
-        container.innerHTML=`
+            <div class="empty-card">
 
-        <div class="empty-card">
+                🏆 ТОП порожній
 
-            🏆 ТОП порожній
-
-        </div>
+            </div>
 
         `;
 
@@ -1056,62 +1054,81 @@ function renderTop(){
 
     }
 
-    workers.forEach((worker,index)=>{
+
+    workers.forEach(([name, worker], index) => {
 
         let medal;
 
-        if(index===0)
-            medal="🥇";
+        if(index === 0)
+            medal = "🥇";
 
-        else if(index===1)
-            medal="🥈";
+        else if(index === 1)
+            medal = "🥈";
 
-        else if(index===2)
-            medal="🥉";
+        else if(index === 2)
+            medal = "🥉";
 
         else
-            medal="#"+(index+1);
+            medal = "#" + (index + 1);
+
+
+        const displayName =
+            worker.name ||
+            worker.player ||
+            name;
+
+
+        const earned =
+            Number(worker.earned || worker.money || 0);
+
 
         container.innerHTML += `
 
-        <div class="top-card">
+            <div class="top-card">
 
-            <div class="top-place">
+                <div class="top-place">
 
-                ${medal}
+                    ${medal}
+
+                </div>
+
+
+                <div class="top-info">
+
+                    <h3>
+
+                        ${displayName}
+
+                    </h3>
+
+
+                    <p>
+
+                        💰 ${earned.toLocaleString("uk-UA")} грн
+
+                    </p>
+
+
+                    <p>
+
+                        📦 ${Number(worker.products || 0)}
+
+                        продукції
+
+                    </p>
+
+
+                    <p>
+
+                        📈 ${Number(worker.deliveries || 0)}
+
+                        здач
+
+                    </p>
+
+                </div>
 
             </div>
-
-            <div class="top-info">
-
-                <h3>
-
-                   ${worker.name||worker.player||"Без імені"}
-
-                </h3>
-
-                <p>
-
-                    💰 ${(Number(worker.earned||worker.money||0))
-                    .toLocaleString("uk-UA")} грн
-
-                </p>
-
-                <p>
-
-                    📦 ${worker.products||0} продукції
-
-                </p>
-
-                <p>
-
-                    📈 ${worker.deliveries||0} здач
-
-                </p>
-
-            </div>
-
-        </div>
 
         `;
 
@@ -1358,28 +1375,30 @@ if(toggleWorkersTable){
 function renderWorkersTable(){
 
     const body =
-    document.getElementById("workersTableBody");
+        document.getElementById("workersTableBody");
 
     if(!body) return;
 
-    body.innerHTML="";
+    body.innerHTML = "";
+
 
     const workers =
-    Object.values(state.workers);
+        Object.entries(state.workers);
 
-    if(workers.length===0){
 
-        body.innerHTML=`
+    if(workers.length === 0){
 
-        <tr>
+        body.innerHTML = `
 
-            <td colspan="6">
+            <tr>
 
-            Працівників поки немає
+                <td colspan="6">
 
-            </td>
+                    Працівників поки немає
 
-        </tr>
+                </td>
+
+            </tr>
 
         `;
 
@@ -1387,43 +1406,84 @@ function renderWorkersTable(){
 
     }
 
-    workers.forEach(worker=>{
+
+    workers.forEach(([name, worker]) => {
+
+        const displayName =
+            worker.name ||
+            worker.player ||
+            name;
+
+
+        const earned =
+            Number(worker.earned || worker.money || 0);
+
 
         body.innerHTML += `
 
-        <tr>
+            <tr>
 
-          <td>${worker.name||worker.player||"Без імені"}</td>
+                <td>
 
-            <td>${worker.code||"-"}</td>
+                    ${displayName}
 
-            <td>${(worker.earned||0).toLocaleString("uk-UA")} грн</td>
+                </td>
 
-            <td>${worker.products||0}</td>
 
-            <td>${worker.deliveries||0}</td>
+                <td>
 
-            <td>
+                    ${worker.code || "-"}
 
-                <button
-                class="small-btn"
-                onclick="editWorker('${worker.name}')">
+                </td>
 
-                ✏️
 
-                </button>
+                <td>
 
-                <button
-                class="small-btn delete-btn"
-                onclick="deleteWorker('${worker.name}')">
+                    ${earned.toLocaleString("uk-UA")} грн
 
-                🗑️
+                </td>
 
-                </button>
 
-            </td>
+                <td>
 
-        </tr>
+                    ${Number(worker.products || 0)}
+
+                </td>
+
+
+                <td>
+
+                    ${Number(worker.deliveries || 0)}
+
+                </td>
+
+
+                <td>
+
+                    <button
+
+                        class="small-btn"
+
+                        onclick="editWorker('${name.replace(/'/g, "\\'")}')">
+
+                        ✏️
+
+                    </button>
+
+
+                    <button
+
+                        class="small-btn delete-btn"
+
+                        onclick="deleteWorker('${name.replace(/'/g, "\\'")}')">
+
+                        🗑️
+
+                    </button>
+
+                </td>
+
+            </tr>
 
         `;
 
