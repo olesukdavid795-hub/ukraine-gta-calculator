@@ -254,99 +254,190 @@ $("saveBtn")?.addEventListener(
 
 async()=>{
 
-const nickname=
+    const nickname =
+        $("workerNickname").value.trim();
 
-$("workerNickname").value.trim();
+    if(!nickname){
 
-if(!nickname){
+        toast("Введіть нік працівника");
 
-toast("Введіть нік працівника");
+        return;
 
-return;
+    }
 
-}
 
-const result=
+    const result =
+        calculateSalary();
 
-calculateSalary();
 
-const worker=
+    const worker =
+        state.workers[nickname] || {
 
-state.workers[nickname] || {
+            name:nickname,
 
-money:0,
+            money:0,
 
-deliveries:0,
+            earned:0,
 
-products:0,
+            deliveries:0,
 
-alcohol2:0,
+            products:0,
 
-alcohol3:0,
+            alcohol2:0,
 
-parsley2:0,
+            alcohol3:0,
 
-parsley3:0
+            parsley2:0,
 
-};
+            parsley3:0
 
-worker.money+=result.salary;
+        };
 
-worker.deliveries++;
 
-worker.products+=
+    // ========================================
+    // MONEY / EARNED
+    // ========================================
 
-result.alcohol2+
+    const oldEarned =
+        Number(
+            worker.earned ??
+            worker.money ??
+            0
+        );
 
-result.alcohol3+
 
-result.parsley2+
+    const newEarned =
+        oldEarned +
+        Number(result.salary || 0);
 
-result.parsley3;
 
-worker.alcohol2+=result.alcohol2;
+    worker.earned =
+        newEarned;
 
-worker.alcohol3+=result.alcohol3;
+    // залишаємо money для сумісності
+    // зі старими даними
 
-worker.parsley2+=result.parsley2;
+    worker.money =
+        newEarned;
 
-worker.parsley3+=result.parsley3;
 
-await set(
+    // ========================================
+    // DELIVERIES
+    // ========================================
 
-ref(db,"workers/"+nickname),
+    worker.deliveries =
+        Number(worker.deliveries || 0) + 1;
 
-worker
 
-);
+    // ========================================
+    // PRODUCTS
+    // ========================================
 
-await push(
+    worker.products =
+        Number(worker.products || 0) +
 
-ref(db,"history"),
+        Number(result.alcohol2 || 0) +
+        Number(result.alcohol3 || 0) +
+        Number(result.parsley2 || 0) +
+        Number(result.parsley3 || 0);
 
-{
 
-worker:nickname,
+    // ========================================
+    // PRODUCT TYPES
+    // ========================================
 
-salary:result.salary,
+    worker.alcohol2 =
+        Number(worker.alcohol2 || 0) +
+        Number(result.alcohol2 || 0);
 
-alcohol2:result.alcohol2,
 
-alcohol3:result.alcohol3,
+    worker.alcohol3 =
+        Number(worker.alcohol3 || 0) +
+        Number(result.alcohol3 || 0);
 
-parsley2:result.parsley2,
 
-parsley3:result.parsley3,
+    worker.parsley2 =
+        Number(worker.parsley2 || 0) +
+        Number(result.parsley2 || 0);
 
-time:Date.now()
 
-}
+    worker.parsley3 =
+        Number(worker.parsley3 || 0) +
+        Number(result.parsley3 || 0);
 
-);
 
-toast("✅ Здачу збережено");
+    // ========================================
+    // NAME
+    // ========================================
 
-clearCalculator();
+    worker.name =
+        worker.name ||
+        nickname;
+
+
+    // ========================================
+    // SAVE WORKER
+    // ========================================
+
+    await set(
+
+        ref(db,"workers/"+nickname),
+
+        worker
+
+    );
+
+
+    // ========================================
+    // SAVE HISTORY
+    // ========================================
+
+    const now =
+        new Date();
+
+
+    await push(
+
+        ref(db,"history"),
+
+        {
+
+            player:nickname,
+
+            worker:nickname,
+
+            earned:Number(result.salary || 0),
+
+            salary:Number(result.salary || 0),
+
+            alcohol2:Number(result.alcohol2 || 0),
+
+            alcohol3:Number(result.alcohol3 || 0),
+
+            parsley2:Number(result.parsley2 || 0),
+
+            parsley3:Number(result.parsley3 || 0),
+
+            products:
+
+                Number(result.alcohol2 || 0) +
+                Number(result.alcohol3 || 0) +
+                Number(result.parsley2 || 0) +
+                Number(result.parsley3 || 0),
+
+            date:now.toLocaleString("uk-UA"),
+
+            time:Date.now()
+
+        }
+
+    );
+
+
+    toast("✅ Здачу збережено");
+
+
+    clearCalculator();
 
 }
 
