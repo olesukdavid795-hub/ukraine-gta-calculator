@@ -822,7 +822,10 @@ $("clearTopBtn")?.addEventListener(
 "click",
 async()=>{
 
-    if(!confirm("Очистити ТОП працівників?"))
+    if(!confirm(
+        "Очистити ТОП?\n\n" +
+        "Буде обнулено заробіток, продукцію та кількість здач."
+    ))
         return;
 
 
@@ -835,6 +838,18 @@ async()=>{
 
         updates[name + "/earned"] = 0;
 
+        updates[name + "/products"] = 0;
+
+        updates[name + "/deliveries"] = 0;
+
+        updates[name + "/alcohol2"] = 0;
+
+        updates[name + "/alcohol3"] = 0;
+
+        updates[name + "/parsley2"] = 0;
+
+        updates[name + "/parsley3"] = 0;
+
     });
 
 
@@ -845,13 +860,15 @@ async()=>{
             updates
         );
 
-        toast("🏆 ТОП очищено");
+
+        toast("🏆 ТОП, продукцію та здачі очищено");
+
 
     }catch(error){
 
         console.error(error);
 
-        toast("❌ Не вдалося очистити ТОП");
+        toast("❌ Не вдалося очистити дані");
 
     }
 
