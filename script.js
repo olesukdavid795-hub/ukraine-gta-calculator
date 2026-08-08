@@ -1393,7 +1393,7 @@ function renderWorkersTable(){
 
         <tr>
 
-            <td>${worker.name||"-"}</td>
+          <td>${worker.name||worker.player||"Без імені"}</td>
 
             <td>${worker.code||"-"}</td>
 
