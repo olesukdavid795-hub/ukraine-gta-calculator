@@ -822,32 +822,38 @@ $("clearTopBtn")?.addEventListener(
 "click",
 async()=>{
 
-
     if(!confirm("Очистити ТОП працівників?"))
-    return;
+        return;
 
 
-    const updates={};
+    const updates = {};
 
 
-    Object.keys(state.workers)
-    .forEach(name=>{
+    Object.keys(state.workers).forEach(name=>{
 
+        updates[name + "/money"] = 0;
 
-        updates[name+"/money"]=0;
-
+        updates[name + "/earned"] = 0;
 
     });
 
 
-    await update(
-    ref(db,"workers"),
-    updates
-    );
+    try{
 
+        await update(
+            ref(db,"workers"),
+            updates
+        );
 
-    toast("🏆 ТОП очищено");
+        toast("🏆 ТОП очищено");
 
+    }catch(error){
+
+        console.error(error);
+
+        toast("❌ Не вдалося очистити ТОП");
+
+    }
 
 });
 // ========================================
