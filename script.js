@@ -1086,7 +1086,7 @@ function renderTop(){
 
                 <h3>
 
-                    ${worker.name||"Без імені"}
+                   ${worker.name||worker.player||"Без імені"}
 
                 </h3>
 
