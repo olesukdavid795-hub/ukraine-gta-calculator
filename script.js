@@ -765,83 +765,171 @@ async()=>{
 
 function renderProfile(name){
 
-    const container =
-    $("profileContainer");
-
+    const container = $("profileContainer");
 
     if(!container) return;
 
-
-    const worker =
-    state.workers[name];
-
+    const worker = state.workers[name];
 
     if(!worker){
 
-        container.innerHTML="";
+        container.innerHTML = `
+            <div class="empty-card">
+                👤 Працівника не знайдено
+            </div>
+        `;
 
         return;
-
     }
 
+    const earned =
+        Number(worker.earned || worker.money || 0);
+
+    const products =
+        Number(worker.products || 0);
+
+    const deliveries =
+        Number(worker.deliveries || 0);
 
     container.innerHTML = `
 
     <div class="profile-card">
 
-        <h2>
-        👤 ${name}
-        </h2>
+        <div class="profile-header">
+
+            <div>
+
+                <h2>
+                    👤 ${worker.name || name}
+                </h2>
+
+                <p>
+                    🆔 Код:
+                    ${worker.code || "-"}
+                </p>
+
+            </div>
+
+        </div>
 
 
-        <p>
-        🍾 Алкоголь ⭐⭐:
-        ${worker.alcohol2 || 0}
-        </p>
+        <div class="profile-stats">
+
+            <div class="profile-stat">
+
+                <span>🍾</span>
+
+                <p>Алкоголь ⭐⭐</p>
+
+                <strong>
+                    ${worker.alcohol2 || 0}
+                </strong>
+
+            </div>
 
 
-        <p>
-        🍾 Алкоголь ⭐⭐⭐:
-        ${worker.alcohol3 || 0}
-        </p>
+            <div class="profile-stat">
+
+                <span>🍾</span>
+
+                <p>Алкоголь ⭐⭐⭐</p>
+
+                <strong>
+                    ${worker.alcohol3 || 0}
+                </strong>
+
+            </div>
 
 
-        <p>
-        🌿 Петрушка ⭐⭐:
-        ${worker.parsley2 || 0}
-        </p>
+            <div class="profile-stat">
+
+                <span>🌿</span>
+
+                <p>Петрушка ⭐⭐</p>
+
+                <strong>
+                    ${worker.parsley2 || 0}
+                </strong>
+
+            </div>
 
 
-        <p>
-        🌿 Петрушка ⭐⭐⭐:
-        ${worker.parsley3 || 0}
-        </p>
+            <div class="profile-stat">
+
+                <span>🌿</span>
+
+                <p>Петрушка ⭐⭐⭐</p>
+
+                <strong>
+                    ${worker.parsley3 || 0}
+                </strong>
+
+            </div>
 
 
-        <p>
-        📦 Загальна продукція:
-        ${worker.products || 0}
-        </p>
+            <div class="profile-stat">
+
+                <span>📦</span>
+
+                <p>Загальна продукція</p>
+
+                <strong>
+                    ${products}
+                </strong>
+
+            </div>
 
 
-        <p>
-        💰 Зароблено:
-        ${(worker.money || 0)
-        .toLocaleString("uk-UA")} грн
-        </p>
+            <div class="profile-stat">
+
+                <span>📈</span>
+
+                <p>Кількість здач</p>
+
+                <strong>
+                    ${deliveries}
+                </strong>
+
+            </div>
+
+        </div>
 
 
-        <p>
-        📈 Кількість здач:
-        ${worker.deliveries || 0}
-        </p>
+        <div class="profile-money">
 
+            💰 Зароблено
+
+            <strong>
+                ${earned.toLocaleString("uk-UA")} грн
+            </strong>
+
+        </div>
+
+
+        <div class="profile-actions">
+
+            <button
+                class="gold-btn"
+                onclick="editWorker('${name}')">
+
+                ✏️ Редагувати
+
+            </button>
+
+
+            <button
+                class="delete-btn"
+                onclick="deleteWorker('${name}')">
+
+                🗑️ Видалити працівника
+
+            </button>
+
+        </div>
 
     </div>
 
     `;
-
-
 }
 // ========================================
 // SEARCH WORKER
